@@ -1,0 +1,81 @@
+import { combineReducers } from "redux"
+
+// Front
+import Layout from "./layout/reducer"
+
+// Authentication
+import Login from "./auth/login/reducer"
+import Account from "./auth/register/reducer"
+import ForgetPassword from "./auth/forgetpwd/reducer"
+import Profile from "./auth/profile/reducer"
+
+//E-commerce
+import ecommerce from "./e-commerce/reducer"
+
+//tasks
+
+//doctors
+import doctors from "./doctors/reducer"
+
+//contacts
+import contacts from "./contacts/reducer"
+
+//Dashboard 
+import Dashboard from "./dashboard/reducer";
+
+
+// newwwwwwwwwwwwwww
+import data from "./fetchData/reducer";
+import users from "./admin/user/reducer";
+import mentors from "./admin/mentor/reducer";
+import platforms from "./admin/platform/reducer";
+import partenrs from "./admin/partenr/reducer";
+import advertisings from "./admin/advertisings/reducer";
+import activities from "./admin/activity/reducer";
+import projects from "./admin/project/reducer";
+import groups from "./admin/group/reducer";
+import category from "./admin/category/reducer";
+import students from "./admin/student/reducer";
+import rates from "./mentor/rate/reducer";
+import questions from "./admin/question/reducer";
+import courses from "./admin/course/reducer";
+import activityType from "./admin/activityType/reducer";
+import freelance  from "./freelance/reducer";
+import contact  from "./admin/contact/reducer";
+import landingPage  from "./admin/landingpage/reducer";
+
+
+const rootReducer = combineReducers({
+  // public
+  Layout,
+  Login,
+  Account,
+  ForgetPassword,
+  Profile,
+  ecommerce,
+  contacts,
+  Dashboard,
+  doctors,
+
+
+  data,
+  users,
+  mentors,
+  platforms,
+  partenrs,
+  advertisings,
+  activities,
+  projects,
+  groups,
+  category,
+  students,
+  rates,
+  questions,
+  courses,
+  activityType,
+  freelance,
+  contact,
+  landingPage
+})
+
+export default rootReducer

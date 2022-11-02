@@ -1,0 +1,11 @@
+export const ADD_ADS = "ADD_ADS"
+export const ADD_ADS_SUCCESS = "ADD_ADS_SUCCESS"
+export const ADD_ADS_FAIL = "ADD_ADS_FAIL"
+
+export const UPDATE_ADS = "UPDATE_ADS"
+export const UPDATE_ADS_SUCCESS = "UPDATE_ADS_SUCCESS"
+export const UPDATE_ADS_FAIL = "UPDATE_ADS_FAIL"
+
+export const DELETE_ADS = "DELETE_ADS"
+export const DELETE_ADS_SUCCESS = "DELETE_ADS_SUCCESS"
+export const DELETE_ADS_FAIL = "DELETE_ADS_FAIL"
