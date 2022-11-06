@@ -35,6 +35,7 @@ import { validationSchema } from "./validationSchema"
 import { getMentors } from "store/fetchData/actions"
 import { addMentor, deleteMentor } from "store/admin/mentor/actions"
 import { notify } from "components/Common/notify"
+import img from "assets/images/img.png"
 
 const Mentors = props => {
   //meta title
@@ -56,25 +57,20 @@ const Mentors = props => {
       phone: (contact && contact.phone) || "",
       gender: (contact && contact.gender) || "",
       overview: (contact && contact.overview) || "",
-      image: (contact && contact.image) || "",
+      image: (contact && contact.image) || img,
     },
     // validationSchema: validationSchema,
     onSubmit: async values => {
       if (isEdit) {
         var edit = new FormData()
-        contact.first_name !== values.first_name &&
-          edit.append("first_name", values?.first_name)
-        contact.last_name !== values.last_name &&
-          edit.append("last_name", values?.last_name)
-        contact.password !== values.password &&
-          edit.append("password", values?.password)
-        contact.email !== values.email && edit.append("email", values?.email)
-        contact.phone !== values.phone && edit.append("phone", values?.phone)
-        contact.gender !== values.gender &&
-          edit.append("gender", values?.gender)
-        contact.overview !== values.overview &&
-          edit.append("overview", values?.overview)
-        typeof values.image === "object" && edit.append("image", values?.image)
+        edit.append("first_name", values?.first_name)
+        edit.append("last_name", values?.last_name)
+        edit.append("password", values?.password)
+        edit.append("email", values?.email)
+        edit.append("phone", values?.phone)
+        edit.append("gender", values?.gender)
+        edit.append("overview", values?.overview)
+        edit.append("image", values?.image)
         dispatch(
           updateDoctor(
             edit,
@@ -474,7 +470,8 @@ const Mentors = props => {
                                 </FormFeedback>
                               ) : null}
                             </div>
-                            <div className="mb-3">
+                            {
+                              isEdit?null:<div className="mb-3">
                               <Label className="form-label">Password</Label>
                               <Input
                                 name="password"
@@ -497,6 +494,7 @@ const Mentors = props => {
                                 </FormFeedback>
                               ) : null}
                             </div>
+                            }
                             <div className="mb-3">
                               <Label className="form-label">Phone</Label>
                               <Input

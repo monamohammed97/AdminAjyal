@@ -42,6 +42,7 @@ import { validationSchema } from "./validationSchema"
 import { getUsers } from "store/fetchData/actions"
 import { addUser, deleteUser, updateUser } from "store/admin/user/actions"
 import { notify } from "components/Common/notify"
+import img from "assets/images/img.png"
 
 const Users = props => {
   //meta title
@@ -64,7 +65,7 @@ const Users = props => {
       gender: (contact && contact.gender) || "",
       position_description: (contact && contact.position_description) || "",
       overview: (contact && contact.overview) || "",
-      image: (contact && contact.image) || "",
+      image: (contact && contact.image) ||img,
     },
     validationSchema: validationSchema,
     onSubmit: async values => {
@@ -496,7 +497,8 @@ const Users = props => {
                                 </FormFeedback>
                               ) : null}
                             </div>
-                            <div className="mb-3">
+                            {
+                              isEdit?null:<div className="mb-3">
                               <Label className="form-label">Password</Label>
                               <Input
                                 name="password"
@@ -519,6 +521,7 @@ const Users = props => {
                                 </FormFeedback>
                               ) : null}
                             </div>
+                            }
                             <div className="mb-3">
                               <Label className="form-label">Phone</Label>
                               <Input
