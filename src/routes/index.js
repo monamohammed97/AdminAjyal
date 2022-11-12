@@ -1,9 +1,6 @@
 
 import { Redirect } from "react-router-dom";
 
-import EcommerceOrders from "../pages/Ecommerce/EcommerceOrders/index";
-import Offers from "../pages/Ecommerce/Offers/Offers"
-
 //  // Inner Authentication
 
 // Dashboard
@@ -13,8 +10,6 @@ import Dashboard from "../pages/Dashboard/index";
 // import ContactsList from "../pages/Contacts/ContactList/contacts-list";
 
 // Doctors
-import Doctors from "../pages/Doctors/DoctorsList/Doctors";
-import Clinics from "../pages/Doctors/Clinics/Clinics";
 import Logout from "../pages/Authentication/Logout";
 import Users from "pages/Users/Users";
 import Mentors from "pages/Mentors/Mentors";
@@ -43,21 +38,13 @@ import Student from "pages/AuthenticationInner/Student";
 
 const authProtectedRoutes = [
   // Doctors
-  { path: "/doctors", component: Doctors },
 
   // Doctors
-  { path: "/clinics", component: Clinics },
 
   { path: "/", component: Dashboard },
   { path: "/dashboard", component: Dashboard },
   
-  // //Ecommerce
-  { path: "/offers", component: Offers },
-  { path: "/ecommerce-orders", component: EcommerceOrders },
-
   // // Contacts
-  // { path: "/contacts-list", component: ContactsList },
-
 
   { path: "/users", component: Users },
   { path: "/mentors", component: Mentors },
