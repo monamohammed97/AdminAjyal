@@ -156,21 +156,6 @@ export const getProjectsFail = error => ({
   payload: error,
 })
 
-// GET_GROUPS 
-export const getGroups = () => ({
-  type: GET_GROUPS,
-})
-
-export const getGroupsSuccess = mentors => ({
-  type: GET_GROUPS_SUCCESS,
-  payload: mentors,
-})
-
-export const getGroupsFail = error => ({
-  type: GET_GROUPS_FAIL,
-  payload: error,
-})
-
 // GET_CATEGORY 
 export const getCategory = () => ({
   type: GET_CATEGORY,

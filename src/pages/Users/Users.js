@@ -65,10 +65,11 @@ const Users = props => {
       gender: (contact && contact.gender) || "",
       position_description: (contact && contact.position_description) || "",
       overview: (contact && contact.overview) || "",
-      image: (contact && contact.image) ||img,
+      image: (contact && contact.image) || img,
     },
     validationSchema: validationSchema,
     onSubmit: async values => {
+      console.log("values: ", values)
       if (isEdit) {
         var edit = new FormData()
         edit.append("first_name", values?.first_name)
@@ -79,7 +80,10 @@ const Users = props => {
         edit.append("gender", values?.gender)
         edit.append("overview", values?.overview)
         edit.append("position_description", values?.position_description)
-        edit.append("image", values?.image)
+        if (values?.image instanceof File) {
+          console.log(values?.image)
+          edit.append("image", values?.image)
+        }
         // contact.first_name !== values.first_name &&
         //   edit.append("first_name", values?.first_name)
         // contact.last_name !== values.last_name &&
@@ -497,31 +501,31 @@ const Users = props => {
                                 </FormFeedback>
                               ) : null}
                             </div>
-                            {
-                              isEdit?null:<div className="mb-3">
-                              <Label className="form-label">Password</Label>
-                              <Input
-                                name="password"
-                                label="Password"
-                                type="password"
-                                onChange={validation.handleChange}
-                                onBlur={validation.handleBlur}
-                                value={validation.values.password || ""}
-                                invalid={
-                                  validation.touched.password &&
-                                  validation.errors.password
-                                    ? true
-                                    : false
-                                }
-                              />
-                              {validation.touched.password &&
-                              validation.errors.password ? (
-                                <FormFeedback type="invalid">
-                                  {validation.errors.password}
-                                </FormFeedback>
-                              ) : null}
-                            </div>
-                            }
+                            {isEdit ? null : (
+                              <div className="mb-3">
+                                <Label className="form-label">Password</Label>
+                                <Input
+                                  name="password"
+                                  label="Password"
+                                  type="password"
+                                  onChange={validation.handleChange}
+                                  onBlur={validation.handleBlur}
+                                  value={validation.values.password || ""}
+                                  invalid={
+                                    validation.touched.password &&
+                                    validation.errors.password
+                                      ? true
+                                      : false
+                                  }
+                                />
+                                {validation.touched.password &&
+                                validation.errors.password ? (
+                                  <FormFeedback type="invalid">
+                                    {validation.errors.password}
+                                  </FormFeedback>
+                                ) : null}
+                              </div>
+                            )}
                             <div className="mb-3">
                               <Label className="form-label">Phone</Label>
                               <Input

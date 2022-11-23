@@ -20,9 +20,6 @@ import {
   GET_PROJECTS,
   GET_PROJECTS_FAIL,
   GET_PROJECTS_SUCCESS,
-  GET_GROUPS,
-  GET_GROUPS_FAIL,
-  GET_GROUPS_SUCCESS,
   GET_CATEGORY,
   GET_CATEGORY_FAIL,
   GET_CATEGORY_SUCCESS,
@@ -184,22 +181,6 @@ const data = (state = INIT_STATE, action) => {
         projects: action.payload,
       }
     case GET_PROJECTS_FAIL:
-      return {
-        ...state,
-        error: action.payload,
-      }
-    // GET_GROUPS
-    case GET_GROUPS:
-      return {
-        ...state,
-        isLoading: true,
-      }
-    case GET_GROUPS_SUCCESS:
-      return {
-        ...state,
-        groups: action.payload,
-      }
-    case GET_GROUPS_FAIL:
       return {
         ...state,
         error: action.payload,

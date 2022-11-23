@@ -9,7 +9,6 @@ import {
   GET_ADVERTISINGS,
   GET_ACTIVITES,
   GET_PROJECTS,
-  GET_GROUPS,
   GET_CATEGORY,
   GET_STUDENTS,
   GET_RATES,
@@ -29,8 +28,6 @@ import {
   getCategorySuccess,
   getCoursesFail,
   getCoursesSuccess,
-  getGroupsFail,
-  getGroupsSuccess,
   getMentorsFail,
   getMentorsSuccess,
   getPartenrsFail,
@@ -65,7 +62,6 @@ import {
   getUsersAjyal,
   getAdsAjyal,
   getActivitiesAjyal,
-  getGroupsAjyal,
   getCategoryAjyal,
   getStudentsAjyal,
   getRatesAjyal,
@@ -131,16 +127,6 @@ function* fetchActivities() {
     yield put(getActivitiesSuccess(response?.data))
   } catch (error) {
     yield put(getActivitiesFail(error))
-  }
-}
-
-// GET_GROUPS
-function* fetchGroups() {
-  try {
-    const response = yield call(getGroupsAjyal)
-    yield put(getGroupsSuccess(response?.data))
-  } catch (error) {
-    yield put(getGroupsFail(error))
   }
 }
 
@@ -251,7 +237,6 @@ function* fetchDataSaga() {
   yield takeEvery(GET_PARTNERS, fetchPartenrs)
   yield takeEvery(GET_ADVERTISINGS, fetchAds)
   yield takeEvery(GET_ACTIVITES, fetchActivities)
-  yield takeEvery(GET_GROUPS, fetchGroups)
   yield takeEvery(GET_CATEGORY, fetchCategory)
   yield takeEvery(GET_STUDENTS, fetchStudents)
   yield takeEvery(GET_RATES, fetchRates)
