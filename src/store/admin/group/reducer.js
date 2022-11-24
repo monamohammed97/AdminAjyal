@@ -46,7 +46,7 @@ const groups = (state = INIT_STATE, action) => {
     case ADD_GROUP_SUCCESS:
       return {
         ...state,
-        groups: action.payload,
+        groups: [...state.groups, action.payload],
         isLoading: false,
         isSuccess: true,
       }
@@ -65,16 +65,10 @@ const groups = (state = INIT_STATE, action) => {
         isLoading: true,
       }
     case UPDATE_GROUP_SUCCESS:
-      console.log("action.payload.id: ", action.payload.id)
-      console.log("group: ", state)
       return {
         ...state,
         groups: state.groups.map(group => {
           if (group.id.toString() === action.payload.id.toString()) {
-            console.log("action.payload: ", { group, ...action.payload?.group })
-            console.log("group: ", group.status)
-            console.log("group: ", action.payload?.group?.status)
-
             return { group, ...action.payload?.group }
           } else return group
         }),
@@ -99,7 +93,7 @@ const groups = (state = INIT_STATE, action) => {
       return {
         ...state,
         groups: state.groups.filter(
-          group => group.id.toString() !== action.payload.id.toString()
+          group => group.id.toString() !== action.payload.toString()
         ),
         isLoading: false,
         isSuccess: true,
