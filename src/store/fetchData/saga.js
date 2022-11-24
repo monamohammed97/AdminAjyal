@@ -9,11 +9,9 @@ import {
   GET_ADVERTISINGS,
   GET_ACTIVITES,
   GET_PROJECTS,
-  GET_CATEGORY,
   GET_STUDENTS,
   GET_RATES,
   GET_QUESTIONS,
-  GET_COURSES,
   GET_ACTIVITY_TYPE,
   GET_FREELANCER,
   GET_CONTACTS,
@@ -24,10 +22,6 @@ import {
   getActivitiesSuccess,
   getAdsFail,
   getAdsSuccess,
-  getCategoryFail,
-  getCategorySuccess,
-  getCoursesFail,
-  getCoursesSuccess,
   getMentorsFail,
   getMentorsSuccess,
   getPartenrsFail,
@@ -62,10 +56,8 @@ import {
   getUsersAjyal,
   getAdsAjyal,
   getActivitiesAjyal,
-  getCategoryAjyal,
   getStudentsAjyal,
   getRatesAjyal,
-  getCoursesAjyal,
   getQuestionsAjyal,
   getProjectsAjyal,
   getActivityTypesAjyal,
@@ -130,16 +122,6 @@ function* fetchActivities() {
   }
 }
 
-// GET_CATEGORY
-function* fetchCategory() {
-  try {
-    const response = yield call(getCategoryAjyal)
-    yield put(getCategorySuccess(response?.data))
-  } catch (error) {
-    yield put(getCategoryFail(error))
-  }
-}
-
 // GET_STUDENTS
 function* fetchStudents() {
   try {
@@ -157,16 +139,6 @@ function* fetchRates() {
     yield put(getRatesSuccess(response?.data))
   } catch (error) {
     yield put(getRatesFail(error))
-  }
-}
-
-// GET_COURSES
-function* fetchCourses() {
-  try {
-    const response = yield call(getCoursesAjyal)
-    yield put(getCoursesSuccess(response?.data))
-  } catch (error) {
-    yield put(getCoursesFail(error))
   }
 }
 
@@ -227,9 +199,6 @@ function* fetchAboutus() {
   }
 }
 
-
-
-
 function* fetchDataSaga() {
   yield takeEvery(GET_USERS, fetchUsers)
   yield takeEvery(GET_MENTORS, fetchMentors)
@@ -237,10 +206,8 @@ function* fetchDataSaga() {
   yield takeEvery(GET_PARTNERS, fetchPartenrs)
   yield takeEvery(GET_ADVERTISINGS, fetchAds)
   yield takeEvery(GET_ACTIVITES, fetchActivities)
-  yield takeEvery(GET_CATEGORY, fetchCategory)
   yield takeEvery(GET_STUDENTS, fetchStudents)
   yield takeEvery(GET_RATES, fetchRates)
-  yield takeEvery(GET_COURSES, fetchCourses)
   yield takeEvery(GET_QUESTIONS, fetchQuestions)
   yield takeEvery(GET_PROJECTS, fetchProjects)
   yield takeEvery(GET_ACTIVITY_TYPE, fetchActivityType)

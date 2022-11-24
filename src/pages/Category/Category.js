@@ -31,9 +31,9 @@ import TableContainer from "components/Common/TableContainer"
 import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
 import { validationSchema } from "./validationSchema"
-import { getCategory } from "store/fetchData/actions"
 import { notify } from "components/Common/notify"
 import {
+  getCategory,
   addCategory,
   deleteCategory,
   updateCategory,
@@ -108,7 +108,7 @@ const Category = props => {
     },
   })
 
-  const { category } = useSelector(store => store?.data)
+  const { category } = useSelector(store => store?.category)
 
   const [userList, setUserList] = useState([])
   const [modal, setModal] = useState(false)
@@ -365,7 +365,7 @@ const Category = props => {
                             </h6>
                           )} */}
                         </Row>
-                        <Row form>
+                        <Row>
                           <Col xs={12}>
                             <div className="mb-3">
                               <Label className="form-label">Title</Label>

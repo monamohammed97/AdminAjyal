@@ -41,10 +41,15 @@ import TableContainer from "components/Common/TableContainer"
 import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
 import { validationSchema } from "./validationSchema"
-import { getCategory, getProjects } from "store/fetchData/actions"
-import { getGroups } from "store/admin/group/actions"
+import { getProjects } from "store/fetchData/actions"
+import { getCategory } from "store/admin/category/actions"
 import { notify } from "components/Common/notify"
-import { updateGroup, addGroup, deleteGroup } from "store/admin/group/actions"
+import {
+  getGroups,
+  updateGroup,
+  addGroup,
+  deleteGroup,
+} from "store/admin/group/actions"
 import img from "assets/images/img.png"
 
 const Projects = props => {
@@ -156,7 +161,7 @@ const Projects = props => {
 
   const { groups } = useSelector(store => store?.groups)
   const { projects } = useSelector(store => store?.data)
-  const { category } = useSelector(store => store?.data)
+  const { category } = useSelector(store => store?.category)
 
   const [userList, setUserList] = useState([])
   const [modal, setModal] = useState(false)

@@ -40,7 +40,8 @@ import TableContainer from "components/Common/TableContainer"
 import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
 import { validationSchema } from "./validationSchema"
-import { getCourses, getMentors } from "store/fetchData/actions"
+import { getMentors } from "store/fetchData/actions"
+import { getCourses } from "store/admin/course/actions"
 import { getGroups } from "store/admin/group/actions"
 
 import { notify } from "components/Common/notify"
@@ -147,7 +148,7 @@ const Courses = props => {
     },
   })
 
-  const { courses } = useSelector(store => store?.data)
+  const { courses } = useSelector(store => store?.courses)
   const { groups } = useSelector(store => store?.groups)
   const { mentors } = useSelector(store => store?.data)
 
@@ -465,7 +466,7 @@ const Courses = props => {
                             </h6>
                           )} */}
                         </Row>
-                        <Row form>
+                        <Row>
                           <Col xs={12}>
                             <div className="mb-3">
                               <Label className="form-label">Title</Label>
@@ -552,7 +553,7 @@ const Courses = props => {
                                     : false
                                 }
                               >
-                                <option selected disabled></option>
+                                <option defaultValue disabled></option>
                                 {groups?.map(el => (
                                   <option key={el?.id} value={el.id}>
                                     {el.title}
@@ -582,7 +583,7 @@ const Courses = props => {
                                     : false
                                 }
                               >
-                                <option selected disabled></option>
+                                <option defaultValue disabled></option>
                                 {mentors?.map(el => (
                                   <option key={el?.id} value={el.id}>
                                     {el.name}
@@ -652,7 +653,7 @@ const Courses = props => {
                                 onBlur={validation.handleBlur}
                                 value={validation.values.status || ""}
                               >
-                                <option selected disabled></option>
+                                <option defaultValue disabled></option>
                                 <option value={"ongoing"}>Ongoing</option>
                                 <option value={"completed"}>Completed</option>
                                 <option value={"draft"}>Draft</option>
