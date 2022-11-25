@@ -1,4 +1,7 @@
 import {
+  GET_GROUPS,
+  GET_GROUPS_SUCCESS,
+  GET_GROUPS_FAIL,
   ADD_GROUP,
   ADD_GROUP_SUCCESS,
   ADD_GROUP_FAIL,
@@ -18,6 +21,22 @@ const INIT_STATE = {
 
 const groups = (state = INIT_STATE, action) => {
   switch (action.type) {
+    // GET_GROUPS
+    case GET_GROUPS:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case GET_GROUPS_SUCCESS:
+      return {
+        ...state,
+        groups: action.payload,
+      }
+    case GET_GROUPS_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      }
     // add group
     case ADD_GROUP:
       return {
@@ -27,9 +46,9 @@ const groups = (state = INIT_STATE, action) => {
     case ADD_GROUP_SUCCESS:
       return {
         ...state,
-        groups: action.payload,
+        groups: [...state.groups, action.payload],
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case ADD_GROUP_FAIL:
       return {
@@ -48,13 +67,13 @@ const groups = (state = INIT_STATE, action) => {
     case UPDATE_GROUP_SUCCESS:
       return {
         ...state,
-        groups: state.groups.map(group =>
-          group.id.toString() === action.payload.id.toString()
-            ? { group, ...action.payload }
-            : group
-        ),
+        groups: state.groups.map(group => {
+          if (group.id.toString() === action.payload.id.toString()) {
+            return { group, ...action.payload?.group }
+          } else return group
+        }),
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case UPDATE_GROUP_FAIL:
       return {
@@ -74,10 +93,10 @@ const groups = (state = INIT_STATE, action) => {
       return {
         ...state,
         groups: state.groups.filter(
-          group => group.id.toString() !== action.payload.id.toString()
+          group => group.id.toString() !== action.payload.toString()
         ),
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case DELETE_GROUP_FAIL:
       return {
@@ -85,7 +104,6 @@ const groups = (state = INIT_STATE, action) => {
         error: action.payload,
         isLoading: false,
       }
-
 
     default:
       return state

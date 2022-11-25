@@ -1,4 +1,7 @@
 import {
+  GET_CATEGORY,
+  GET_CATEGORY_SUCCESS,
+  GET_CATEGORY_FAIL,
   ADD_CATEGORY,
   ADD_CATEGORY_FAIL,
   ADD_CATEGORY_SUCCESS,
@@ -10,6 +13,21 @@ import {
   UPDATE_CATEGORY_SUCCESS,
 } from "./actionTypes"
 
+// GET_CATEGORY
+export const getCategory = () => ({
+  type: GET_CATEGORY,
+})
+
+export const getCategorySuccess = mentors => ({
+  type: GET_CATEGORY_SUCCESS,
+  payload: mentors,
+})
+
+export const getCategoryFail = error => ({
+  type: GET_CATEGORY_FAIL,
+  payload: error,
+})
+
 // actions categorys
 export const addCategory = (category, cbDone, cbFail) => ({
   type: ADD_CATEGORY,
@@ -18,7 +36,7 @@ export const addCategory = (category, cbDone, cbFail) => ({
 
 export const addCategorySuccess = category => ({
   type: ADD_CATEGORY_SUCCESS,
-  payload: category ,
+  payload: category,
 })
 
 export const addCategoryFail = error => ({
@@ -48,11 +66,10 @@ export const deleteCategory = (category, cbDone, cbFail) => ({
 
 export const deleteCategorySuccess = category => ({
   type: DELETE_CATEGORY_SUCCESS,
-  payload: category ,
+  payload: category,
 })
 
 export const deleteCategoryFail = error => ({
   type: DELETE_CATEGORY_FAIL,
   payload: error,
 })
-

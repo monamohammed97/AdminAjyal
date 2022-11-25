@@ -1,4 +1,7 @@
 import {
+  GET_COURSES,
+  GET_COURSES_FAIL,
+  GET_COURSES_SUCCESS,
   ADD_COURSE,
   ADD_COURSE_SUCCESS,
   ADD_COURSE_FAIL,
@@ -18,6 +21,22 @@ const INIT_STATE = {
 
 const courses = (state = INIT_STATE, action) => {
   switch (action.type) {
+    // GET_COURSES
+    case GET_COURSES:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case GET_COURSES_SUCCESS:
+      return {
+        ...state,
+        courses: action.payload,
+      }
+    case GET_COURSES_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      }
     // add course
     case ADD_COURSE:
       return {
@@ -27,9 +46,9 @@ const courses = (state = INIT_STATE, action) => {
     case ADD_COURSE_SUCCESS:
       return {
         ...state,
-        courses: action.payload,
+        courses: [...state?.courses, action.payload],
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case ADD_COURSE_FAIL:
       return {
@@ -50,11 +69,11 @@ const courses = (state = INIT_STATE, action) => {
         ...state,
         courses: state.courses.map(course =>
           course.id.toString() === action.payload.id.toString()
-            ? { course, ...action.payload }
+            ? { course, ...action.payload?.course }
             : course
         ),
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case UPDATE_COURSE_FAIL:
       return {
@@ -74,10 +93,10 @@ const courses = (state = INIT_STATE, action) => {
       return {
         ...state,
         courses: state.courses.filter(
-          course => course.id.toString() !== action.payload.id.toString()
+          course => course.id.toString() !== action.payload.toString()
         ),
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case DELETE_COURSE_FAIL:
       return {
@@ -85,7 +104,6 @@ const courses = (state = INIT_STATE, action) => {
         error: action.payload,
         isLoading: false,
       }
-
 
     default:
       return state

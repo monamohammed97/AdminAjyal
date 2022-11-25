@@ -41,9 +41,15 @@ import TableContainer from "components/Common/TableContainer"
 import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
 import { validationSchema } from "./validationSchema"
-import { getCategory, getGroups, getProjects } from "store/fetchData/actions"
+import { getProjects } from "store/fetchData/actions"
+import { getCategory } from "store/admin/category/actions"
 import { notify } from "components/Common/notify"
-import { updateGroup, addGroup, deleteGroup } from "store/admin/group/actions"
+import {
+  getGroups,
+  updateGroup,
+  addGroup,
+  deleteGroup,
+} from "store/admin/group/actions"
 import img from "assets/images/img.png"
 
 const Projects = props => {
@@ -85,7 +91,9 @@ const Projects = props => {
         edit.append("project_id", values?.project_id)
         edit.append("status", values?.status)
         edit.append("participants_count", values?.participants_count)
-        edit.append("image", values?.image)
+        if (values?.image instanceof File) {
+          edit.append("image", values?.image)
+        }
         edit.append("_method", "put")
         // contact.budget !== values.budget &&
         //   edit.append("budget", values?.budget)
@@ -151,9 +159,9 @@ const Projects = props => {
     },
   })
 
-  const { groups } = useSelector(store => store?.data)
+  const { groups } = useSelector(store => store?.groups)
   const { projects } = useSelector(store => store?.data)
-  const { category } = useSelector(store => store?.data)
+  const { category } = useSelector(store => store?.category)
 
   const [userList, setUserList] = useState([])
   const [modal, setModal] = useState(false)
@@ -486,7 +494,7 @@ const Projects = props => {
                             </h6>
                           )} */}
                         </Row>
-                        <Row form>
+                        <Row>
                           <Col xs={12}>
                             <div className="mb-3">
                               <Label className="form-label">Title</Label>
@@ -550,7 +558,7 @@ const Projects = props => {
                                     : false
                                 }
                               >
-                                <option selected disabled></option>
+                                <option defaultValue disabled></option>
                                 {projects?.map(el => (
                                   <option key={el?.id} value={el.id}>
                                     {el.title}
@@ -580,7 +588,7 @@ const Projects = props => {
                                     : false
                                 }
                               >
-                                <option selected disabled></option>
+                                <option defaultValue disabled></option>
                                 {category?.map(el => (
                                   <option key={el?.id} value={el.id}>
                                     {el.title}
@@ -709,6 +717,35 @@ const Projects = props => {
                               validation.errors.participants_count ? (
                                 <FormFeedback type="invalid">
                                   {validation.errors.participants_count}
+                                </FormFeedback>
+                              ) : null}
+                            </div>
+
+                            <div className="mb-3">
+                              <Label className="form-label">Status</Label>
+                              <Input
+                                name="status"
+                                label="status"
+                                type="select"
+                                onChange={validation.handleChange}
+                                onBlur={validation.handleBlur}
+                                value={validation.values.status || ""}
+                                invalid={
+                                  validation.touched.status &&
+                                  validation.errors.status
+                                    ? true
+                                    : false
+                                }
+                              >
+                                <option defaultValue disabled></option>
+                                <option value={"ongoing"}>ongoing</option>
+                                <option value={"completed"}>completed</option>
+                                <option value={"draft"}>draft</option>
+                              </Input>
+                              {validation.touched.status &&
+                              validation.errors.status ? (
+                                <FormFeedback type="invalid">
+                                  {validation.errors.status}
                                 </FormFeedback>
                               ) : null}
                             </div>

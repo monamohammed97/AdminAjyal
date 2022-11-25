@@ -22,7 +22,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { notify } from "components/Common/notify"
 import { FileInput } from "components/Form/FileInput"
 import img from "assets/images/img.png"
-import { getGroups, getPlatforms, getStudents } from "store/fetchData/actions"
+import { getPlatforms, getStudents } from "store/fetchData/actions"
+import { getGroups } from "store/admin/group/actions"
 
 const AddJob = props => {
   //meta title
@@ -76,7 +77,7 @@ const AddJob = props => {
   const [filename, setFilename] = useState("")
 
   const { students } = useSelector(store => store?.data)
-  const { groups } = useSelector(store => store?.data)
+  const { groups } = useSelector(store => store?.groups)
   const { platforms } = useSelector(store => store?.data)
 
   useEffect(() => {

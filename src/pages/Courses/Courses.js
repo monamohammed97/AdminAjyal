@@ -40,7 +40,10 @@ import TableContainer from "components/Common/TableContainer"
 import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
 import { validationSchema } from "./validationSchema"
-import { getCourses, getGroups, getMentors } from "store/fetchData/actions"
+import { getMentors } from "store/fetchData/actions"
+import { getCourses } from "store/admin/course/actions"
+import { getGroups } from "store/admin/group/actions"
+
 import { notify } from "components/Common/notify"
 import {
   deleteCourse,
@@ -68,8 +71,8 @@ const Courses = props => {
       description: (contact && contact.description) || "",
       start_date: (contact && contact.start_date) || "",
       hour_count: (contact && contact.hour_count) || "",
-      mentor_id: (contact && contact.mentor_id)  || "",
-      status: (contact && contact.status)  || "",
+      mentor_id: (contact && contact.mentor_id) || "",
+      status: (contact && contact.status) || "",
       image: (contact && contact.image) || img,
     },
     // validationSchema: validationSchema,
@@ -145,8 +148,8 @@ const Courses = props => {
     },
   })
 
-  const { courses } = useSelector(store => store?.data)
-  const { groups } = useSelector(store => store?.data)
+  const { courses } = useSelector(store => store?.courses)
+  const { groups } = useSelector(store => store?.groups)
   const { mentors } = useSelector(store => store?.data)
 
   const [userList, setUserList] = useState([])
@@ -171,7 +174,7 @@ const Courses = props => {
         id: "index",
         accessor: (_row, i) => i + 1,
       },
-      
+
       {
         Header: "Title",
         accessor: "title",
@@ -188,7 +191,7 @@ const Courses = props => {
           return <Description {...cellProps} />
         },
       },
-      
+
       {
         Header: "Hour Count",
         accessor: "hour_count",
@@ -213,7 +216,7 @@ const Courses = props => {
           return <GroupID {...cellProps} />
         },
       },
-      
+
       {
         Header: "Start Date",
         accessor: "start_date",
@@ -432,7 +435,7 @@ const Courses = props => {
                           return false
                         }}
                       >
-                         <Row className="wrapperdiv">
+                        <Row className="wrapperdiv">
                           <FileInput
                             name="image"
                             src={
@@ -463,7 +466,7 @@ const Courses = props => {
                             </h6>
                           )} */}
                         </Row>
-                        <Row form>
+                        <Row>
                           <Col xs={12}>
                             <div className="mb-3">
                               <Label className="form-label">Title</Label>
@@ -550,7 +553,7 @@ const Courses = props => {
                                     : false
                                 }
                               >
-                                <option selected disabled></option>
+                                <option defaultValue disabled></option>
                                 {groups?.map(el => (
                                   <option key={el?.id} value={el.id}>
                                     {el.title}
@@ -580,7 +583,7 @@ const Courses = props => {
                                     : false
                                 }
                               >
-                                <option selected disabled></option>
+                                <option defaultValue disabled></option>
                                 {mentors?.map(el => (
                                   <option key={el?.id} value={el.id}>
                                     {el.name}
@@ -650,7 +653,7 @@ const Courses = props => {
                                 onBlur={validation.handleBlur}
                                 value={validation.values.status || ""}
                               >
-                                <option selected disabled></option>
+                                <option defaultValue disabled></option>
                                 <option value={"ongoing"}>Ongoing</option>
                                 <option value={"completed"}>Completed</option>
                                 <option value={"draft"}>Draft</option>
@@ -661,7 +664,7 @@ const Courses = props => {
                                   {validation.errors.status}
                                 </FormFeedback>
                               ) : null}
-                            </div> 
+                            </div>
                           </Col>
                         </Row>
                         <Row>

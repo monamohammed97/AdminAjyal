@@ -1,4 +1,7 @@
 import {
+  GET_COURSES,
+  GET_COURSES_FAIL,
+  GET_COURSES_SUCCESS,
   ADD_COURSE,
   ADD_COURSE_FAIL,
   ADD_COURSE_SUCCESS,
@@ -10,6 +13,21 @@ import {
   UPDATE_COURSE_SUCCESS,
 } from "./actionTypes"
 
+// GET_COURSES
+export const getCourses = () => ({
+  type: GET_COURSES,
+})
+
+export const getCoursesSuccess = mentors => ({
+  type: GET_COURSES_SUCCESS,
+  payload: mentors,
+})
+
+export const getCoursesFail = error => ({
+  type: GET_COURSES_FAIL,
+  payload: error,
+})
+
 // actions courses
 export const addCourse = (course, cbDone, cbFail) => ({
   type: ADD_COURSE,
@@ -18,7 +36,7 @@ export const addCourse = (course, cbDone, cbFail) => ({
 
 export const addCourseSuccess = course => ({
   type: ADD_COURSE_SUCCESS,
-  payload: course ,
+  payload: course,
 })
 
 export const addCourseFail = error => ({
@@ -48,11 +66,10 @@ export const deleteCourse = (course, cbDone, cbFail) => ({
 
 export const deleteCourseSuccess = course => ({
   type: DELETE_COURSE_SUCCESS,
-  payload: course ,
+  payload: course,
 })
 
 export const deleteCourseFail = error => ({
   type: DELETE_COURSE_FAIL,
   payload: error,
 })
-

@@ -20,21 +20,12 @@ import {
   GET_PROJECTS,
   GET_PROJECTS_FAIL,
   GET_PROJECTS_SUCCESS,
-  GET_GROUPS,
-  GET_GROUPS_FAIL,
-  GET_GROUPS_SUCCESS,
-  GET_CATEGORY,
-  GET_CATEGORY_FAIL,
-  GET_CATEGORY_SUCCESS,
   GET_STUDENTS,
   GET_STUDENTS_FAIL,
   GET_STUDENTS_SUCCESS,
   GET_RATES,
   GET_RATES_FAIL,
   GET_RATES_SUCCESS,
-  GET_COURSES,
-  GET_COURSES_FAIL,
-  GET_COURSES_SUCCESS,
   GET_QUESTIONS,
   GET_QUESTIONS_FAIL,
   GET_QUESTIONS_SUCCESS,
@@ -188,38 +179,6 @@ const data = (state = INIT_STATE, action) => {
         ...state,
         error: action.payload,
       }
-    // GET_GROUPS
-    case GET_GROUPS:
-      return {
-        ...state,
-        isLoading: true,
-      }
-    case GET_GROUPS_SUCCESS:
-      return {
-        ...state,
-        groups: action.payload,
-      }
-    case GET_GROUPS_FAIL:
-      return {
-        ...state,
-        error: action.payload,
-      }
-    // GET_CATEGORY
-    case GET_CATEGORY:
-      return {
-        ...state,
-        isLoading: true,
-      }
-    case GET_CATEGORY_SUCCESS:
-      return {
-        ...state,
-        category: action.payload,
-      }
-    case GET_CATEGORY_FAIL:
-      return {
-        ...state,
-        error: action.payload,
-      }
     // GET_STUDENTS
     case GET_STUDENTS:
       return {
@@ -252,22 +211,7 @@ const data = (state = INIT_STATE, action) => {
         ...state,
         error: action.payload,
       }
-    // GET_COURSES
-    case GET_COURSES:
-      return {
-        ...state,
-        isLoading: true,
-      }
-    case GET_COURSES_SUCCESS:
-      return {
-        ...state,
-        courses: action.payload,
-      }
-    case GET_COURSES_FAIL:
-      return {
-        ...state,
-        error: action.payload,
-      }
+
     // GET_QUESTIONS
     case GET_QUESTIONS:
       return {

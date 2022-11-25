@@ -20,21 +20,12 @@ import {
   GET_PROJECTS,
   GET_PROJECTS_FAIL,
   GET_PROJECTS_SUCCESS,
-  GET_GROUPS,
-  GET_GROUPS_FAIL,
-  GET_GROUPS_SUCCESS,
-  GET_CATEGORY,
-  GET_CATEGORY_FAIL,
-  GET_CATEGORY_SUCCESS,
   GET_STUDENTS,
   GET_STUDENTS_FAIL,
   GET_STUDENTS_SUCCESS,
   GET_RATES,
   GET_RATES_FAIL,
   GET_RATES_SUCCESS,
-  GET_COURSES,
-  GET_COURSES_FAIL,
-  GET_COURSES_SUCCESS,
   GET_QUESTIONS,
   GET_QUESTIONS_FAIL,
   GET_QUESTIONS_SUCCESS,
@@ -156,36 +147,6 @@ export const getProjectsFail = error => ({
   payload: error,
 })
 
-// GET_GROUPS 
-export const getGroups = () => ({
-  type: GET_GROUPS,
-})
-
-export const getGroupsSuccess = mentors => ({
-  type: GET_GROUPS_SUCCESS,
-  payload: mentors,
-})
-
-export const getGroupsFail = error => ({
-  type: GET_GROUPS_FAIL,
-  payload: error,
-})
-
-// GET_CATEGORY 
-export const getCategory = () => ({
-  type: GET_CATEGORY,
-})
-
-export const getCategorySuccess = mentors => ({
-  type: GET_CATEGORY_SUCCESS,
-  payload: mentors,
-})
-
-export const getCategoryFail = error => ({
-  type: GET_CATEGORY_FAIL,
-  payload: error,
-})
-
 // GET_STUDENTS 
 export const getStudents = () => ({
   type: GET_STUDENTS,
@@ -213,21 +174,6 @@ export const getRatesSuccess = mentors => ({
 
 export const getRatesFail = error => ({
   type: GET_RATES_FAIL,
-  payload: error,
-})
-
-// GET_COURSES 
-export const getCourses = () => ({
-  type: GET_COURSES,
-})
-
-export const getCoursesSuccess = mentors => ({
-  type: GET_COURSES_SUCCESS,
-  payload: mentors,
-})
-
-export const getCoursesFail = error => ({
-  type: GET_COURSES_FAIL,
   payload: error,
 })
 

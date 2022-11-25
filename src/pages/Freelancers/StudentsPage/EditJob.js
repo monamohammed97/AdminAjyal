@@ -24,10 +24,10 @@ import { FileInput } from "components/Form/FileInput"
 import img from "assets/images/img.png"
 import {
   getFreelancer,
-  getGroups,
   getPlatforms,
   getStudents,
 } from "store/fetchData/actions"
+import { getGroups } from "store/admin/group/actions"
 
 const EditJob = props => {
   //meta title
@@ -41,7 +41,7 @@ const EditJob = props => {
   } = props
 
   const { students } = useSelector(store => store?.data)
-  const { groups } = useSelector(store => store?.data)
+  const { groups } = useSelector(store => store?.groups)
   const { platforms } = useSelector(store => store?.data)
   const { freelancer } = useSelector(store => store?.data)
 
@@ -80,7 +80,7 @@ const EditJob = props => {
       data.append("notes", values?.notes)
       data.append("attachment", values?.attachment)
       data.append("_method", "put")
-      console.log("props.history",props.history);
+      console.log("props.history", props.history)
       dispatch(
         updateFreelance(
           data,
