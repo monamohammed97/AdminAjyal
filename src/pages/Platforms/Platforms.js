@@ -34,6 +34,7 @@ import { validationSchema } from "./validationSchema"
 import { getPlatforms } from "store/fetchData/actions"
 import { addPlatform, deletePlatform, updatePlatform } from "store/admin/platform/actions"
 import { notify } from "components/Common/notify"
+import img from "assets/images/img.png"
 
 const Platforms = props => {
   //meta title
@@ -50,11 +51,12 @@ const Platforms = props => {
     initialValues: {
       name: (contact && contact.name) || "",
       jobs_count: (contact && contact.jobs_count) || "",
-      image: (contact && contact.image) || "",
+      image: (contact && contact.image) || img,
     },
-    // validationSchema: validationSchema,
+    validationSchema: validationSchema,
     onSubmit: async values => {
       if (isEdit) {
+        console.log("edit ", values);
         var edit = new FormData()
         edit.append("name", values?.name)
         edit.append("_method", "put")
@@ -92,8 +94,7 @@ const Platforms = props => {
   })
 
   const { platforms } = useSelector(store => store?.data)
-
-  const [userList, setUserList] = useState([])
+  
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
 
@@ -195,9 +196,11 @@ const Platforms = props => {
     ],
     []
   )
-  useEffect(() => {
-    dispatch(getPlatforms())
-  }, [dispatch])
+
+  
+  // useEffect(() => {
+  //   dispatch(getPlatforms())
+  // }, [dispatch])
 
   useEffect(() => {
     if (platforms && !platforms.length) {
@@ -228,6 +231,7 @@ const Platforms = props => {
       id: platform.id,
       name: platform.name,
       jobs_count: platform.jobs_count,
+      image: platform.image,
     })
     setIsEdit(true)
 
@@ -272,8 +276,6 @@ const Platforms = props => {
     toggle()
   }
 
-  const keyField = "id"
-
   return (
     <React.Fragment>
       <DeleteModal
@@ -314,6 +316,12 @@ const Platforms = props => {
                         <Row className="wrapperdiv">
                           <FileInput
                             name="image"
+                            invalid={
+                              validation.touched.image &&
+                              validation.errors.image
+                                ? true
+                                : false
+                            }
                             src={
                               typeof validation.values.image === "object"
                                 ? URL.createObjectURL(
@@ -336,11 +344,6 @@ const Platforms = props => {
                               )
                             }}
                           />
-                          {/* {filename && (
-                            <h6>
-                              {filename} <span htmlFor={"avatar"}>Change</span>
-                            </h6>
-                          )} */}
                         </Row>
                         <Row form>
                           <Col xs={12}>

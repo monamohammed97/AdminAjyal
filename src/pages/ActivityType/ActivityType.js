@@ -40,7 +40,6 @@ import { notify } from "components/Common/notify"
 
 const ActivityType = props => {
   //meta name
-  const [filename, setFilename] = useState("")
 
   document.title = "Activity Type"
 
@@ -53,7 +52,7 @@ const ActivityType = props => {
     initialValues: {
       name: (contact && contact.name) || "",
     },
-    // validationSchema: validationSchema,
+    validationSchema: validationSchema,
     onSubmit: async values => {
       if (isEdit) {
         var edit = new FormData()
@@ -195,10 +194,10 @@ const ActivityType = props => {
   }
 
   const handleUserClick = arg => {
-    const doctor = arg
+    const activity = arg
     setContact({
-      id: doctor.id,
-      name: doctor.name,
+      id: activity.id,
+      name: activity.name,
     })
     setIsEdit(true)
 

@@ -65,7 +65,7 @@ const Advertisings = props => {
       deadline: (contact && contact.deadline) || "",
       image: (contact && contact.image) || img,
     },
-    // validationSchema: validationSchema,
+    validationSchema: validationSchema,
     onSubmit: async values => {
       if (isEdit) {
         var edit = new FormData()
@@ -295,16 +295,16 @@ const Advertisings = props => {
   }
 
   const handleUserClick = arg => {
-    const doctor = arg
+    const ads = arg
     setContact({
-      id: doctor.id,
-      title: doctor.title,
-      details: doctor.details,
-      attachment: doctor.attachment,
-      notes: doctor.notes,
-      deadline: doctor.deadline,
-      status: doctor.status,
-      image: doctor.image,
+      id: ads.id,
+      title: ads.title,
+      details: ads.details,
+      attachment: ads.attachment,
+      notes: ads.notes,
+      deadline: ads.deadline,
+      status: ads.status,
+      image: ads.image,
     })
     setIsEdit(true)
 
@@ -552,6 +552,12 @@ const Advertisings = props => {
                                 onChange={validation.handleChange}
                                 onBlur={validation.handleBlur}
                                 value={validation.values.status || ""}
+                                invalid={
+                                  validation.touched.status &&
+                                  validation.errors.status
+                                    ? true
+                                    : false
+                                }
                               >
                                 <option selected disabled></option>
                                 <option value={"published"}>Published </option>

@@ -20,10 +20,14 @@ const Name = (cell) => {
 const Description = (cell) => {
     return cell.value ? cell.value : '';
 };
+const LinkPartner = (cell) => {
+    return cell.value ? cell.value : '';
+};
 
 
 
 export {
     Name,
     Description,
+    LinkPartner
 };

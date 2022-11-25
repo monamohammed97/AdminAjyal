@@ -3,10 +3,11 @@ import * as Yup from 'yup'
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"]
 
 export const validationSchema=Yup.object({
-          name: Yup.string().required("Please Enter Your Name"),
-          description: Yup.string().required("Please Enter Your Description"),
-          code: Yup.string().required("Please Enter Code"),
-          specialty: Yup.string().required("Please Enter Your Specialty"),
+          title: Yup.string().required("Please Enter title"),
+          details: Yup.string().required("Please Enter details"),
+          notes: Yup.string().required("Please Enter notes"),
+          status: Yup.string().required("Please Enter status"),
+          deadline: Yup.string().required("Please Enter deadline"),
           image: Yup.mixed()
             .required("يرجى إدخال اسم  صورة  مستخدم  بطريقة  صحيحة  *")
             .nullable()

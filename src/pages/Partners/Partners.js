@@ -18,7 +18,7 @@ import {
   UncontrolledTooltip,
 } from "reactstrap"
 
-import { Name, Description } from "./contactlistCol"
+import { Name, Description, LinkPartner } from "./contactlistCol"
 
 //Import Breadcrumb
 
@@ -55,14 +55,16 @@ const Partners = props => {
     initialValues: {
       name: (contact && contact.name) || "",
       description: (contact && contact.description) || "",
+      link: (contact && contact.link) || "",
       logo: (contact && contact.logo) || img,
     },
-    // validationSchema: validationSchema,
+    validationSchema: validationSchema,
     onSubmit: async values => {
       if (isEdit) {
         var edit = new FormData()
         edit.append("name", values?.name)
         edit.append("description", values?.description)
+        edit.append("link", values?.link)
         edit.append("_method", "put")
         edit.append("logo", values?.logo)
         // contact.name !== values.name && edit.append("name", values?.name)
@@ -89,6 +91,7 @@ const Partners = props => {
         var data = new FormData()
         data.append("name", values?.name)
         data.append("description", values?.description)
+        data.append("link", values?.link)
         data.append("logo", values?.logo)
 
         dispatch(
@@ -146,6 +149,14 @@ const Partners = props => {
         filterable: true,
         Cell: cellProps => {
           return <Description {...cellProps} />
+        },
+      },
+      {
+        Header: "Link",
+        accessor: "link",
+        filterable: true,
+        Cell: cellProps => {
+          return <LinkPartner {...cellProps} />
         },
       },
       {
@@ -240,12 +251,13 @@ const Partners = props => {
   }
 
   const handleUserClick = arg => {
-    const doctor = arg
+    const partenr = arg
     setContact({
-      id: doctor.id,
-      name: doctor.name,
-      description: doctor.description,
-      logo: doctor.logo,
+      id: partenr.id,
+      name: partenr.name,
+      description: partenr.description,
+      link: partenr.link,
+      logo: partenr.logo,
     })
     setIsEdit(true)
 
@@ -407,6 +419,29 @@ const Partners = props => {
                               validation.errors.description ? (
                                 <FormFeedback type="invalid">
                                   {validation.errors.description}
+                                </FormFeedback>
+                              ) : null}
+                            </div>
+                            <div className="mb-3">
+                              <Label className="form-label">Link</Label>
+                              <Input
+                                name="link"
+                                label="Link"
+                                type="url"
+                                onChange={validation.handleChange}
+                                onBlur={validation.handleBlur}
+                                value={validation.values.link || ""}
+                                invalid={
+                                  validation.touched.link &&
+                                  validation.errors.link
+                                    ? true
+                                    : false
+                                }
+                              />
+                              {validation.touched.link &&
+                              validation.errors.link ? (
+                                <FormFeedback type="invalid">
+                                  {validation.errors.link}
                                 </FormFeedback>
                               ) : null}
                             </div>
