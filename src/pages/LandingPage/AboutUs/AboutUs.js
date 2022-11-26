@@ -127,18 +127,28 @@ const AboutUs = props => {
               return false
             }}
           >
-            <CKEditor
-              editor={ClassicEditor}
-              data={validation?.values?.content}
-              onReady={editor => {
-                // You can store the "editor" and use when it is needed.
-                // console.log("Editor is ready to use!", editor)
-              }}
-              onChange={(event, editor) => {
-                const data = editor.getData()
-                validation.setFieldValue("content", data)
-              }}
-            />
+            <div className="mb-3">
+              {/* <Label className="form-label">Description</Label> */}
+              <Input
+                dir="rtl"
+                name="content"
+                label="About us"
+                type="textarea"
+                onChange={validation.handleChange}
+                onBlur={validation.handleBlur}
+                value={validation?.values?.content || ""}
+                invalid={
+                  validation.touched.content && validation.errors.content
+                    ? true
+                    : false
+                }
+              />
+              {validation.touched.content && validation.errors.content ? (
+                <FormFeedback type="invalid">
+                  {validation.errors.content}
+                </FormFeedback>
+              ) : null}
+            </div>
             <Dropzone
               onDrop={acceptedFiles => {
                 handleAcceptedFiles(acceptedFiles)
