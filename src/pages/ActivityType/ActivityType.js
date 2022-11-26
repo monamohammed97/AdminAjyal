@@ -95,7 +95,6 @@ const ActivityType = props => {
 
   const { activityType } = useSelector(store => store?.activityType)
 
-  console.log("text :", activityType);
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
 
@@ -285,7 +284,7 @@ const ActivityType = props => {
                           return false
                         }}
                       >
-                        <Row form>
+                        <Row>
                           <Col xs={12}>
                             <div className="mb-3">
                               <Label className="form-label">Name</Label>

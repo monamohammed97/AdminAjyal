@@ -55,7 +55,7 @@ const rootReducer = combineReducers({
   users,
   mentors,
   platforms,
-  partners,
+  partenrs,
   advertisings,
   activities,
   projects,

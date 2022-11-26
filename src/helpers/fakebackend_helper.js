@@ -428,8 +428,10 @@ export const updateMentorAjyal = (id, mentor) => {
 }
 // GET_PLATFORMS
 export const getPlatformsAjyal = () => get(url.GET_PLATFORMS_AJYAL)
-export const addPlatformAjyal = platform => post(url.ADD_PLATFORM_AJYAL, platform)
-export const deletePlatformAjyal = id => del(`${url.DELETE_PLATFORM_AJYAL}/${id}`)
+export const addPlatformAjyal = platform =>
+  post(url.ADD_PLATFORM_AJYAL, platform)
+export const deletePlatformAjyal = id =>
+  del(`${url.DELETE_PLATFORM_AJYAL}/${id}`)
 export const updatePlatformAjyal = (id, mentor) => {
   var config = {
     headers: {
@@ -587,10 +589,12 @@ export const updateProjectAjyal = (id, project) => {
 }
 // ACTIVITY_TYPE
 export const getActivityTypesAjyal = () => get(url.GET_ACTIVITY_TYPES_AJYAL)
-export const addActivityTypeAjyal = activityType => post(url.ADD_ACTIVITY_TYPE_AJYAL, activityType)
-export const deleteActivityTypeAjyal = id => del(`${url.DELETE_ACTIVITY_TYPE_AJYAL}/${id}`)
+export const addActivityTypeAjyal = activityType =>
+  post(url.ADD_ACTIVITY_TYPE_AJYAL, activityType)
+export const deleteActivityTypeAjyal = id =>
+  del(`${url.DELETE_ACTIVITY_TYPE_AJYAL}/${id}`)
 
-export const updateActivityTypeAjyal = (id, course) => {
+export const updateActivityTypeAjyal = (id, activityType) => {
   var config = {
     headers: {
       Accept: "application/json",
