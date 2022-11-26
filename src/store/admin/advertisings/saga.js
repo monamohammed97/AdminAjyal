@@ -1,8 +1,10 @@
 import { call, put, takeEvery } from "redux-saga/effects"
 
 // Ecommerce Redux States
-import { ADD_ADS, UPDATE_ADS, DELETE_ADS } from "./actionTypes"
+import { GET_ADVERTISINGS, ADD_ADS, UPDATE_ADS, DELETE_ADS } from "./actionTypes"
 import {
+  getAdsFail,
+  getAdsSuccess,
   addAdsSuccess,
   addAdsFail,
   updateAdsSuccess,
@@ -11,10 +13,21 @@ import {
   deleteAdsFail,
 } from "./actions"
 import {
+  getAdsAjyal,
   addAdsAjyal,
   deleteAdsAjyal,
   updateAdsAjyal,
 } from "helpers/fakebackend_helper"
+
+// GET_ADVERTISINGS
+function* fetchAds() {
+  try {
+    const response = yield call(getAdsAjyal)
+    yield put(getAdsSuccess(response?.data))
+  } catch (error) {
+    yield put(getAdsFail(error))
+  }
+}
 
 function* onAddAds({ payload }) {
   const { ads, cbDone, cbFail } = payload
@@ -32,7 +45,7 @@ function* onUpdateAds({ payload }) {
   const { ads, id, cbDone, cbFail } = payload
   try {
     const response = yield call(updateAdsAjyal, id, ads)
-    yield put(updateAdsSuccess, response?.message)
+    yield put(updateAdsSuccess(response?.data, id))
     cbDone?.()
   } catch (error) {
     cbFail?.()
@@ -42,9 +55,8 @@ function* onUpdateAds({ payload }) {
 function* onDeleteAds({ payload }) {
   const { ads, cbDone, cbFail } = payload
   try {
-    const response = yield call(deleteAdsAjyal, ads?.id)
-    console.log(response)
-    yield put(deleteAdsSuccess(response))
+    yield call(deleteAdsAjyal, ads?.id)
+    yield put(deleteAdsSuccess(ads?.id))
     cbDone?.()
   } catch (error) {
     cbFail?.()
@@ -53,6 +65,7 @@ function* onDeleteAds({ payload }) {
 }
 
 function* advertisingsSaga() {
+  yield takeEvery(GET_ADVERTISINGS, fetchAds)
   yield takeEvery(ADD_ADS, onAddAds)
   yield takeEvery(UPDATE_ADS, onUpdateAds)
   yield takeEvery(DELETE_ADS, onDeleteAds)

@@ -38,13 +38,14 @@ import TableContainer from "components/Common/TableContainer"
 import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
 import { validationSchema } from "./validationSchema"
-import { getPartenrs, getProjects } from "store/fetchData/actions"
+import { getProjects } from "store/fetchData/actions"
 import { notify } from "components/Common/notify"
 import {
   updateProject,
   addProject,
   deleteProject,
 } from "store/admin/project/actions"
+import { getPartenrs } from "store/admin/partenr/actions"
 import img from "assets/images/img.png"
 
 const Projects = props => {

@@ -31,8 +31,8 @@ import TableContainer from "components/Common/TableContainer"
 import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
 import { validationSchema } from "./validationSchema"
-import { getPartenrs } from "store/fetchData/actions"
 import {
+  getPartenrs,
   addPartner,
   deletePartner,
   updatePartner,
@@ -40,11 +40,11 @@ import {
 import { notify } from "components/Common/notify"
 import img from "assets/images/img.png"
 
-const Partners = props => {
+const partners = props => {
   //meta title
   const [filename, setFilename] = useState("")
 
-  document.title = "Partners"
+  document.title = "partners"
 
   const dispatch = useDispatch()
   const [contact, setContact] = useState()
@@ -66,7 +66,9 @@ const Partners = props => {
         edit.append("description", values?.description)
         edit.append("link", values?.link)
         edit.append("_method", "put")
-        edit.append("logo", values?.logo)
+        if (values?.logo instanceof File) {
+          edit.append("logo", values?.logo)
+        }
         // contact.name !== values.name && edit.append("name", values?.name)
         // contact.description !== values.description &&
         //   edit.append("description", values?.description)
@@ -111,9 +113,10 @@ const Partners = props => {
     },
   })
 
-  const { partners } = useSelector(store => store?.data)
+  const { partners } = useSelector(store => store?.partners)
 
-  const [userList, setUserList] = useState([])
+  console.log(partners);
+
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
 
@@ -319,7 +322,7 @@ const Partners = props => {
       <div className="page-content">
         <Container fluid>
           {/* Render Breadcrumbs */}
-          <Breadcrumbs title="Partners List" breadcrumbItem="All Partners" />
+          <Breadcrumbs title="partners List" breadcrumbItem="All partners" />
           <Row>
             <Col lg="12">
               <Card>
@@ -472,4 +475,4 @@ const Partners = props => {
   )
 }
 
-export default withRouter(Partners)
+export default withRouter(partners)

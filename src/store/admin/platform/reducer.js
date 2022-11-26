@@ -1,4 +1,7 @@
 import {
+  GET_PLATFORMS,
+  GET_PLATFORMS_FAIL,
+  GET_PLATFORMS_SUCCESS,
   ADD_PLATFORM,
   ADD_PLATFORM_SUCCESS,
   ADD_PLATFORM_FAIL,
@@ -18,6 +21,22 @@ const INIT_STATE = {
 
 const platforms = (state = INIT_STATE, action) => {
   switch (action.type) {
+    // GET_PLATFORMS
+    case GET_PLATFORMS:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case GET_PLATFORMS_SUCCESS:
+      return {
+        ...state,
+        platforms: action.payload,
+      }
+    case GET_PLATFORMS_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      }
     // add platform
     case ADD_PLATFORM:
       return {
@@ -27,7 +46,7 @@ const platforms = (state = INIT_STATE, action) => {
     case ADD_PLATFORM_SUCCESS:
       return {
         ...state,
-        platforms: action.payload,
+        platforms:[...state.platforms, action.payload],
         isLoading: false,
         isSuccess: true
       }
@@ -46,13 +65,14 @@ const platforms = (state = INIT_STATE, action) => {
         isLoading: true,
       }
     case UPDATE_PLATFORM_SUCCESS:
+      console.log("action.payload",action.payload);
       return {
         ...state,
-        platforms: state.platforms.map(platform =>
-          platform.id.toString() === action.payload.id.toString()
-            ? { platform, ...action.payload }
-            : platform
-        ),
+        platforms: state.platforms.map(platform => {
+          if (platform.id.toString() === action.payload.id.toString()) {
+            return { platform, ...action.payload?.platform }
+          } else return platform
+        }),
         isLoading: false,
         isSuccess: true
       }
@@ -71,10 +91,11 @@ const platforms = (state = INIT_STATE, action) => {
         isLoading: true,
       }
     case DELETE_PLATFORM_SUCCESS:
+      console.log("action.payload",action.payload);
       return {
         ...state,
         platforms: state.platforms.filter(
-          platform => platform.id.toString() !== action.payload.id.toString()
+          platform => platform.id.toString() !== action.payload.toString()
         ),
         isLoading: false,
         isSuccess: true

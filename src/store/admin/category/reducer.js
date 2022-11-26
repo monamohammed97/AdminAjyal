@@ -65,7 +65,6 @@ const category = (state = INIT_STATE, action) => {
         isLoading: true,
       }
     case UPDATE_CATEGORY_SUCCESS:
-      console.log("action.payload: ", action.payload)
       return {
         ...state,
         category: state.category.map(category_ =>

@@ -1,4 +1,7 @@
 import {
+  GET_ACTIVITY_TYPE,
+  GET_ACTIVITY_TYPE_FAIL,
+  GET_ACTIVITY_TYPE_SUCCESS,
   ADD_ACTIVITY_TYPE,
   ADD_ACTIVITY_TYPE_SUCCESS,
   ADD_ACTIVITY_TYPE_FAIL,
@@ -18,6 +21,22 @@ const INIT_STATE = {
 
 const activityType = (state = INIT_STATE, action) => {
   switch (action.type) {
+     // GET_ACTIVITY_TYPE
+     case GET_ACTIVITY_TYPE:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case GET_ACTIVITY_TYPE_SUCCESS:
+      return {
+        ...state,
+        activityType: action.payload,
+      }
+    case GET_ACTIVITY_TYPE_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      }
     // add activity
     case ADD_ACTIVITY_TYPE:
       return {
@@ -27,7 +46,7 @@ const activityType = (state = INIT_STATE, action) => {
     case ADD_ACTIVITY_TYPE_SUCCESS:
       return {
         ...state,
-        activityType: action.payload,
+        activityType: [...state?.activityType, action.payload],
         isLoading: false,
         isSuccess: true
       }
@@ -50,7 +69,7 @@ const activityType = (state = INIT_STATE, action) => {
         ...state,
         activityType: state.activityType.map(activity =>
           activity.id.toString() === action.payload.id.toString()
-            ? { activity, ...action.payload }
+            ? { activity, ...action.payload?.activity }
             : activity
         ),
         isLoading: false,
@@ -74,7 +93,7 @@ const activityType = (state = INIT_STATE, action) => {
       return {
         ...state,
         activityType: state.activityType.filter(
-          activity => activity.id.toString() !== action.payload.id.toString()
+          activity => activity.id.toString() !== action.payload.toString()
         ),
         isLoading: false,
         isSuccess: true

@@ -89,21 +89,6 @@ const Courses = props => {
         edit.append("status", values?.status)
         edit.append("_method", "put")
         edit.append("image", values?.image)
-        // contact.group_id !== values.group_id &&
-        //   edit.append("group_id", values?.group_id)
-        // contact.end_date !== values.end_date &&
-        //   edit.append("end_date", values?.end_date)
-        // contact.description !== values.description &&
-        //   edit.append("description", values?.description)
-        // contact.title !== values.title && edit.append("title", values?.title)
-        // contact.start_date !== values.start_date &&
-        //   edit.append("start_date", values?.start_date)
-        // contact.hour_count !== values.hour_count &&
-        //   edit.append("hour_count", values?.hour_count)
-        // contact.mentor_id !== values.mentor_id &&
-        //   edit.append("mentor_id", values?.mentor_id)
-        // edit.append("_method", "put")
-        // typeof values.image === "object" && edit.append("image", values?.image)
         dispatch(
           updateCourse(
             edit,
@@ -152,7 +137,6 @@ const Courses = props => {
   const { groups } = useSelector(store => store?.groups)
   const { mentors } = useSelector(store => store?.data)
 
-  const [userList, setUserList] = useState([])
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
 
@@ -174,7 +158,6 @@ const Courses = props => {
         id: "index",
         accessor: (_row, i) => i + 1,
       },
-
       {
         Header: "Title",
         accessor: "title",
@@ -191,7 +174,6 @@ const Courses = props => {
           return <Description {...cellProps} />
         },
       },
-
       {
         Header: "Hour Count",
         accessor: "hour_count",
@@ -216,7 +198,6 @@ const Courses = props => {
           return <GroupID {...cellProps} />
         },
       },
-
       {
         Header: "Start Date",
         accessor: "start_date",

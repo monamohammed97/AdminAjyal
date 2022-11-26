@@ -18,7 +18,7 @@ import {
   UncontrolledTooltip,
 } from "reactstrap"
 
-import { Name, Answer } from "./contactlistCol"
+import { Name } from "./contactlistCol"
 
 //Import Breadcrumb
 
@@ -30,8 +30,8 @@ import DeleteModal from "components/Common/DeleteModal"
 import TableContainer from "components/Common/TableContainer"
 import Breadcrumbs from "components/Common/Breadcrumb"
 import { validationSchema } from "./validationSchema"
-import { getActivityType } from "store/fetchData/actions"
 import {
+  getActivityType,
   addActivityType,
   deleteActivityType,
   updateActivityType,
@@ -56,7 +56,6 @@ const ActivityType = props => {
     onSubmit: async values => {
       if (isEdit) {
         var edit = new FormData()
-        // contact.name !== values.name && edit.append("name", values?.name)
         edit.append("name", values?.name)
         dispatch(
           updateActivityType(
@@ -94,9 +93,9 @@ const ActivityType = props => {
     },
   })
 
-  const { activityTypes } = useSelector(store => store?.data)
+  const { activityType } = useSelector(store => store?.activityType)
 
-  const [userList, setUserList] = useState([])
+  console.log("text :", activityType);
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
 
@@ -171,23 +170,23 @@ const ActivityType = props => {
   }, [dispatch])
 
   useEffect(() => {
-    if (activityTypes && !activityTypes.length) {
+    if (activityType && !activityType.length) {
       dispatch(getActivityType())
       setIsEdit(false)
     }
-  }, [dispatch, activityTypes])
+  }, [dispatch, activityType])
 
   useEffect(() => {
-    setContact(activityTypes)
+    setContact(activityType)
     setIsEdit(false)
-  }, [activityTypes])
+  }, [activityType])
 
   useEffect(() => {
-    if (!isEmpty(activityTypes) && !!isEdit) {
-      setContact(activityTypes)
+    if (!isEmpty(activityType) && !!isEdit) {
+      setContact(activityType)
       setIsEdit(false)
     }
-  }, [activityTypes])
+  }, [activityType])
 
   const toggle = () => {
     setModal(!modal)
@@ -220,8 +219,8 @@ const ActivityType = props => {
   //delete customer
   const [deleteModal, setDeleteModal] = useState(false)
 
-  const onClickDelete = activityTypes => {
-    setContact(activityTypes)
+  const onClickDelete = activityType => {
+    setContact(activityType)
     setDeleteModal(true)
   }
 
@@ -266,7 +265,7 @@ const ActivityType = props => {
                 <CardBody>
                   <TableContainer
                     columns={columns}
-                    data={activityTypes}
+                    data={activityType}
                     isGlobalFilter={true}
                     isAddUserList={true}
                     handleUserClick={handleUserClicks}

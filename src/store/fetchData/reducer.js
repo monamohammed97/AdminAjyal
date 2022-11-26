@@ -5,15 +5,6 @@ import {
   GET_MENTORS,
   GET_MENTORS_FAIL,
   GET_MENTORS_SUCCESS,
-  GET_PLATFORMS,
-  GET_PLATFORMS_FAIL,
-  GET_PLATFORMS_SUCCESS,
-  GET_PARTNERS,
-  GET_PARTNERS_FAIL,
-  GET_PARTNERS_SUCCESS,
-  GET_ADVERTISINGS,
-  GET_ADVERTISINGS_FAIL,
-  GET_ADVERTISINGS_SUCCESS,
   GET_ACTIVITES,
   GET_ACTIVITES_FAIL,
   GET_ACTIVITES_SUCCESS,
@@ -26,9 +17,6 @@ import {
   GET_RATES,
   GET_RATES_FAIL,
   GET_RATES_SUCCESS,
-  GET_ACTIVITY_TYPE,
-  GET_ACTIVITY_TYPE_FAIL,
-  GET_ACTIVITY_TYPE_SUCCESS,
   GET_FREELANCER,
   GET_FREELANCER_FAIL,
   GET_FREELANCER_SUCCESS,
@@ -90,54 +78,6 @@ const data = (state = INIT_STATE, action) => {
         error: action.payload,
       }
 
-    // GET_PLATFORMS
-    case GET_PLATFORMS:
-      return {
-        ...state,
-        isLoading: true,
-      }
-    case GET_PLATFORMS_SUCCESS:
-      return {
-        ...state,
-        platforms: action.payload,
-      }
-    case GET_PLATFORMS_FAIL:
-      return {
-        ...state,
-        error: action.payload,
-      }
-    // GET_PARTNERS
-    case GET_PARTNERS:
-      return {
-        ...state,
-        isLoading: true,
-      }
-    case GET_PARTNERS_SUCCESS:
-      return {
-        ...state,
-        partners: action.payload,
-      }
-    case GET_PARTNERS_FAIL:
-      return {
-        ...state,
-        error: action.payload,
-      }
-    // GET_ADVERTISINGS
-    case GET_ADVERTISINGS:
-      return {
-        ...state,
-        isLoading: true,
-      }
-    case GET_ADVERTISINGS_SUCCESS:
-      return {
-        ...state,
-        ads: action.payload,
-      }
-    case GET_ADVERTISINGS_FAIL:
-      return {
-        ...state,
-        error: action.payload,
-      }
     // GET_ACTIVITES
     case GET_ACTIVITES:
       return {
@@ -202,22 +142,7 @@ const data = (state = INIT_STATE, action) => {
         ...state,
         error: action.payload,
       }
-    // GET_ACTIVITY_TYPE
-    case GET_ACTIVITY_TYPE:
-      return {
-        ...state,
-        isLoading: true,
-      }
-    case GET_ACTIVITY_TYPE_SUCCESS:
-      return {
-        ...state,
-        activityTypes: action.payload,
-      }
-    case GET_ACTIVITY_TYPE_FAIL:
-      return {
-        ...state,
-        error: action.payload,
-      }
+
     // GET_FREELANCER
     case GET_FREELANCER:
       return {

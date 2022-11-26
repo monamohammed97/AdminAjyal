@@ -1,4 +1,7 @@
 import {
+  GET_PLATFORMS,
+  GET_PLATFORMS_FAIL,
+  GET_PLATFORMS_SUCCESS,
   ADD_PLATFORM,
   ADD_PLATFORM_FAIL,
   ADD_PLATFORM_SUCCESS,
@@ -10,6 +13,20 @@ import {
   UPDATE_PLATFORM_SUCCESS,
 } from "./actionTypes"
 
+// Platforms 
+export const getPlatforms = () => ({
+  type: GET_PLATFORMS,
+})
+
+export const getPlatformsSuccess = platform => ({
+  type: GET_PLATFORMS_SUCCESS,
+  payload: platform,
+})
+
+export const getPlatformsFail = error => ({
+  type: GET_PLATFORMS_FAIL,
+  payload: error,
+})
 // actions platforms
 export const addPlatform = (platform, cbDone, cbFail) => ({
   type: ADD_PLATFORM,

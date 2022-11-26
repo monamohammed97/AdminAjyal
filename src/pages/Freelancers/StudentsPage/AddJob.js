@@ -22,8 +22,9 @@ import { useDispatch, useSelector } from "react-redux"
 import { notify } from "components/Common/notify"
 import { FileInput } from "components/Form/FileInput"
 import img from "assets/images/img.png"
-import { getPlatforms, getStudents } from "store/fetchData/actions"
+import { getStudents } from "store/fetchData/actions"
 import { getGroups } from "store/admin/group/actions"
+import { getPlatforms } from "store/admin/platform/actions"
 
 const AddJob = props => {
   //meta title

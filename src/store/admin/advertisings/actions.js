@@ -1,4 +1,7 @@
 import {
+  GET_ADVERTISINGS,
+  GET_ADVERTISINGS_FAIL,
+  GET_ADVERTISINGS_SUCCESS,
   ADD_ADS,
   ADD_ADS_FAIL,
   ADD_ADS_SUCCESS,
@@ -9,6 +12,21 @@ import {
   UPDATE_ADS_FAIL,
   UPDATE_ADS_SUCCESS,
 } from "./actionTypes"
+
+// getAds 
+export const getAds = () => ({
+  type: GET_ADVERTISINGS,
+})
+
+export const getAdsSuccess = mentors => ({
+  type: GET_ADVERTISINGS_SUCCESS,
+  payload: mentors,
+})
+
+export const getAdsFail = error => ({
+  type: GET_ADVERTISINGS_FAIL,
+  payload: error,
+})
 
 // actions adss
 export const addAds = (ads, cbDone, cbFail) => ({
