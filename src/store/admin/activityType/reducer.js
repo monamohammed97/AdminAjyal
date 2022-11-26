@@ -21,8 +21,8 @@ const INIT_STATE = {
 
 const activityType = (state = INIT_STATE, action) => {
   switch (action.type) {
-     // GET_ACTIVITY_TYPE
-     case GET_ACTIVITY_TYPE:
+    // GET_ACTIVITY_TYPE
+    case GET_ACTIVITY_TYPE:
       return {
         ...state,
         isLoading: true,
@@ -48,7 +48,7 @@ const activityType = (state = INIT_STATE, action) => {
         ...state,
         activityType: [...state?.activityType, action.payload],
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case ADD_ACTIVITY_TYPE_FAIL:
       return {
@@ -65,15 +65,20 @@ const activityType = (state = INIT_STATE, action) => {
         isLoading: true,
       }
     case UPDATE_ACTIVITY_TYPE_SUCCESS:
+      console.log("state.activityType:", state.activityType)
+      console.log(
+        ":UPDATE_ACTIVITY_TYPE_SUCCESS :action.payload:",
+        action.payload
+      )
       return {
         ...state,
         activityType: state.activityType.map(activity =>
           activity.id.toString() === action.payload.id.toString()
-            ? { activity, ...action.payload?.activity }
+            ? { activity, ...action.payload?.activityType }
             : activity
         ),
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case UPDATE_ACTIVITY_TYPE_FAIL:
       return {
@@ -96,7 +101,7 @@ const activityType = (state = INIT_STATE, action) => {
           activity => activity.id.toString() !== action.payload.toString()
         ),
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case DELETE_ACTIVITY_TYPE_FAIL:
       return {
@@ -104,7 +109,6 @@ const activityType = (state = INIT_STATE, action) => {
         error: action.payload,
         isLoading: false,
       }
-
 
     default:
       return state
