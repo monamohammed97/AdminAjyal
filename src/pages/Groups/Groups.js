@@ -163,7 +163,6 @@ const Projects = props => {
   const { projects } = useSelector(store => store?.data)
   const { category } = useSelector(store => store?.category)
 
-  const [userList, setUserList] = useState([])
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
 
@@ -424,7 +423,6 @@ const Projects = props => {
     toggle()
   }
 
-  const keyField = "id"
 
   return (
     <React.Fragment>

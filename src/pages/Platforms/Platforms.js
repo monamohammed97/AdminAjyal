@@ -31,8 +31,12 @@ import TableContainer from "components/Common/TableContainer"
 import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
 import { validationSchema } from "./validationSchema"
-import { getPlatforms } from "store/fetchData/actions"
-import { addPlatform, deletePlatform, updatePlatform } from "store/admin/platform/actions"
+import {
+  getPlatforms,
+  addPlatform,
+  deletePlatform,
+  updatePlatform,
+} from "store/admin/platform/actions"
 import { notify } from "components/Common/notify"
 import img from "assets/images/img.png"
 
@@ -56,21 +60,25 @@ const Platforms = props => {
     validationSchema: validationSchema,
     onSubmit: async values => {
       if (isEdit) {
-        console.log("edit ", values);
+        console.log("edit ", values)
         var edit = new FormData()
         edit.append("name", values?.name)
         edit.append("_method", "put")
         edit.append("jobs_count", values?.jobs_count)
-        edit.append("image", values?.image)
-
-        console.log(values)
+        if (values?.image instanceof File) {
+          edit.append("image", values?.image)
+        }
         dispatch(
-          updatePlatform(edit, contact.id,() => {
-            notify("success", "Success")
-          },
-          () => {
-            notify("error", "Failed")
-          })
+          updatePlatform(
+            edit,
+            contact.id,
+            () => {
+              notify("success", "Success")
+            },
+            () => {
+              notify("error", "Failed")
+            }
+          )
         )
         setIsEdit(false)
         validation.resetForm()
@@ -81,20 +89,25 @@ const Platforms = props => {
         data.append("jobs_count", values?.jobs_count)
         data.append("image", values?.image)
 
-        dispatch(addPlatform(data,() => {
-          notify("success", "Success")
-        },
-        () => {
-          notify("error", "Failed")
-        }))
+        dispatch(
+          addPlatform(
+            data,
+            () => {
+              notify("success", "Success")
+            },
+            () => {
+              notify("error", "Failed")
+            }
+          )
+        )
         validation.resetForm()
         toggle()
       }
     },
   })
 
-  const { platforms } = useSelector(store => store?.data)
-  
+  const { platforms } = useSelector(store => store?.platforms)
+
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
 
@@ -197,10 +210,9 @@ const Platforms = props => {
     []
   )
 
-  
-  // useEffect(() => {
-  //   dispatch(getPlatforms())
-  // }, [dispatch])
+  useEffect(() => {
+    dispatch(getPlatforms())
+  }, [dispatch])
 
   useEffect(() => {
     if (platforms && !platforms.length) {
@@ -260,12 +272,17 @@ const Platforms = props => {
   }
 
   const handleDeletePlatform = () => {
-    dispatch(deletePlatform(contact,() => {
-      notify("success", "Success")
-    },
-    () => {
-      notify("error", "Failed")
-    }))
+    dispatch(
+      deletePlatform(
+        contact,
+        () => {
+          notify("success", "Success")
+        },
+        () => {
+          notify("error", "Failed")
+        }
+      )
+    )
     onPaginationPageChange(1)
     setDeleteModal(false)
   }
@@ -374,7 +391,7 @@ const Platforms = props => {
                               <Input
                                 name="jobs_count"
                                 label="Jobs Count"
-                                type="text"
+                                type="number"
                                 onChange={validation.handleChange}
                                 onBlur={validation.handleBlur}
                                 value={validation.values.jobs_count || ""}

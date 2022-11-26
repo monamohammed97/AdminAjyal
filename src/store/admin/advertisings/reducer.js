@@ -1,4 +1,7 @@
 import {
+  GET_ADVERTISINGS,
+  GET_ADVERTISINGS_FAIL,
+  GET_ADVERTISINGS_SUCCESS,
   ADD_ADS,
   ADD_ADS_SUCCESS,
   ADD_ADS_FAIL,
@@ -16,8 +19,24 @@ const INIT_STATE = {
   isSuccess: false,
 }
 
-const ads = (state = INIT_STATE, action) => {
+const advertisings = (state = INIT_STATE, action) => {
   switch (action.type) {
+     // GET_ADVERTISINGS
+     case GET_ADVERTISINGS:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case GET_ADVERTISINGS_SUCCESS:
+      return {
+        ...state,
+        ads: action.payload,
+      }
+    case GET_ADVERTISINGS_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      }
     // add ad
     case ADD_ADS:
       return {
@@ -27,7 +46,7 @@ const ads = (state = INIT_STATE, action) => {
     case ADD_ADS_SUCCESS:
       return {
         ...state,
-        ads: action.payload,
+        ads: [...state?.ads, action.payload],
         isLoading: false,
         isSuccess: true
       }
@@ -50,7 +69,7 @@ const ads = (state = INIT_STATE, action) => {
         ...state,
         ads: state.ads.map(ad =>
           ad.id.toString() === action.payload.id.toString()
-            ? { ad, ...action.payload }
+            ? { ad, ...action.payload?.ad }
             : ad
         ),
         isLoading: false,
@@ -74,7 +93,7 @@ const ads = (state = INIT_STATE, action) => {
       return {
         ...state,
         ads: state.ads.filter(
-          ad => ad.id.toString() !== action.payload.id.toString()
+          ad => ad.id.toString() !== action.payload.toString()
         ),
         isLoading: false,
         isSuccess: true
@@ -92,4 +111,4 @@ const ads = (state = INIT_STATE, action) => {
   }
 }
 
-export default ads
+export default advertisings

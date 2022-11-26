@@ -432,9 +432,9 @@ export const updateMentorAjyal = (id, mentor) => {
 }
 // GET_PLATFORMS
 export const getPlatformsAjyal = () => get(url.GET_PLATFORMS_AJYAL)
-export const addPlatformAjyal = mentor => post(url.ADD_PLATFORM_AJYAL, mentor)
+export const addPlatformAjyal = platform => post(url.ADD_PLATFORM_AJYAL, platform)
 export const deletePlatformAjyal = id => del(`${url.DELETE_PLATFORM_AJYAL}/${id}`)
-export const updatePlatformAjyal = (id, mentor) => {
+export const updatePlatformAjyal = (id, platform) => {
   var config = {
     headers: {
       Accept: "application/json",
@@ -442,7 +442,7 @@ export const updatePlatformAjyal = (id, mentor) => {
       "X-HTTP-Method-Override": "put",
     }
   }
-  return post(`${url.UPDATE_PLATFORM_AJYAL}/${id}`, mentor, config)
+  return post(`${url.UPDATE_PLATFORM_AJYAL}/${id}`, platform, config)
 }
 // GET_PARTNERS
 export const getPartnersAjyal = () => get(url.GET_PARTNERS_AJYAL)
@@ -586,9 +586,9 @@ export const updateProjectAjyal = (id, project) => {
 }
 // ACTIVITY_TYPE
 export const getActivityTypesAjyal = () => get(url.GET_ACTIVITY_TYPES_AJYAL)
-export const addActivityTypeAjyal = course => post(url.ADD_ACTIVITY_TYPE_AJYAL, course)
+export const addActivityTypeAjyal = activityType => post(url.ADD_ACTIVITY_TYPE_AJYAL, activityType)
 export const deleteActivityTypeAjyal = id => del(`${url.DELETE_ACTIVITY_TYPE_AJYAL}/${id}`)
-export const updateActivityTypeAjyal = (id, course) => {
+export const updateActivityTypeAjyal = (id, activityType) => {
   var config = {
     headers: {
       Accept: "application/json",
@@ -596,7 +596,7 @@ export const updateActivityTypeAjyal = (id, course) => {
       "X-HTTP-Method-Override": "put",
     }
   }
-  return post(`${url.UPDATE_ACTIVITY_TYPE_AJYAL}/${id}`, course, config)
+  return post(`${url.UPDATE_ACTIVITY_TYPE_AJYAL}/${id}`, activityType, config)
 }
 // FREELANCER
 export const getFreelanceAjyal = () => get(url.GET_FREELANCER_AJYAL)

@@ -24,10 +24,10 @@ import { FileInput } from "components/Form/FileInput"
 import img from "assets/images/img.png"
 import {
   getFreelancer,
-  getPlatforms,
   getStudents,
 } from "store/fetchData/actions"
 import { getGroups } from "store/admin/group/actions"
+import { getPlatforms } from "store/admin/platform/actions"
 
 const EditJob = props => {
   //meta title

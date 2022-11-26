@@ -39,7 +39,6 @@ import Breadcrumbs from "components/Common/Breadcrumb"
 import { validationSchema } from "./validationSchema"
 import {
   getActivities,
-  getActivityType,
   getProjects,
 } from "store/fetchData/actions"
 import img from "assets/images/img.png"
@@ -48,6 +47,7 @@ import {
   deleteActivity,
   updateActivity,
 } from "store/admin/activity/actions"
+import { getActivityType } from "store/admin/activityType/actions"
 import { notify } from "components/Common/notify"
 
 const Activites = props => {

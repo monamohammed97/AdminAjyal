@@ -29,7 +29,7 @@ import data from "./fetchData/reducer";
 import users from "./admin/user/reducer";
 import mentors from "./admin/mentor/reducer";
 import platforms from "./admin/platform/reducer";
-import partenrs from "./admin/partenr/reducer";
+import partners from "./admin/partenr/reducer";
 import advertisings from "./admin/advertisings/reducer";
 import activities from "./admin/activity/reducer";
 import projects from "./admin/project/reducer";
@@ -62,7 +62,7 @@ const rootReducer = combineReducers({
   users,
   mentors,
   platforms,
-  partenrs,
+  partners,
   advertisings,
   activities,
   projects,

@@ -60,7 +60,7 @@ function* onUpdateCategory({ payload }) {
 function* onDeleteCategory({ payload }) {
   const { category, cbDone, cbFail } = payload
   try {
-    const response = yield call(deleteCategoryAjyal, category?.id)
+    yield call(deleteCategoryAjyal, category?.id)
     yield put(deleteCategorySuccess(category?.id))
     cbDone?.()
   } catch (error) {

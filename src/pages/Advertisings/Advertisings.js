@@ -39,8 +39,7 @@ import TableContainer from "components/Common/TableContainer"
 import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
 import { validationSchema } from "./validationSchema"
-import { getAds } from "store/fetchData/actions"
-import { addAds, deleteAds, updateAds } from "store/admin/advertisings/actions"
+import { getAds, addAds, deleteAds, updateAds } from "store/admin/advertisings/actions"
 import { notify } from "components/Common/notify"
 import img from "assets/images/img.png"
 
@@ -71,24 +70,18 @@ const Advertisings = props => {
         var edit = new FormData()
         edit.append("title", values?.title)
         edit.append("details", values?.details)
-        edit.append("attachment", values?.attachment)
+        // edit.append("attachment", values?.attachment)
+        if (values?.attachment instanceof File) {
+          edit.append("attachment", values?.attachment)
+        }
         edit.append("notes", values?.notes)
         edit.append("deadline", values?.deadline)
         edit.append("status", values?.status)
         edit.append("_method", "put")
-        edit.append("image", values?.image)
-        // contact.title !== values.title && edit.append("title", values?.title)
-        // contact.details !== values.details &&
-        //   edit.append("details", values?.details)
-        // contact.attachment !== values.attachment &&
-        //   edit.append("attachment", values?.attachment)
-        // contact.notes !== values.notes && edit.append("notes", values?.notes)
-        // contact.deadline !== values.deadline &&
-        //   edit.append("deadline", values?.deadline)
-        // contact.status !== values.status &&
-        //   edit.append("status", values?.status)
-        // edit.append("_method", "put")
-        // typeof values.image === "object" && edit.append("image", values?.image)
+        if (values?.image instanceof File) {
+          edit.append("image", values?.image)
+        }
+        console.log("values :=>",values);
         dispatch(
           updateAds(
             edit,
@@ -131,9 +124,8 @@ const Advertisings = props => {
     },
   })
 
-  const { ads } = useSelector(store => store?.data)
+  const { ads } = useSelector(store => store?.advertisings)
 
-  const [userList, setUserList] = useState([])
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
 
@@ -353,8 +345,6 @@ const Advertisings = props => {
     setIsEdit(false)
     toggle()
   }
-
-  const keyField = "id"
 
   return (
     <React.Fragment>

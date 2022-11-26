@@ -60,7 +60,7 @@ function* onUpdateGroup({ payload }) {
 function* onDeleteGroup({ payload }) {
   const { group, cbDone, cbFail } = payload
   try {
-    const response = yield call(deleteGroupAjyal, group?.id)
+    yield call(deleteGroupAjyal, group?.id)
     yield put(deleteGroupSuccess(group?.id))
     cbDone?.()
   } catch (error) {

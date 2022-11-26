@@ -240,12 +240,12 @@ const Category = props => {
   }
 
   const handleUserClick = arg => {
-    const doctor = arg
+    const category = arg
     setContact({
-      id: doctor.id,
-      title: doctor.title,
-      description: doctor.description,
-      image: doctor.image,
+      id: category.id,
+      title: category.title,
+      description: category.description,
+      image: category.image,
     })
     setIsEdit(true)
 

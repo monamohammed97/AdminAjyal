@@ -1,4 +1,7 @@
 import {
+  GET_PARTNERS,
+  GET_PARTNERS_FAIL,
+  GET_PARTNERS_SUCCESS,
   ADD_PARTNER,
   ADD_PARTNER_SUCCESS,
   ADD_PARTNER_FAIL,
@@ -11,13 +14,30 @@ import {
 } from "./actionTypes"
 
 const INIT_STATE = {
-  partenrs: [],
+  partners: [],
   isLoading: false,
   isSuccess: false,
 }
 
-const partenrs = (state = INIT_STATE, action) => {
+const partners = (state = INIT_STATE, action) => {
+  
   switch (action.type) {
+     // GET_PARTNERS
+     case GET_PARTNERS:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case GET_PARTNERS_SUCCESS:
+      return {
+        ...state,
+        partners: action.payload,
+      }
+    case GET_PARTNERS_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      }
     // add partenr
     case ADD_PARTNER:
       return {
@@ -27,7 +47,7 @@ const partenrs = (state = INIT_STATE, action) => {
     case ADD_PARTNER_SUCCESS:
       return {
         ...state,
-        partenrs: action.payload,
+        partners: [...state.partners, action.payload],
         isLoading: false,
         isSuccess: true
       }
@@ -48,9 +68,9 @@ const partenrs = (state = INIT_STATE, action) => {
     case UPDATE_PARTNER_SUCCESS:
       return {
         ...state,
-        partenrs: state.partenrs.map(partenr =>
+        partners: state.partners.map(partenr =>
           partenr.id.toString() === action.payload.id.toString()
-            ? { partenr, ...action.payload }
+            ? { partenr, ...action.payload?.partenr }
             : partenr
         ),
         isLoading: false,
@@ -73,8 +93,8 @@ const partenrs = (state = INIT_STATE, action) => {
     case DELETE_PARTNER_SUCCESS:
       return {
         ...state,
-        partenrs: state.partenrs.filter(
-          partenr => partenr.id.toString() !== action.payload.id.toString()
+        partners: state.partners.filter(
+          partenr => partenr.id.toString() !== action.payload.toString()
         ),
         isLoading: false,
         isSuccess: true
@@ -92,4 +112,4 @@ const partenrs = (state = INIT_STATE, action) => {
   }
 }
 
-export default partenrs
+export default partners

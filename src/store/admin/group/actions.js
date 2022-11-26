@@ -18,9 +18,9 @@ export const getGroups = () => ({
   type: GET_GROUPS,
 })
 
-export const getGroupsSuccess = mentors => ({
+export const getGroupsSuccess = group => ({
   type: GET_GROUPS_SUCCESS,
-  payload: mentors,
+  payload: group,
 })
 
 export const getGroupsFail = error => ({
