@@ -1,32 +1,44 @@
 import { call, put, takeEvery } from "redux-saga/effects"
+import { getKeyByValue } from "helpers/find-key"
 
 // Ecommerce Redux States
-import { ADD_ABOUTUS } from "./actionTypes"
-import { addAboutusSuccess, addAboutusFail } from "./actions"
-import { addAboutusAjyal } from "helpers/fakebackend_helper"
+import { GET_ABOUTUS, ADD_ABOUTUS } from "./actionTypes"
+import {
+  getAboutusSuccess,
+  getAboutusFail,
+  addAboutusSuccess,
+  addAboutusFail,
+} from "./actions"
+import { getAboutusAjyal, addAboutusAjyal } from "helpers/fakebackend_helper"
+
+// GET_ABOUTUS
+function* fetchAboutus() {
+  try {
+    const response = yield call(getAboutusAjyal)
+    yield put(
+      getAboutusSuccess(
+        getKeyByValue(response?.data?.pageContent, "aboutUs")?.aboutUs
+      )
+    )
+  } catch (error) {
+    yield put(getAboutusFail(error))
+  }
+}
 
 function* onAddAboutus({ payload }) {
-  console.log("1")
   const { aboutUs, cbDone, cbFail } = payload
-  console.log("payload", payload)
   try {
-    console.log("aboutUS", aboutUs)
-
-    var data = new FormData()
-    data.append("content", aboutUs.content)
-    data.append("images[]", aboutUs.images)
-    const response = yield call(addAboutusAjyal, data)
-    console.log("try")
+    const response = yield call(addAboutusAjyal, aboutUs)
     yield put(addAboutusSuccess(response?.data))
     cbDone?.()
   } catch (error) {
-    console.log(error)
     cbFail?.()
     yield put(addAboutusFail(error))
   }
 }
 
 function* landingPageSaga() {
+  yield takeEvery(GET_ABOUTUS, fetchAboutus)
   yield takeEvery(ADD_ABOUTUS, onAddAboutus)
 }
 
