@@ -17,19 +17,9 @@ import {
   GET_RATES,
   GET_RATES_FAIL,
   GET_RATES_SUCCESS,
-  GET_QUESTIONS,
-  GET_QUESTIONS_FAIL,
-  GET_QUESTIONS_SUCCESS,
-  
   GET_FREELANCER,
   GET_FREELANCER_FAIL,
   GET_FREELANCER_SUCCESS,
-  GET_CONTACTS,
-  GET_CONTACTS_FAIL,
-  GET_CONTACTS_SUCCESS,
-  GET_ABOUTUS,
-  GET_ABOUTUS_FAIL,
-  GET_ABOUTUS_SUCCESS,
 } from "./actionTypes"
 
 export const getUsers = () => ({
@@ -122,22 +112,6 @@ export const getRatesFail = error => ({
   payload: error,
 })
 
-// GET_QUESTIONS 
-export const getQuestions = () => ({
-  type: GET_QUESTIONS,
-})
-
-export const getQuestionsSuccess = mentors => ({
-  type: GET_QUESTIONS_SUCCESS,
-  payload: mentors,
-})
-
-export const getQuestionsFail = error => ({
-  type: GET_QUESTIONS_FAIL,
-  payload: error,
-})
-
-
 // FREELANCER 
 export const getFreelancer = () => ({
   type: GET_FREELANCER,
@@ -150,34 +124,5 @@ export const getFreelancerSuccess = freelancer => ({
 
 export const getFreelancerFail = error => ({
   type: GET_FREELANCER_FAIL,
-  payload: error,
-})
-
-// GET_CONTACTS 
-export const getContacts = () => ({
-  type: GET_CONTACTS,
-})
-
-export const getContactsSuccess = contatcs => ({
-  type: GET_CONTACTS_SUCCESS,
-  payload: contatcs,
-})
-
-export const getContactsFail = error => ({
-  type: GET_CONTACTS_FAIL,
-  payload: error,
-})
-// GET_CONTACTS 
-export const getAboutus = () => ({
-  type: GET_ABOUTUS,
-})
-
-export const getAboutusSuccess = aboutUs => ({
-  type: GET_ABOUTUS_SUCCESS,
-  payload: aboutUs,
-})
-
-export const getAboutusFail = error => ({
-  type: GET_ABOUTUS_FAIL,
   payload: error,
 })

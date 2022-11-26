@@ -25,10 +25,7 @@ import { useDispatch, useSelector } from "react-redux"
 import DeleteModal from "components/Common/DeleteModal"
 import TableContainer from "components/Common/TableContainer"
 import Breadcrumbs from "components/Common/Breadcrumb"
-import { getContacts } from "store/fetchData/actions"
-import {
-  deleteContact,
-} from "store/admin/contact/actions"
+import { getContacts, deleteContact } from "store/admin/contact/actions"
 import { notify } from "components/Common/notify"
 
 const Contacts = props => {
@@ -39,9 +36,8 @@ const Contacts = props => {
 
   const dispatch = useDispatch()
   const [contact, setContact] = useState()
- 
 
-  const { contacts } = useSelector(store => store?.data)
+  const { contacts } = useSelector(store => store?.contacts)
 
   const [userList, setUserList] = useState([])
   const [modal, setModal] = useState(false)
@@ -248,9 +244,7 @@ const Contacts = props => {
                     <ModalHeader toggle={toggle} tag="h4">
                       Message
                     </ModalHeader>
-                    <ModalBody>
-                    {contact?.message}
-                    </ModalBody>
+                    <ModalBody>{contact?.message}</ModalBody>
                   </Modal>
                 </CardBody>
               </Card>

@@ -25,18 +25,17 @@ import { CKEditor } from "@ckeditor/ckeditor5-react"
 import { useFormik } from "formik"
 import { useState } from "react"
 import * as Yup from "yup"
-import { getAboutus } from "store/fetchData/actions"
 import { useDispatch, useSelector } from "react-redux"
 import { notify } from "components/Common/notify"
 import Dropzone from "react-dropzone"
 import { Link } from "react-router-dom"
-import { addAboutus } from "store/admin/landingpage/actions"
+import { getAboutus, addAboutus } from "store/admin/landingpage/actions"
 
 const AboutUs = props => {
   //meta title
   document.title = "About Us"
 
-  const aboutUs = useSelector(store => store?.data?.aboutUS)
+  const aboutUs = useSelector(store => store?.landingPage?.aboutUS)
 
   const dispatch = useDispatch()
   const [selectedFiles, setselectedFiles] = useState([])
@@ -48,28 +47,24 @@ const AboutUs = props => {
 
     initialValues: {
       content: aboutUs?.content || "",
-      images: images || [],
+      images: [],
     },
     // validationSchema: Yup.object({
     //   name: Yup.string().required("Please Enter Your Name"),
     //   content: Yup.string().required("Please Enter Your Description"),
     // }),
     onSubmit: values => {
-      // var data = new FormData()
-      // data.append("content", values?.content)
-      // data.append("images[]", values?.images)
+      let data = new FormData()
+      data.append("content", values?.content)
+      if (values?.images instanceof Array) {
+        values?.images?.forEach(image => {
+          data.append("images[]", image)
+        })
+      }
 
-      var data = new FormData()
-      data.append("content", "test")
-      data.append("images[]", selectedFiles)
-
-      console.log(" values?.images", values?.images)
       dispatch(
         addAboutus(
-          {
-            content: values?.content,
-            images: values?.images
-          },
+          data,
           () => {
             notify("success", "success")
           },
@@ -81,7 +76,6 @@ const AboutUs = props => {
     },
   })
 
-  // console.log("setallImages", allImages)
   function handleAcceptedFiles(files) {
     files.map(file =>
       Object.assign(file, {
@@ -89,6 +83,7 @@ const AboutUs = props => {
         formattedSize: formatBytes(file.size),
       })
     )
+
     setselectedFiles(files)
     validation.setFieldValue("images", files)
   }
@@ -106,10 +101,10 @@ const AboutUs = props => {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i]
   }
 
-  // useEffect(() => {
-  //   dispatch(getAboutus())
-  //   // setImages(aboutUs?.[]||[])
-  // }, [dispatch])
+  useEffect(() => {
+    dispatch(getAboutus())
+    // setImages(aboutUs?.[]||[])
+  }, [dispatch])
 
   // const handleDelete = img => {
   //   setImages([]?.filter(src => src != img))
@@ -118,9 +113,7 @@ const AboutUs = props => {
   const handleDelete = img => {
     const filterData = selectedFiles?.filter(src => src?.preview != img)
     setselectedFiles(filterData)
-    console.log(filterData)
   }
-  // console.log("[] :",[...[], ...selectedFiles] , selectedFiles);
 
   return (
     <React.Fragment>
@@ -134,18 +127,28 @@ const AboutUs = props => {
               return false
             }}
           >
-            <CKEditor
-              editor={ClassicEditor}
-              data={validation?.values?.content}
-              onReady={editor => {
-                // You can store the "editor" and use when it is needed.
-                // console.log("Editor is ready to use!", editor)
-              }}
-              onChange={(event, editor) => {
-                const data = editor.getData()
-                validation.setFieldValue("content", data)
-              }}
-            />
+            <div className="mb-3">
+              {/* <Label className="form-label">Description</Label> */}
+              <Input
+                dir="rtl"
+                name="content"
+                label="About us"
+                type="textarea"
+                onChange={validation.handleChange}
+                onBlur={validation.handleBlur}
+                value={validation?.values?.content || ""}
+                invalid={
+                  validation.touched.content && validation.errors.content
+                    ? true
+                    : false
+                }
+              />
+              {validation.touched.content && validation.errors.content ? (
+                <FormFeedback type="invalid">
+                  {validation.errors.content}
+                </FormFeedback>
+              ) : null}
+            </div>
             <Dropzone
               onDrop={acceptedFiles => {
                 handleAcceptedFiles(acceptedFiles)

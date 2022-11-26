@@ -8,10 +8,7 @@ import {
   GET_PROJECTS,
   GET_STUDENTS,
   GET_RATES,
-  GET_QUESTIONS,
   GET_FREELANCER,
-  GET_CONTACTS,
-  GET_ABOUTUS,
 } from "./actionTypes"
 import {
   getActivitiesFail,
@@ -20,8 +17,6 @@ import {
   getMentorsSuccess,
   getProjectsFail,
   getProjectsSuccess,
-  getQuestionsFail,
-  getQuestionsSuccess,
   getRatesFail,
   getRatesSuccess,
   getStudentsFail,
@@ -30,10 +25,6 @@ import {
   getUsersSuccess,
   getFreelancerSuccess,
   getFreelancerFail,
-  getContactsSuccess,
-  getContactsFail,
-  getAboutusSuccess,
-  getAboutusFail,
 } from "./actions"
 
 //Include Both Helper File with needed methods
@@ -43,11 +34,8 @@ import {
   getActivitiesAjyal,
   getStudentsAjyal,
   getRatesAjyal,
-  getQuestionsAjyal,
   getProjectsAjyal,
   getFreelanceAjyal,
-  getContactsAjyal,
-  getAboutusAjyal,
 } from "helpers/fakebackend_helper"
 
 function* fetchUsers() {
@@ -109,15 +97,6 @@ function* fetchProjects() {
     yield put(getProjectsFail(error))
   }
 }
-// GET_QUESTIONS
-function* fetchQuestions() {
-  try {
-    const response = yield call(getQuestionsAjyal)
-    yield put(getQuestionsSuccess(response?.data))
-  } catch (error) {
-    yield put(getQuestionsFail(error))
-  }
-}
 
 
 // GET_FREELANCER
@@ -129,25 +108,6 @@ function* fetchFreelancer() {
     yield put(getFreelancerFail(error))
   }
 }
-// GET_CONTACTS
-function* fetchContacts() {
-  try {
-    const response = yield call(getContactsAjyal)
-    yield put(getContactsSuccess(response?.data))
-  } catch (error) {
-    yield put(getContactsFail(error))
-  }
-}
-
-// GET_ABOUTUS
-function* fetchAboutus() {
-  try {
-    const response = yield call(getAboutusAjyal)
-    yield put(getAboutusSuccess(response?.data?.pageContent[0]?.["aboutUs"]))
-  } catch (error) {
-    yield put(getAboutusFail(error))
-  }
-}
 
 function* fetchDataSaga() {
   yield takeEvery(GET_USERS, fetchUsers)
@@ -155,11 +115,8 @@ function* fetchDataSaga() {
   yield takeEvery(GET_ACTIVITES, fetchActivities)
   yield takeEvery(GET_STUDENTS, fetchStudents)
   yield takeEvery(GET_RATES, fetchRates)
-  yield takeEvery(GET_QUESTIONS, fetchQuestions)
   yield takeEvery(GET_PROJECTS, fetchProjects)
   yield takeEvery(GET_FREELANCER, fetchFreelancer)
-  yield takeEvery(GET_CONTACTS, fetchContacts)
-  yield takeEvery(GET_ABOUTUS, fetchAboutus)
 }
 
 export default fetchDataSaga

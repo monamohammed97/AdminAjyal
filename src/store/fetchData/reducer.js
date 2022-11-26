@@ -17,19 +17,9 @@ import {
   GET_RATES,
   GET_RATES_FAIL,
   GET_RATES_SUCCESS,
-  GET_QUESTIONS,
-  GET_QUESTIONS_FAIL,
-  GET_QUESTIONS_SUCCESS,
-  
   GET_FREELANCER,
   GET_FREELANCER_FAIL,
   GET_FREELANCER_SUCCESS,
-  GET_CONTACTS,
-  GET_CONTACTS_FAIL,
-  GET_CONTACTS_SUCCESS,
-  GET_ABOUTUS,
-  GET_ABOUTUS_FAIL,
-  GET_ABOUTUS_SUCCESS,
 } from "./actionTypes"
 
 const INIT_STATE = {
@@ -153,23 +143,6 @@ const data = (state = INIT_STATE, action) => {
         error: action.payload,
       }
 
-    // GET_QUESTIONS
-    case GET_QUESTIONS:
-      return {
-        ...state,
-        isLoading: true,
-      }
-    case GET_QUESTIONS_SUCCESS:
-      return {
-        ...state,
-        questions: action.payload,
-      }
-    case GET_QUESTIONS_FAIL:
-      return {
-        ...state,
-        error: action.payload,
-      }
-   
     // GET_FREELANCER
     case GET_FREELANCER:
       return {
@@ -187,41 +160,6 @@ const data = (state = INIT_STATE, action) => {
         ...state,
         error: action.payload,
       }
-    // GET_CONTACTS
-    case GET_CONTACTS:
-      return {
-        ...state,
-        isLoading: true,
-      }
-    case GET_CONTACTS_SUCCESS:
-      return {
-        ...state,
-        contacts: action.payload,
-        isLoading: false,
-      }
-    case GET_CONTACTS_FAIL:
-      return {
-        ...state,
-        error: action.payload,
-      }
-    // GET_ABOUTUS
-    case GET_ABOUTUS:
-      return {
-        ...state,
-        isLoading: true,
-      }
-    case GET_ABOUTUS_SUCCESS:
-      return {
-        ...state,
-        aboutUS: action.payload,
-        isLoading: false,
-      }
-    case GET_ABOUTUS_FAIL:
-      return {
-        ...state,
-        error: action.payload,
-      }
-
     default:
       return state
   }
