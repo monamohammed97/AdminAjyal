@@ -1,4 +1,7 @@
 import {
+  GET_QUESTIONS,
+  GET_QUESTIONS_FAIL,
+  GET_QUESTIONS_SUCCESS,
   ADD_QUESTION,
   ADD_QUESTION_FAIL,
   ADD_QUESTION_SUCCESS,
@@ -10,6 +13,21 @@ import {
   UPDATE_QUESTION_SUCCESS,
 } from "./actionTypes"
 
+// GET_QUESTIONS
+export const getQuestions = () => ({
+  type: GET_QUESTIONS,
+})
+
+export const getQuestionsSuccess = mentors => ({
+  type: GET_QUESTIONS_SUCCESS,
+  payload: mentors,
+})
+
+export const getQuestionsFail = error => ({
+  type: GET_QUESTIONS_FAIL,
+  payload: error,
+})
+
 // actions questions
 export const addQuestion = (question, cbDone, cbFail) => ({
   type: ADD_QUESTION,
@@ -18,7 +36,7 @@ export const addQuestion = (question, cbDone, cbFail) => ({
 
 export const addQuestionSuccess = question => ({
   type: ADD_QUESTION_SUCCESS,
-  payload: question ,
+  payload: question,
 })
 
 export const addQuestionFail = error => ({
@@ -48,11 +66,10 @@ export const deleteQuestion = (question, cbDone, cbFail) => ({
 
 export const deleteQuestionSuccess = question => ({
   type: DELETE_QUESTION_SUCCESS,
-  payload: question ,
+  payload: question,
 })
 
 export const deleteQuestionFail = error => ({
   type: DELETE_QUESTION_FAIL,
   payload: error,
 })
-

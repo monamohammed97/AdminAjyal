@@ -17,33 +17,28 @@ import ecommerce from "./e-commerce/reducer"
 //doctors
 import doctors from "./doctors/reducer"
 
-//contacts
-import contacts from "./contacts/reducer"
-
-//Dashboard 
-import Dashboard from "./dashboard/reducer";
-
+//Dashboard
+import Dashboard from "./dashboard/reducer"
 
 // newwwwwwwwwwwwwww
-import data from "./fetchData/reducer";
-import users from "./admin/user/reducer";
-import mentors from "./admin/mentor/reducer";
-import platforms from "./admin/platform/reducer";
-import partenrs from "./admin/partenr/reducer";
-import advertisings from "./admin/advertisings/reducer";
-import activities from "./admin/activity/reducer";
-import projects from "./admin/project/reducer";
-import groups from "./admin/group/reducer";
-import category from "./admin/category/reducer";
-import students from "./admin/student/reducer";
-import rates from "./mentor/rate/reducer";
-import questions from "./admin/question/reducer";
-import courses from "./admin/course/reducer";
-import activityType from "./admin/activityType/reducer";
-import freelance  from "./freelance/reducer";
-import contact  from "./admin/contact/reducer";
-import landingPage  from "./admin/landingpage/reducer";
-
+import data from "./fetchData/reducer"
+import users from "./admin/user/reducer"
+import mentors from "./admin/mentor/reducer"
+import platforms from "./admin/platform/reducer"
+import partenrs from "./admin/partenr/reducer"
+import advertisings from "./admin/advertisings/reducer"
+import activities from "./admin/activity/reducer"
+import projects from "./admin/project/reducer"
+import groups from "./admin/group/reducer"
+import category from "./admin/category/reducer"
+import students from "./admin/student/reducer"
+import rates from "./mentor/rate/reducer"
+import questions from "./admin/question/reducer"
+import courses from "./admin/course/reducer"
+import activityType from "./admin/activityType/reducer"
+import freelance from "./freelance/reducer"
+import contacts from "./admin/contact/reducer"
+import landingPage from "./admin/landingpage/reducer"
 
 const rootReducer = combineReducers({
   // public
@@ -53,10 +48,8 @@ const rootReducer = combineReducers({
   ForgetPassword,
   Profile,
   ecommerce,
-  contacts,
   Dashboard,
   doctors,
-
 
   data,
   users,
@@ -74,8 +67,8 @@ const rootReducer = combineReducers({
   courses,
   activityType,
   freelance,
-  contact,
-  landingPage
+  contacts,
+  landingPage,
 })
 
 export default rootReducer

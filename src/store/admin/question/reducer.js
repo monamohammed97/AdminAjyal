@@ -1,4 +1,7 @@
 import {
+  GET_QUESTIONS,
+  GET_QUESTIONS_FAIL,
+  GET_QUESTIONS_SUCCESS,
   ADD_QUESTION,
   ADD_QUESTION_SUCCESS,
   ADD_QUESTION_FAIL,
@@ -18,6 +21,22 @@ const INIT_STATE = {
 
 const questions = (state = INIT_STATE, action) => {
   switch (action.type) {
+    // GET_QUESTIONS
+    case GET_QUESTIONS:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case GET_QUESTIONS_SUCCESS:
+      return {
+        ...state,
+        questions: action.payload,
+      }
+    case GET_QUESTIONS_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      }
     // add question
     case ADD_QUESTION:
       return {
@@ -27,9 +46,9 @@ const questions = (state = INIT_STATE, action) => {
     case ADD_QUESTION_SUCCESS:
       return {
         ...state,
-        questions: action.payload,
+        questions: [...state.questions, action.payload],
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case ADD_QUESTION_FAIL:
       return {
@@ -48,13 +67,13 @@ const questions = (state = INIT_STATE, action) => {
     case UPDATE_QUESTION_SUCCESS:
       return {
         ...state,
-        questions: state.questions.map(question =>
-          question.id.toString() === action.payload.id.toString()
-            ? { question, ...action.payload }
-            : question
-        ),
+        questions: state.questions.map(question => {
+          if (question.id.toString() === action.payload.id.toString()) {
+            return { question, ...action.payload?.question }
+          } else return question
+        }),
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case UPDATE_QUESTION_FAIL:
       return {
@@ -74,10 +93,10 @@ const questions = (state = INIT_STATE, action) => {
       return {
         ...state,
         questions: state.questions.filter(
-          question => question.id.toString() !== action.payload.id.toString()
+          question => question.id.toString() !== action.payload.toString()
         ),
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case DELETE_QUESTION_FAIL:
       return {
@@ -85,7 +104,6 @@ const questions = (state = INIT_STATE, action) => {
         error: action.payload,
         isLoading: false,
       }
-
 
     default:
       return state

@@ -115,7 +115,7 @@ export const updateOffer = (id, offer) => {
       Accept: "application/json",
       "Content-Type": "application/json",
       "X-HTTP-Method-Override": "put",
-    }
+    },
   }
   return post(`${url.UPDATE_OFFER}/${id}`, offer, config)
 }
@@ -216,18 +216,19 @@ export const getTasks = () => get(url.GET_TASKS)
 export const getDoctors = () => get(url.GET_DOCTORS)
 export const addNewDoctor = doctor => post(url.ADD_NEW_DOCTOR, doctor)
 export const deleteDoctor = doctor => del(url.DELETE_DOCTOR, { id: doctor?.id })
-export const updateDoctor = (id, doctor) =>{
-    var config = {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "X-HTTP-Method-Override": "put",
-      },
-    }
-    return post(`${url.UPDATE_DOCTOR}/${id}`, doctor, config)
+export const updateDoctor = (id, doctor) => {
+  var config = {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "X-HTTP-Method-Override": "put",
+    },
+  }
+  return post(`${url.UPDATE_DOCTOR}/${id}`, doctor, config)
 }
 
-export const getClinics = () => axios.get("api/clinic/clList?pageNo=1&offset=1&rows=50&lang=en")
+export const getClinics = () =>
+  axios.get("api/clinic/clList?pageNo=1&offset=1&rows=50&lang=en")
 export const addNewClinic = clinic => post(url.ADD_NEW_CLINIC, clinic)
 export const deleteClinic = clinic => del(url.DELETE_CLINIC, { id: clinic?.id })
 export const updateClinic = clinic => put(url.UPDATE_CLINIC, clinic)
@@ -377,29 +378,24 @@ const onAddComment = (productId, commentText) => {
   })
 }
 
-
-
-
-
 export {
-     getLoggedInUser,
-     isUserAuthenticated,
-     postFakeRegister,
-     postLogin,
-     postFakeProfile,
-     postFakeForgetPwd,
-     postJwtRegister,
-     postJwtLogin,
-     postFakeLogin,
-     postJwtForgetPwd,
-     postJwtProfile,
-     getProductComents,
-     onLikeComment,
-     onLikeReply,
-     onAddReply,
-     onAddComment,
+  getLoggedInUser,
+  isUserAuthenticated,
+  postFakeRegister,
+  postLogin,
+  postFakeProfile,
+  postFakeForgetPwd,
+  postJwtRegister,
+  postJwtLogin,
+  postFakeLogin,
+  postJwtForgetPwd,
+  postJwtProfile,
+  getProductComents,
+  onLikeComment,
+  onLikeReply,
+  onAddReply,
+  onAddComment,
 }
-
 
 // newwwwwwwwwwwwwwwwwwwwwwww
 
@@ -412,7 +408,7 @@ export const updateUserAjyal = (id, user) => {
       Accept: "application/json",
       "Content-Type": "application/json",
       "X-HTTP-Method-Override": "put",
-    }
+    },
   }
   return post(`${url.UPDATE_USER_AJYAL}/${id}`, user, config)
 }
@@ -426,21 +422,22 @@ export const updateMentorAjyal = (id, mentor) => {
       Accept: "application/json",
       "Content-Type": "application/json",
       "X-HTTP-Method-Override": "put",
-    }
+    },
   }
   return post(`${url.UPDATE_MENTOR_AJYAL}/${id}`, mentor, config)
 }
 // GET_PLATFORMS
 export const getPlatformsAjyal = () => get(url.GET_PLATFORMS_AJYAL)
 export const addPlatformAjyal = mentor => post(url.ADD_PLATFORM_AJYAL, mentor)
-export const deletePlatformAjyal = id => del(`${url.DELETE_PLATFORM_AJYAL}/${id}`)
+export const deletePlatformAjyal = id =>
+  del(`${url.DELETE_PLATFORM_AJYAL}/${id}`)
 export const updatePlatformAjyal = (id, mentor) => {
   var config = {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
       "X-HTTP-Method-Override": "put",
-    }
+    },
   }
   return post(`${url.UPDATE_PLATFORM_AJYAL}/${id}`, mentor, config)
 }
@@ -454,7 +451,7 @@ export const updatePartnerAjyal = (id, Platform) => {
       Accept: "application/json",
       "Content-Type": "application/json",
       "X-HTTP-Method-Override": "put",
-    }
+    },
   }
   return post(`${url.UPDATE_PARTNER_AJYAL}/${id}`, Platform, config)
 }
@@ -468,21 +465,23 @@ export const updateAdsAjyal = (id, ads) => {
       Accept: "application/json",
       "Content-Type": "application/json",
       "X-HTTP-Method-Override": "put",
-    }
+    },
   }
   return post(`${url.UPDATE_ADVERTISING_AJYAL}/${id}`, ads, config)
 }
 // GET_ACTIVITES
 export const getActivitiesAjyal = () => get(url.GET_ACTIVITES_AJYAL)
-export const addActivityAjyal = activity => post(url.ADD_ACTIVITE_AJYAL, activity)
-export const deleteActivityAjyal = id => del(`${url.DELETE_ACTIVITE_AJYAL}/${id}`)
+export const addActivityAjyal = activity =>
+  post(url.ADD_ACTIVITE_AJYAL, activity)
+export const deleteActivityAjyal = id =>
+  del(`${url.DELETE_ACTIVITE_AJYAL}/${id}`)
 export const updateActivityAjyal = (id, activity) => {
   var config = {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
       "X-HTTP-Method-Override": "put",
-    }
+    },
   }
   return post(`${url.UPDATE_ACTIVITE_AJYAL}/${id}`, activity, config)
 }
@@ -496,21 +495,23 @@ export const updateGroupAjyal = (id, group) => {
       Accept: "application/json",
       "Content-Type": "application/json",
       "X-HTTP-Method-Override": "put",
-    }
+    },
   }
   return post(`${url.UPDATE_GROUP_AJYAL}/${id}`, group, config)
 }
 // CATEGORY
 export const getCategoryAjyal = () => get(url.GET_CATEGORY_AJYAL)
-export const addCategoryAjyal = category => post(url.ADD_CATEGORY_AJYAL, category)
-export const deleteCategoryAjyal = id => del(`${url.DELETE_CATEGORY_AJYAL}/${id}`)
+export const addCategoryAjyal = category =>
+  post(url.ADD_CATEGORY_AJYAL, category)
+export const deleteCategoryAjyal = id =>
+  del(`${url.DELETE_CATEGORY_AJYAL}/${id}`)
 export const updateCategoryAjyal = (id, category) => {
   var config = {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
       "X-HTTP-Method-Override": "put",
-    }
+    },
   }
   return post(`${url.UPDATE_CATEGORY_AJYAL}/${id}`, category, config)
 }
@@ -524,7 +525,7 @@ export const updateStudentAjyal = (id, student) => {
       Accept: "application/json",
       "Content-Type": "application/json",
       "X-HTTP-Method-Override": "put",
-    }
+    },
   }
   return post(`${url.UPDATE_STUDENT_AJYAL}/${id}`, student, config)
 }
@@ -538,7 +539,7 @@ export const updateRateAjyal = (id, rate) => {
       Accept: "application/json",
       "Content-Type": "application/json",
       "X-HTTP-Method-Override": "put",
-    }
+    },
   }
   return post(`${url.UPDATE_RATE_AJYAL}/${id}`, rate, config)
 }
@@ -552,21 +553,22 @@ export const updateCourseAjyal = (id, course) => {
       Accept: "application/json",
       "Content-Type": "application/json",
       "X-HTTP-Method-Override": "put",
-    }
+    },
   }
   return post(`${url.UPDATE_COURSE_AJYAL}/${id}`, course, config)
 }
 // GET_QUESTIONS
 export const getQuestionsAjyal = () => get(url.GET_QUESTIONS_AJYAL)
 export const addQuestionAjyal = course => post(url.ADD_QUESTION_AJYAL, course)
-export const deleteQuestionAjyal = id => del(`${url.DELETE_QUESTION_AJYAL}/${id}`)
+export const deleteQuestionAjyal = id =>
+  del(`${url.DELETE_QUESTION_AJYAL}/${id}`)
 export const updateQuestionAjyal = (id, course) => {
   var config = {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
       "X-HTTP-Method-Override": "put",
-    }
+    },
   }
   return post(`${url.UPDATE_QUESTION_AJYAL}/${id}`, course, config)
 }
@@ -580,44 +582,56 @@ export const updateProjectAjyal = (id, project) => {
       Accept: "application/json",
       "Content-Type": "application/json",
       "X-HTTP-Method-Override": "put",
-    }
+    },
   }
   return post(`${url.UPDATE_PROJECT_AJYAL}/${id}`, project, config)
 }
 // ACTIVITY_TYPE
 export const getActivityTypesAjyal = () => get(url.GET_ACTIVITY_TYPES_AJYAL)
-export const addActivityTypeAjyal = course => post(url.ADD_ACTIVITY_TYPE_AJYAL, course)
-export const deleteActivityTypeAjyal = id => del(`${url.DELETE_ACTIVITY_TYPE_AJYAL}/${id}`)
+export const addActivityTypeAjyal = course =>
+  post(url.ADD_ACTIVITY_TYPE_AJYAL, course)
+export const deleteActivityTypeAjyal = id =>
+  del(`${url.DELETE_ACTIVITY_TYPE_AJYAL}/${id}`)
 export const updateActivityTypeAjyal = (id, course) => {
   var config = {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
       "X-HTTP-Method-Override": "put",
-    }
+    },
   }
   return post(`${url.UPDATE_ACTIVITY_TYPE_AJYAL}/${id}`, course, config)
 }
 // FREELANCER
 export const getFreelanceAjyal = () => get(url.GET_FREELANCER_AJYAL)
-export const addFreelanceAjyal = freelance => post(url.ADD_FREELANCER_AJYAL, freelance)
-export const deleteFreelanceAjyal = id => del(`${url.DELETE_FREELANCER_AJYAL}/${id}`)
+export const addFreelanceAjyal = freelance =>
+  post(url.ADD_FREELANCER_AJYAL, freelance)
+export const deleteFreelanceAjyal = id =>
+  del(`${url.DELETE_FREELANCER_AJYAL}/${id}`)
 export const updateFreelanceAjyal = (id, freelance) => {
   var config = {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
       "X-HTTP-Method-Override": "put",
-    }
+    },
   }
   return post(`${url.UPDATE_FREELANCER_AJYAL}/${id}`, freelance, config)
 }
 
 // GET_CONTACTS
 export const getContactsAjyal = () => get(url.GET_CONTACTS_AJYAL)
-export const deleteContactAjyal = id => del(`${url.DELETE_CONTACTS_AJYAL}/${id}`)
-
+export const deleteContactAjyal = id =>
+  del(`${url.DELETE_CONTACTS_AJYAL}/${id}`)
 
 // GET_CONTACTS
 export const getAboutusAjyal = () => get(url.GET_ABOUTUS_AJYAL)
-export const addAboutusAjyal = aboutus => post(url.ADD_ABOUTUS_AJYAL, aboutus)
+export const addAboutusAjyal = aboutus => {
+  var config = {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "multipart/form-data",
+    },
+  }
+  return post(url.ADD_ABOUTUS_AJYAL, aboutus, config)
+}

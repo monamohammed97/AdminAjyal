@@ -31,9 +31,9 @@ import TableContainer from "components/Common/TableContainer"
 import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
 import { validationSchema } from "./validationSchema"
-import { getQuestions } from "store/fetchData/actions"
 import { addCourse } from "store/admin/course/actions"
 import {
+  getQuestions,
   addQuestion,
   deleteQuestion,
   updateQuestion,
@@ -105,7 +105,7 @@ const Questions = props => {
     },
   })
 
-  const { questions } = useSelector(store => store?.data)
+  const { questions } = useSelector(store => store?.questions)
 
   const [userList, setUserList] = useState([])
   const [modal, setModal] = useState(false)

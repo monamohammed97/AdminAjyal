@@ -1,4 +1,7 @@
 import {
+  GET_CONTACTS,
+  GET_CONTACTS_FAIL,
+  GET_CONTACTS_SUCCESS,
   DELETE_CONTACT,
   DELETE_CONTACT_SUCCESS,
   DELETE_CONTACT_FAIL,
@@ -12,6 +15,23 @@ const INIT_STATE = {
 
 const contact = (state = INIT_STATE, action) => {
   switch (action.type) {
+    // GET_CONTACTS
+    case GET_CONTACTS:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case GET_CONTACTS_SUCCESS:
+      return {
+        ...state,
+        contacts: action.payload,
+        isLoading: false,
+      }
+    case GET_CONTACTS_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      }
     // delete contact
     case DELETE_CONTACT:
       return {
@@ -22,10 +42,10 @@ const contact = (state = INIT_STATE, action) => {
       return {
         ...state,
         contacts: state.contacts.filter(
-          contact => contact.id.toString() !== action.payload.id.toString()
+          contact => contact.id.toString() !== action.payload.toString()
         ),
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case DELETE_CONTACT_FAIL:
       return {
@@ -33,7 +53,6 @@ const contact = (state = INIT_STATE, action) => {
         error: action.payload,
         isLoading: false,
       }
-
 
     default:
       return state
