@@ -23,8 +23,8 @@ import StackedColumnChart from "./StackedColumnChart"
 //import action
 import { getChartsData as onGetChartsData } from "../../store/actions"
 
-import modalimage1 from "../../assets/images/product/img-7.png"
-import modalimage2 from "../../assets/images/product/img-4.png"
+// import modalimage1 from "../../assets/images/product/img-7.png"
+// import modalimage2 from "../../assets/images/product/img-4.png"
 
 // Pages Components
 import LatestTranaction from "./LatestTranaction"
@@ -246,7 +246,7 @@ const Dashboard = props => {
                     </div>
                   </div>
                   {/* <div className="clearfix"></div> */}
-                  <StackedColumnChart periodData={periodData} />
+                  {/* <StackedColumnChart periodData={periodData} /> */}
                 </CardBody>
               </Card>
             </Col>
@@ -260,7 +260,6 @@ const Dashboard = props => {
         </Container>
       </div>
 
-      
       <Modal
         isOpen={modal}
         role="dialog"
@@ -301,7 +300,7 @@ const Dashboard = props => {
                   <tr>
                     <th scope="row">
                       <div>
-                        <img src={modalimage1} alt="" className="avatar-sm" />
+                        {/* <img src={modalimage1} alt="" className="avatar-sm" /> */}
                       </div>
                     </th>
                     <td>
@@ -317,7 +316,7 @@ const Dashboard = props => {
                   <tr>
                     <th scope="row">
                       <div>
-                        <img src={modalimage2} alt="" className="avatar-sm" />
+                        {/* <img src={modalimage2} alt="" className="avatar-sm" /> */}
                       </div>
                     </th>
                     <td>

@@ -6,20 +6,12 @@ export * from "./auth/login/actions"
 export * from "./auth/forgetpwd/actions"
 export * from "./auth/profile/actions"
 
-//Ecommerce
-export * from "./e-commerce/actions"
-
-
 // contacts
 export * from "./contacts/actions"
-
-
 //dashboard
 export * from "./dashboard/actions";
 
-
-//newwwwwwwwwwwwwwwwww
-
+//new
 export * from "./fetchData/actions"
 export * from "./admin/user/actions"
 export * from "./admin/mentor/actions"

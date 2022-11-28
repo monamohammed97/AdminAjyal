@@ -17,13 +17,30 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects"
 
 // Login Redux States
-import { apiError, loginMentorSuccess, loginStudentSuccess, loginSuccess, logoutUserSuccess } from "./actions"
-import { LOGIN_MENTOR, LOGIN_STD, LOGIN_USER, LOGOUT_USER, SOCIAL_LOGIN } from "./actionTypes"
+import {
+  apiError,
+  loginMentorSuccess,
+  loginStudentSuccess,
+  loginSuccess,
+  logoutUserSuccess,
+} from "./actions"
+import {
+  LOGIN_MENTOR,
+  LOGIN_STD,
+  LOGIN_USER,
+  LOGOUT_USER,
+  SOCIAL_LOGIN,
+} from "./actionTypes"
 
 //Include Both Helper File with needed methods
-import { postLogin, postSocialLogin, adminLogin, mentorLogin, studentLogin } from "helpers/fakebackend_helper"
+import {
+  postLogin,
+  postSocialLogin,
+  adminLogin,
+  mentorLogin,
+  studentLogin,
+} from "helpers/fakebackend_helper"
 import { getFirebaseBackend } from "../../../helpers/firebase_helper"
-
 
 // function* loginUser({ payload: { user, history } }) {
 //   try {
@@ -64,10 +81,10 @@ function* loginUser({ payload }) {
       password: user.password,
     })
     localStorage.setItem("authUserLogin", response?.data?.token)
-    sessionStorage.setItem("Role", response?.data?.type)
+    localStorage.setItem("Role", response?.data?.type)
     yield put(loginSuccess(response))
-     cb?.()
-    history.push("/dashboard")
+    cb?.()
+    history.push("/")
   } catch (error) {
     cb2?.()
     yield put(apiError(error))
@@ -82,10 +99,10 @@ function* loginMentor({ payload }) {
       password: mentor.password,
     })
     localStorage.setItem("authUserLogin", response?.data?.token)
-    sessionStorage.setItem("Role", response?.data?.type)
+    localStorage.setItem("Role", response?.data?.type)
     yield put(loginMentorSuccess(response))
-     cb?.()
-    history.push("/dashboard")
+    cb?.()
+    history.push("/")
   } catch (error) {
     cb2?.()
     yield put(apiError(error))
@@ -100,20 +117,15 @@ function* loginStudent({ payload }) {
       password: student.password,
     })
     localStorage.setItem("authUserLogin", response?.data?.token)
-    sessionStorage.setItem("Role", response?.data?.type)
+    localStorage.setItem("Role", response?.data?.type)
     yield put(loginStudentSuccess(response))
-     cb?.()
-    history.push("/dashboard")
+    cb?.()
+    history.push("/")
   } catch (error) {
     cb2?.()
     yield put(apiError(error))
   }
 }
-
-
-
-
-
 
 function* logoutUser({ payload: { history } }) {
   try {

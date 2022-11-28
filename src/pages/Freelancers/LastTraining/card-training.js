@@ -10,7 +10,7 @@ import {
   UncontrolledTooltip,
 } from "reactstrap";
 import images from "assets/images";
-import companies from "assets/images/companies";
+// import companies from "assets/images/companies";
 
 const CardTrainging = ({ projects }) => {
   return (
@@ -22,7 +22,7 @@ const CardTrainging = ({ projects }) => {
             <div className="d-flex">
               <div className="avatar-md me-4">
                 <span className="avatar-title rounded-circle bg-light text-danger font-size-16">
-                  <img src={companies[project.img]} alt="" height="30" />
+                  {/* <img src={companies[project.img]} alt="" height="30" /> */}
                 </span>
               </div>
 

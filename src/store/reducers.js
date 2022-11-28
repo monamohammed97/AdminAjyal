@@ -9,14 +9,6 @@ import Account from "./auth/register/reducer"
 import ForgetPassword from "./auth/forgetpwd/reducer"
 import Profile from "./auth/profile/reducer"
 
-//E-commerce
-import ecommerce from "./e-commerce/reducer"
-
-//tasks
-
-//doctors
-import doctors from "./doctors/reducer"
-
 //Dashboard
 import Dashboard from "./dashboard/reducer"
 
@@ -47,9 +39,7 @@ const rootReducer = combineReducers({
   Account,
   ForgetPassword,
   Profile,
-  ecommerce,
   Dashboard,
-  doctors,
 
   data,
   users,

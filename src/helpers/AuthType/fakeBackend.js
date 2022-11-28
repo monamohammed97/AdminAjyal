@@ -26,7 +26,6 @@ import {
   recentProducts,
   shops,
   tasks,
-  userProfile,
   users as members,
   wallet,
   yearData,

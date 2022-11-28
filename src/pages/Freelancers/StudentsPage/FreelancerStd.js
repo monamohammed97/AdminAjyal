@@ -42,10 +42,13 @@ import TableContainer from "components/Common/TableContainer"
 import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
 import { validationSchema } from "./validationSchema"
-import { getFreelancer, getGroups, getPlatforms, getStudents } from "store/fetchData/actions"
 import {
-  deleteFreelance,
-} from "store/freelance/actions"
+  getFreelancer,
+  getGroups,
+  getPlatforms,
+  getStudents,
+} from "store/fetchData/actions"
+import { deleteFreelance } from "store/freelance/actions"
 import { notify } from "components/Common/notify"
 import img from "assets/images/img.png"
 
@@ -154,9 +157,8 @@ const FreelancerStd = props => {
   //   },
   // })
 
-  const { freelancer } = useSelector(store => store?.data)
+  const { freelance } = useSelector(store => store?.freelance)
 
-  console.log(freelancer);
   const [userList, setUserList] = useState([])
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
@@ -302,9 +304,9 @@ const FreelancerStd = props => {
   // }, [dispatch, freelancer])
 
   useEffect(() => {
-    setContact(freelancer)
+    setContact(freelance)
     setIsEdit(false)
-  }, [freelancer])
+  }, [freelance])
 
   // useEffect(() => {
   //   if (!isEmpty(freelancer) && !!isEdit) {
@@ -403,13 +405,13 @@ const FreelancerStd = props => {
                 <CardBody>
                   <TableContainer
                     columns={columns}
-                    data={freelancer}
+                    data={freelance}
                     isGlobalFilter={true}
                     isAddFreelance={true}
                     handleUserClick={handleUserClicks}
                     customPageSize={10}
                     className="custom-header-css"
-                  />                  
+                  />
                 </CardBody>
               </Card>
             </Col>

@@ -1,16 +1,10 @@
-import React, { useEffect, useState, useMemo } from "react";
-import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
-import { isEmpty } from "lodash";
+import React, { useEffect, useState, useMemo } from "react"
+import PropTypes from "prop-types"
+import { withRouter } from "react-router-dom"
+import { isEmpty } from "lodash"
 
-import {
-  Button,
-  Card,
-  CardBody,
-} from "reactstrap";
-import { getOrders as onGetOrders } from "store/actions";
-
-// import EcommerceOrdersModal from "../Ecommerce/EcommerceOrders/EcommerceOrdersModal";
+import { Button, Card, CardBody } from "reactstrap"
+// import { getOrders as onGetOrders } from "store/actions"
 
 import {
   OrderId,
@@ -19,29 +13,27 @@ import {
   Total,
   PaymentStatus,
   PaymentMethod,
-} from "./LatestTranactionCol";
+} from "./LatestTranactionCol"
 
-import TableContainer from "../../components/Common/TableContainer";
+import TableContainer from "../../components/Common/TableContainer"
 
 //redux
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux"
 
 const LatestTranaction = props => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const { orders } = useSelector(state => ({
-    orders: state.ecommerce.orders,
-  }));
+  const orders = null
 
   useEffect(() => {
-    dispatch(onGetOrders());
-  }, [dispatch]);
+    // dispatch(onGetOrders())
+  }, [dispatch])
 
-  const [modal1, setModal1] = useState(false);
-  const [orderList, setOrderList] = useState([]);
-  const [isEdit, setIsEdit] = useState(false);
+  const [modal1, setModal1] = useState(false)
+  const [orderList, setOrderList] = useState([])
+  const [isEdit, setIsEdit] = useState(false)
 
-  const toggleViewModal = () => setModal1(!modal1);
+  const toggleViewModal = () => setModal1(!modal1)
 
   const columns = useMemo(
     () => [
@@ -50,7 +42,7 @@ const LatestTranaction = props => {
         filterable: true,
         disableFilters: true,
         Cell: cellProps => {
-          return <input type="checkbox" />;
+          return <input type="checkbox" />
         },
       },
       {
@@ -59,7 +51,7 @@ const LatestTranaction = props => {
         filterable: true,
         disableFilters: true,
         Cell: cellProps => {
-          return <OrderId {...cellProps} />;
+          return <OrderId {...cellProps} />
         },
       },
       {
@@ -68,7 +60,7 @@ const LatestTranaction = props => {
         disableFilters: true,
         filterable: true,
         Cell: cellProps => {
-          return <BillingName {...cellProps} />;
+          return <BillingName {...cellProps} />
         },
       },
       {
@@ -77,7 +69,7 @@ const LatestTranaction = props => {
         disableFilters: true,
         filterable: true,
         Cell: cellProps => {
-          return <Date {...cellProps} />;
+          return <Date {...cellProps} />
         },
       },
       {
@@ -86,7 +78,7 @@ const LatestTranaction = props => {
         disableFilters: true,
         filterable: true,
         Cell: cellProps => {
-          return <Total {...cellProps} />;
+          return <Total {...cellProps} />
         },
       },
       {
@@ -95,7 +87,7 @@ const LatestTranaction = props => {
         disableFilters: true,
         filterable: true,
         Cell: cellProps => {
-          return <PaymentStatus {...cellProps} />;
+          return <PaymentStatus {...cellProps} />
         },
       },
       {
@@ -103,7 +95,7 @@ const LatestTranaction = props => {
         accessor: "paymentMethod",
         disableFilters: true,
         Cell: cellProps => {
-          return <PaymentMethod {...cellProps} />;
+          return <PaymentMethod {...cellProps} />
         },
       },
       {
@@ -120,35 +112,35 @@ const LatestTranaction = props => {
             >
               View Details
             </Button>
-          );
+          )
         },
       },
     ],
     []
-  );
+  )
 
   useEffect(() => {
     if (orders && !orders.length) {
-      onGetOrders();
+      // onGetOrders()
     }
-  }, [onGetOrders, orders]);
+  }, [orders])
 
   useEffect(() => {
-    setOrderList(orders);
-  }, [orders]);
+    // setOrderList(orders)
+  }, [orders])
 
   useEffect(() => {
     if (!isEmpty(orders) && !!isEdit) {
-      setOrderList(orders);
-      setIsEdit(false);
+      // setOrderList(orders)
+      // setIsEdit(false)
     }
-  }, [orders]);
+  }, [orders])
 
   return (
     <React.Fragment>
       {/* <EcommerceOrdersModal isOpen={modal1} toggle={toggleViewModal} /> */}
       <Card>
-        <CardBody>
+        {/* <CardBody>
           <div className="mb-4 h4 card-title">Latest Transaction</div>
           <TableContainer
             columns={columns}
@@ -157,15 +149,15 @@ const LatestTranaction = props => {
             isAddOptions={false}
             customPageSize={6}
           />
-        </CardBody>
+        </CardBody> */}
       </Card>
     </React.Fragment>
-  );
-};
+  )
+}
 
 LatestTranaction.propTypes = {
   orders: PropTypes.array,
   onGetOrders: PropTypes.func,
-};
+}
 
-export default withRouter(LatestTranaction);
+export default withRouter(LatestTranaction)
