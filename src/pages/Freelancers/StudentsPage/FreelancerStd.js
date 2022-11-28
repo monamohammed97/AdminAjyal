@@ -24,11 +24,7 @@ import {
   Group,
   Title,
   Salary,
-  Description,
   Status,
-  JobLink,
-  Note,
-  FeedbackF,
 } from "./contactlistCol"
 
 //Import Breadcrumb
@@ -39,8 +35,11 @@ import { isEmpty } from "lodash"
 import { useDispatch, useSelector } from "react-redux"
 import DeleteModal from "components/Common/DeleteModal"
 import TableContainer from "components/Common/TableContainer"
-import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
+
+import {
+  deleteFreelance,
+} from "store/freelance/actions"
 import { validationSchema } from "./validationSchema"
 import {
   getFreelancer,
@@ -54,8 +53,6 @@ import img from "assets/images/img.png"
 
 const FreelancerStd = props => {
   //meta title
-  const [filename, setFilename] = useState("")
-
   document.title = "Freelancer Students"
 
   const dispatch = useDispatch()
@@ -159,7 +156,6 @@ const FreelancerStd = props => {
 
   const { freelance } = useSelector(store => store?.freelance)
 
-  const [userList, setUserList] = useState([])
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
 

@@ -3,7 +3,7 @@ import axios from "axios";
 //pass new generated access token here
 
 //apply base url for axios
-const API_URL = "http://portal.aajyal.org/api";
+const API_URL = "https://portal.aajyal.org/api";
 
 const axiosApi = axios.create({
   baseURL: API_URL,
@@ -16,7 +16,6 @@ axiosApi.interceptors.request.use((config) => {
       return config
   }
   config.headers.Authorization = `Bearer ${token}`
-
   return config;
 });
 
