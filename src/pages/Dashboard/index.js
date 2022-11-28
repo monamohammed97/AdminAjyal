@@ -246,7 +246,7 @@ const Dashboard = props => {
                     </div>
                   </div>
                   {/* <div className="clearfix"></div> */}
-                  <StackedColumnChart periodData={periodData} />
+                  {/* <StackedColumnChart periodData={periodData} /> */}
                 </CardBody>
               </Card>
             </Col>
@@ -260,7 +260,6 @@ const Dashboard = props => {
         </Container>
       </div>
 
-      
       <Modal
         isOpen={modal}
         role="dialog"

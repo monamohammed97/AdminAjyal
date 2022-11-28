@@ -31,7 +31,7 @@ const login = (state = initialState, action) => {
         isAuth: !!action.payload.token,
       }
       break
-    
+
     case LOGIN_MENTOR:
       state = {
         ...state,
@@ -59,11 +59,6 @@ const login = (state = initialState, action) => {
         isAuth: !!action.payload.token,
       }
       break
-
-
-
-
-
 
     case LOGOUT_USER:
       state = { ...state }
