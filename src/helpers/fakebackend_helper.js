@@ -590,7 +590,7 @@ export const getActivityTypesAjyal = () => get(url.GET_ACTIVITY_TYPES_AJYAL)
 export const addActivityTypeAjyal = activityType => post(url.ADD_ACTIVITY_TYPE_AJYAL, activityType)
 export const deleteActivityTypeAjyal = id => del(`${url.DELETE_ACTIVITY_TYPE_AJYAL}/${id}`)
 
-export const updateActivityTypeAjyal = (id, course) => {
+export const updateActivityTypeAjyal = (id, activityType) => {
   var config = {
     headers: {
       Accept: "application/json",

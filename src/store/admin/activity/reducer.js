@@ -1,4 +1,7 @@
 import {
+  GET_ACTIVITES,
+  GET_ACTIVITES_FAIL,
+  GET_ACTIVITES_SUCCESS,
   ADD_ACTIVITY,
   ADD_ACTIVITY_SUCCESS,
   ADD_ACTIVITY_FAIL,
@@ -18,6 +21,22 @@ const INIT_STATE = {
 
 const activities = (state = INIT_STATE, action) => {
   switch (action.type) {
+    // GET_ACTIVITES
+    case GET_ACTIVITES:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case GET_ACTIVITES_SUCCESS:
+      return {
+        ...state,
+        activities: action.payload,
+      }
+    case GET_ACTIVITES_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      }
     // add activity
     case ADD_ACTIVITY:
       return {
@@ -27,7 +46,7 @@ const activities = (state = INIT_STATE, action) => {
     case ADD_ACTIVITY_SUCCESS:
       return {
         ...state,
-        activities: action.payload,
+        activities: [...state.activities, action.payload],
         isLoading: false,
         isSuccess: true
       }
@@ -46,11 +65,12 @@ const activities = (state = INIT_STATE, action) => {
         isLoading: true,
       }
     case UPDATE_ACTIVITY_SUCCESS:
+      connsole.log("action.payload", action?.payload)
       return {
         ...state,
         activities: state.activities.map(activity =>
           activity.id.toString() === action.payload.id.toString()
-            ? { activity, ...action.payload }
+            ? { activity, ...action.payload?.activity }
             : activity
         ),
         isLoading: false,
@@ -74,7 +94,7 @@ const activities = (state = INIT_STATE, action) => {
       return {
         ...state,
         activities: state.activities.filter(
-          activity => activity.id.toString() !== action.payload.id.toString()
+          activity => activity.id.toString() !== action.payload.toString()
         ),
         isLoading: false,
         isSuccess: true

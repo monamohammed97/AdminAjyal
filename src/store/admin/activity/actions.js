@@ -1,4 +1,7 @@
 import {
+  GET_ACTIVITES,
+  GET_ACTIVITES_FAIL,
+  GET_ACTIVITES_SUCCESS,
   ADD_ACTIVITY,
   ADD_ACTIVITY_FAIL,
   ADD_ACTIVITY_SUCCESS,
@@ -9,6 +12,21 @@ import {
   UPDATE_ACTIVITY_FAIL,
   UPDATE_ACTIVITY_SUCCESS,
 } from "./actionTypes"
+
+// GET_ACTIVITES 
+export const getActivities = () => ({
+  type: GET_ACTIVITES,
+})
+
+export const getActivitiesSuccess = activity => ({
+  type: GET_ACTIVITES_SUCCESS,
+  payload: activity,
+})
+
+export const getActivitiesFail = error => ({
+  type: GET_ACTIVITES_FAIL,
+  payload: error,
+})
 
 // actions activitys
 export const addActivity = (activity, cbDone, cbFail) => ({

@@ -4,15 +4,12 @@ import { call, put, takeEvery } from "redux-saga/effects"
 import {
   GET_MENTORS,
   GET_USERS,
-  GET_ACTIVITES,
   GET_PROJECTS,
   GET_STUDENTS,
   GET_RATES,
   GET_FREELANCER,
 } from "./actionTypes"
 import {
-  getActivitiesFail,
-  getActivitiesSuccess,
   getMentorsFail,
   getMentorsSuccess,
   getProjectsFail,
@@ -31,7 +28,6 @@ import {
 import {
   getMentorsAjyal,
   getUsersAjyal,
-  getActivitiesAjyal,
   getStudentsAjyal,
   getRatesAjyal,
   getProjectsAjyal,
@@ -57,16 +53,6 @@ function* fetchMentors() {
 }
 
 
-
-// GET_ACTIVITES
-function* fetchActivities() {
-  try {
-    const response = yield call(getActivitiesAjyal)
-    yield put(getActivitiesSuccess(response?.data))
-  } catch (error) {
-    yield put(getActivitiesFail(error))
-  }
-}
 
 // GET_STUDENTS
 function* fetchStudents() {
@@ -112,7 +98,6 @@ function* fetchFreelancer() {
 function* fetchDataSaga() {
   yield takeEvery(GET_USERS, fetchUsers)
   yield takeEvery(GET_MENTORS, fetchMentors)
-  yield takeEvery(GET_ACTIVITES, fetchActivities)
   yield takeEvery(GET_STUDENTS, fetchStudents)
   yield takeEvery(GET_RATES, fetchRates)
   yield takeEvery(GET_PROJECTS, fetchProjects)

@@ -5,9 +5,6 @@ import {
   GET_MENTORS,
   GET_MENTORS_FAIL,
   GET_MENTORS_SUCCESS,
-  GET_ACTIVITES,
-  GET_ACTIVITES_FAIL,
-  GET_ACTIVITES_SUCCESS,
   GET_PROJECTS,
   GET_PROJECTS_FAIL,
   GET_PROJECTS_SUCCESS,
@@ -78,22 +75,6 @@ const data = (state = INIT_STATE, action) => {
         error: action.payload,
       }
 
-    // GET_ACTIVITES
-    case GET_ACTIVITES:
-      return {
-        ...state,
-        isLoading: true,
-      }
-    case GET_ACTIVITES_SUCCESS:
-      return {
-        ...state,
-        activities: action.payload,
-      }
-    case GET_ACTIVITES_FAIL:
-      return {
-        ...state,
-        error: action.payload,
-      }
     // GET_PROJECTS
     case GET_PROJECTS:
       return {

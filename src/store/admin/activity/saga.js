@@ -1,8 +1,10 @@
 import { call, put, takeEvery } from "redux-saga/effects"
 
 // Ecommerce Redux States
-import { ADD_ACTIVITY, UPDATE_ACTIVITY, DELETE_ACTIVITY } from "./actionTypes"
+import { GET_ACTIVITES, ADD_ACTIVITY, UPDATE_ACTIVITY, DELETE_ACTIVITY } from "./actionTypes"
 import {
+  getActivitiesFail,
+  getActivitiesSuccess,
   addActivitySuccess,
   addActivityFail,
   updateActivitySuccess,
@@ -11,10 +13,22 @@ import {
   deleteActivityFail,
 } from "./actions"
 import {
+  getActivitiesAjyal,
   addActivityAjyal,
   deleteActivityAjyal,
   updateActivityAjyal,
 } from "helpers/fakebackend_helper"
+
+
+// GET_ACTIVITES
+function* fetchActivities() {
+  try {
+    const response = yield call(getActivitiesAjyal)
+    yield put(getActivitiesSuccess(response?.data))
+  } catch (error) {
+    yield put(getActivitiesFail(error))
+  }
+}
 
 function* onAddActivity({ payload }) {
   const { activity, cbDone, cbFail } = payload
@@ -32,7 +46,7 @@ function* onUpdateActivity({ payload }) {
   const { activity, id, cbDone, cbFail } = payload
   try {
     const response = yield call(updateActivityAjyal, id, activity)
-    yield put(updateActivitySuccess, response?.message)
+    yield put(updateActivitySuccess(response?.data, id))
     cbDone?.()
   } catch (error) {
     cbFail?.()
@@ -42,9 +56,8 @@ function* onUpdateActivity({ payload }) {
 function* onDeleteActivity({ payload }) {
   const { activity, cbDone, cbFail } = payload
   try {
-    const response = yield call(deleteActivityAjyal, activity?.id)
-    console.log(response)
-    yield put(deleteActivitySuccess(response))
+    yield call(deleteActivityAjyal, activity?.id)
+    yield put(deleteActivitySuccess(activity?.id))
     cbDone?.()
   } catch (error) {
     cbFail?.()
@@ -53,6 +66,7 @@ function* onDeleteActivity({ payload }) {
 }
 
 function* activitysSaga() {
+  yield takeEvery(GET_ACTIVITES, fetchActivities)
   yield takeEvery(ADD_ACTIVITY, onAddActivity)
   yield takeEvery(UPDATE_ACTIVITY, onUpdateActivity)
   yield takeEvery(DELETE_ACTIVITY, onDeleteActivity)
