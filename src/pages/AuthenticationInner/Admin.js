@@ -19,7 +19,6 @@ import * as Yup from "yup"
 import { notify } from "components/Common/notify"
 import { useDispatch } from "react-redux"
 import { loginUser } from "store/actions"
-import logodark from "../../assets/images/logo-dark.png"
 import logolight from "../../assets/images/ajyal/logo.PNG"
 import CarouselPage from "./CarouselPage"
 

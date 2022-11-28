@@ -27,38 +27,7 @@ import Admin from "../pages/AuthenticationInner/Admin"
 import Mentor from "pages/AuthenticationInner/Mentor"
 import Student from "pages/AuthenticationInner/Student"
 
-// const authProtectedRoutes = [
-//   { path: "/users", component: Users },
-//   { path: "/mentors", component: Mentors },
-//   { path: "/platforms", component: Platforms },
-//   { path: "/partners", component: Partners },
-//   { path: "/advertisings", component: Advertisings },
-//   { path: "/activites", component: Activites },
-//   { path: "/projects", component: Projects },
-//   { path: "/groups", component: Groups },
-//   { path: "/category", component: Category },
-//   { path: "/students", component: Students },
-//   { path: "/rates", component: Rates },
-//   { path: "/courses", component: Courses },
-//   { path: "/questions", component: Questions },
-//   { path: "/activityType", component: ActivityType },
-//   { path: "/training", component: Training },
-//   { path: "/freelancer", component: FreelancerStd },
-//   { path: "/addjob", component: AddJob },
-//   { path: "/edit/:id", component: EditJob },
-//   { path: "/contacts", component: Contacts },
-//   { path: "/aboutus", component: AboutUs },
-// ]
 const authProtectedRoutes = [
-  // Doctors
-
-  // Doctors
-
-  { path: "/", component: Dashboard },
-  { path: "/dashboard", component: Dashboard },
-
-  // // Contacts
-
   { path: "/users", component: Users },
   { path: "/mentors", component: Mentors },
   { path: "/platforms", component: Platforms },
@@ -79,11 +48,6 @@ const authProtectedRoutes = [
   { path: "/edit/:id", component: EditJob },
   { path: "/contacts", component: Contacts },
   { path: "/aboutus", component: AboutUs },
-
-  // this route should be at the end of all other routes
-  // eslint-disable-next-line react/display-name
-
-  { path: "/", exact: true, component: <Redirect to="/dashboard" /> },
 ]
 
 const publicRoutes = [
@@ -111,8 +75,7 @@ const authStudentRoutes = [
 ]
 
 const authAdminRoutes = [
-  { path: "/", component: Dashboard },
-  { path: "/dashboard", component: Dashboard },
+  { path: "/", component: Users },
   { path: "/users", component: Users },
   { path: "/mentors", component: Mentors },
   { path: "/platforms", component: Platforms },
@@ -131,7 +94,7 @@ const authAdminRoutes = [
   { path: "/contacts", component: Contacts },
   { path: "/aboutus", component: AboutUs },
   // this route should be at the end of all other routes
-  { path: "/", exact: true, component: <Redirect to="/dashboard" /> },
+  // { path: "/", exact: true, component: <Redirect to="/users" /> },
 ]
 
 export {

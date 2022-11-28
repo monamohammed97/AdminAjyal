@@ -56,17 +56,7 @@ const App = props => {
             />
           ))}
 
-          {authProtectedRoutes.map((route, idx) => (
-            <Authmiddleware
-              path={route.path}
-              layout={Layout}
-              component={route.component}
-              key={idx}
-              isAuthProtected={true}
-              exact
-            />
-          ))}
-          {/* {role == "mentor" ? (
+          {role == "mentor" ? (
             <>
               {authMentorRoutes.map((route, idx) => (
                 <Authmiddleware
@@ -92,7 +82,7 @@ const App = props => {
                 />
               ))}
             </>
-          ) : (
+          ) : role == "admin" ? (
             <>
               {authAdminRoutes.map((route, idx) => (
                 <Authmiddleware
@@ -105,7 +95,7 @@ const App = props => {
                 />
               ))}
             </>
-          )} */}
+          ) : null}
         </Switch>
       </Router>
     </React.Fragment>
