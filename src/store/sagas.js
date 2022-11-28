@@ -6,12 +6,11 @@ import AuthSaga from "./auth/login/saga"
 import ForgetSaga from "./auth/forgetpwd/saga"
 import ProfileSaga from "./auth/profile/saga"
 import LayoutSaga from "./layout/saga"
-import doctorsSaga from "./doctors/saga"
-import contactsSaga from "./contacts/saga";
-import dashboardSaga from "./dashboard/saga";
+import contactsSaga from "./contacts/saga"
+import dashboardSaga from "./dashboard/saga"
 
-// newwwwwwwwwwwwwwwwwww
-import fetchDataSaga from "./fetchData/saga";
+// new
+import fetchDataSaga from "./fetchData/saga"
 import usersSaga from "./admin/user/saga"
 import mentorsSaga from "./admin/mentor/saga"
 import platformsSaga from "./admin/platform/saga"
@@ -41,9 +40,6 @@ export default function* rootSaga() {
     fork(LayoutSaga),
     fork(contactsSaga),
     fork(dashboardSaga),
-    fork(doctorsSaga),
-    
-
 
     fork(fetchDataSaga),
     fork(usersSaga),
@@ -63,6 +59,5 @@ export default function* rootSaga() {
     fork(freelancesSaga),
     fork(contactSaga),
     fork(landingPageSaga),
-
   ])
 }

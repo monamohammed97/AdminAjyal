@@ -38,9 +38,16 @@ import TableContainer from "components/Common/TableContainer"
 import Breadcrumbs from "components/Common/Breadcrumb"
 
 import {
-  getFreelancer,
   deleteFreelance,
 } from "store/freelance/actions"
+import { validationSchema } from "./validationSchema"
+import {
+  getFreelancer,
+  getGroups,
+  getPlatforms,
+  getStudents,
+} from "store/fetchData/actions"
+import { deleteFreelance } from "store/freelance/actions"
 import { notify } from "components/Common/notify"
 import img from "assets/images/img.png"
 
@@ -400,7 +407,7 @@ const FreelancerStd = props => {
                     handleUserClick={handleUserClicks}
                     customPageSize={10}
                     className="custom-header-css"
-                  />                  
+                  />
                 </CardBody>
               </Card>
             </Col>
