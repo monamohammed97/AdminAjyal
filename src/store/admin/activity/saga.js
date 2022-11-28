@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from "redux-saga/effects"
+import { actionChannel, call, put, takeEvery } from "redux-saga/effects"
 
 // Ecommerce Redux States
 import { GET_ACTIVITES, ADD_ACTIVITY, UPDATE_ACTIVITY, DELETE_ACTIVITY } from "./actionTypes"

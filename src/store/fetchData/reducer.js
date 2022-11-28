@@ -5,18 +5,13 @@ import {
   GET_MENTORS,
   GET_MENTORS_FAIL,
   GET_MENTORS_SUCCESS,
-  GET_PROJECTS,
-  GET_PROJECTS_FAIL,
-  GET_PROJECTS_SUCCESS,
   GET_STUDENTS,
   GET_STUDENTS_FAIL,
   GET_STUDENTS_SUCCESS,
   GET_RATES,
   GET_RATES_FAIL,
   GET_RATES_SUCCESS,
-  GET_FREELANCER,
-  GET_FREELANCER_FAIL,
-  GET_FREELANCER_SUCCESS,
+  
 } from "./actionTypes"
 
 const INIT_STATE = {
@@ -75,22 +70,6 @@ const data = (state = INIT_STATE, action) => {
         error: action.payload,
       }
 
-    // GET_PROJECTS
-    case GET_PROJECTS:
-      return {
-        ...state,
-        isLoading: true,
-      }
-    case GET_PROJECTS_SUCCESS:
-      return {
-        ...state,
-        projects: action.payload,
-      }
-    case GET_PROJECTS_FAIL:
-      return {
-        ...state,
-        error: action.payload,
-      }
     // GET_STUDENTS
     case GET_STUDENTS:
       return {
@@ -124,23 +103,7 @@ const data = (state = INIT_STATE, action) => {
         error: action.payload,
       }
 
-    // GET_FREELANCER
-    case GET_FREELANCER:
-      return {
-        ...state,
-        isLoading: true,
-      }
-    case GET_FREELANCER_SUCCESS:
-      return {
-        ...state,
-        freelancer: action.payload,
-        isLoading: false,
-      }
-    case GET_FREELANCER_FAIL:
-      return {
-        ...state,
-        error: action.payload,
-      }
+    
     default:
       return state
   }

@@ -65,7 +65,6 @@ const activities = (state = INIT_STATE, action) => {
         isLoading: true,
       }
     case UPDATE_ACTIVITY_SUCCESS:
-      connsole.log("action.payload", action?.payload)
       return {
         ...state,
         activities: state.activities.map(activity =>

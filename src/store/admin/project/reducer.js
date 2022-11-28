@@ -1,4 +1,7 @@
 import {
+  GET_PROJECTS,
+  GET_PROJECTS_FAIL,
+  GET_PROJECTS_SUCCESS,
   ADD_PROJECT,
   ADD_PROJECT_SUCCESS,
   ADD_PROJECT_FAIL,
@@ -18,6 +21,24 @@ const INIT_STATE = {
 
 const projects = (state = INIT_STATE, action) => {
   switch (action.type) {
+
+    // GET_PROJECTS
+    case GET_PROJECTS:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case GET_PROJECTS_SUCCESS:
+      return {
+        ...state,
+        projects: action.payload,
+      }
+    case GET_PROJECTS_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      }
+
     // add project
     case ADD_PROJECT:
       return {
@@ -27,7 +48,7 @@ const projects = (state = INIT_STATE, action) => {
     case ADD_PROJECT_SUCCESS:
       return {
         ...state,
-        projects: action.payload,
+        projects: [...state.projects, action.payload],
         isLoading: false,
         isSuccess: true
       }
@@ -50,7 +71,7 @@ const projects = (state = INIT_STATE, action) => {
         ...state,
         projects: state.projects.map(project =>
           project.id.toString() === action.payload.id.toString()
-            ? { project, ...action.payload }
+            ? { project, ...action.payload?.project }
             : project
         ),
         isLoading: false,
@@ -74,7 +95,7 @@ const projects = (state = INIT_STATE, action) => {
       return {
         ...state,
         projects: state.projects.filter(
-          project => project.id.toString() !== action.payload.id.toString()
+          project => project.id.toString() !== action.payload.toString()
         ),
         isLoading: false,
         isSuccess: true

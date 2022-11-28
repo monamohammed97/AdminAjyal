@@ -5,18 +5,13 @@ import {
   GET_MENTORS,
   GET_MENTORS_FAIL,
   GET_MENTORS_SUCCESS,
-  GET_PROJECTS,
-  GET_PROJECTS_FAIL,
-  GET_PROJECTS_SUCCESS,
   GET_STUDENTS,
   GET_STUDENTS_FAIL,
   GET_STUDENTS_SUCCESS,
   GET_RATES,
   GET_RATES_FAIL,
   GET_RATES_SUCCESS,
-  GET_FREELANCER,
-  GET_FREELANCER_FAIL,
-  GET_FREELANCER_SUCCESS,
+  
 } from "./actionTypes"
 
 export const getUsers = () => ({
@@ -49,21 +44,6 @@ export const getMentorsFail = error => ({
 })
 
 
-// GET_PROJECTS 
-export const getProjects = () => ({
-  type: GET_PROJECTS,
-})
-
-export const getProjectsSuccess = projects => ({
-  type: GET_PROJECTS_SUCCESS,
-  payload: projects,
-})
-
-export const getProjectsFail = error => ({
-  type: GET_PROJECTS_FAIL,
-  payload: error,
-})
-
 // GET_STUDENTS 
 export const getStudents = () => ({
   type: GET_STUDENTS,
@@ -94,17 +74,4 @@ export const getRatesFail = error => ({
   payload: error,
 })
 
-// FREELANCER 
-export const getFreelancer = () => ({
-  type: GET_FREELANCER,
-})
 
-export const getFreelancerSuccess = freelancer => ({
-  type: GET_FREELANCER_SUCCESS,
-  payload: freelancer,
-})
-
-export const getFreelancerFail = error => ({
-  type: GET_FREELANCER_FAIL,
-  payload: error,
-})

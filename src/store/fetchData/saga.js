@@ -4,24 +4,18 @@ import { call, put, takeEvery } from "redux-saga/effects"
 import {
   GET_MENTORS,
   GET_USERS,
-  GET_PROJECTS,
   GET_STUDENTS,
   GET_RATES,
-  GET_FREELANCER,
 } from "./actionTypes"
 import {
   getMentorsFail,
   getMentorsSuccess,
-  getProjectsFail,
-  getProjectsSuccess,
   getRatesFail,
   getRatesSuccess,
   getStudentsFail,
   getStudentsSuccess,
   getUsersFail,
   getUsersSuccess,
-  getFreelancerSuccess,
-  getFreelancerFail,
 } from "./actions"
 
 //Include Both Helper File with needed methods
@@ -30,8 +24,6 @@ import {
   getUsersAjyal,
   getStudentsAjyal,
   getRatesAjyal,
-  getProjectsAjyal,
-  getFreelanceAjyal,
 } from "helpers/fakebackend_helper"
 
 function* fetchUsers() {
@@ -51,7 +43,6 @@ function* fetchMentors() {
     yield put(getMentorsFail(error))
   }
 }
-
 
 
 // GET_STUDENTS
@@ -74,34 +65,14 @@ function* fetchRates() {
   }
 }
 
-// GET_PROJECTS
-function* fetchProjects() {
-  try {
-    const response = yield call(getProjectsAjyal)
-    yield put(getProjectsSuccess(response?.data))
-  } catch (error) {
-    yield put(getProjectsFail(error))
-  }
-}
 
 
-// GET_FREELANCER
-function* fetchFreelancer() {
-  try {
-    const response = yield call(getFreelanceAjyal)
-    yield put(getFreelancerSuccess(response?.data))
-  } catch (error) {
-    yield put(getFreelancerFail(error))
-  }
-}
 
 function* fetchDataSaga() {
   yield takeEvery(GET_USERS, fetchUsers)
   yield takeEvery(GET_MENTORS, fetchMentors)
   yield takeEvery(GET_STUDENTS, fetchStudents)
   yield takeEvery(GET_RATES, fetchRates)
-  yield takeEvery(GET_PROJECTS, fetchProjects)
-  yield takeEvery(GET_FREELANCER, fetchFreelancer)
 }
 
 export default fetchDataSaga

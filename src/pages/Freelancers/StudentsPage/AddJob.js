@@ -79,7 +79,7 @@ const AddJob = props => {
 
   const { students } = useSelector(store => store?.data)
   const { groups } = useSelector(store => store?.groups)
-  const { platforms } = useSelector(store => store?.data)
+  const { platforms } = useSelector(store => store?.platforms)
 
   useEffect(() => {
     dispatch(getStudents())

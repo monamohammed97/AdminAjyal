@@ -21,10 +21,10 @@ const ActivityTypeId = (cell) => {
     return cell.value ? cell.value : '';
 };
 const Title = (cell) => {
-    return cell.value ? cell.value : '';
+    return cell.value.length >= 50 ? cell.value.substring(0, 50) + " ...": cell.value;
 };
 const Description = (cell) => {
-    return cell.value ? cell.value : '';
+    return cell.value.length >= 50 ? cell.value.substring(0, 50) + " ...": cell.value;
 };
 const Date = (cell) => {
     return cell.value ? cell.value : '';

@@ -38,9 +38,9 @@ import TableContainer from "components/Common/TableContainer"
 import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
 import { validationSchema } from "./validationSchema"
-import { getProjects } from "store/fetchData/actions"
 import { notify } from "components/Common/notify"
 import {
+  getProjects,
   updateProject,
   addProject,
   deleteProject,
@@ -81,7 +81,9 @@ const Projects = props => {
         edit.append("start_date", values?.start_date)
         edit.append("status", values?.status)
         edit.append("_method", "put")
-        edit.append("image", values?.image)
+        if (values?.image instanceof File) {
+          edit.append("image", values?.image)
+        }
         // contact.budget !== values.budget &&
         //   edit.append("budget", values?.budget)
         // contact.end_date !== values.end_date &&
@@ -139,8 +141,8 @@ const Projects = props => {
     },
   })
 
-  const { projects } = useSelector(store => store?.data)
-  const { partners } = useSelector(store => store?.data)
+  const { projects } = useSelector(store => store?.projects)
+  const { partners } = useSelector(store => store?.partners)
 
   const [userList, setUserList] = useState([])
   const [modal, setModal] = useState(false)

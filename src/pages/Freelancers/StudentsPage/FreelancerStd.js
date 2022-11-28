@@ -24,11 +24,7 @@ import {
   Group,
   Title,
   Salary,
-  Description,
   Status,
-  JobLink,
-  Note,
-  FeedbackF,
 } from "./contactlistCol"
 
 //Import Breadcrumb
@@ -39,11 +35,10 @@ import { isEmpty } from "lodash"
 import { useDispatch, useSelector } from "react-redux"
 import DeleteModal from "components/Common/DeleteModal"
 import TableContainer from "components/Common/TableContainer"
-import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
-import { validationSchema } from "./validationSchema"
-import { getFreelancer, getGroups, getPlatforms, getStudents } from "store/fetchData/actions"
+
 import {
+  getFreelancer,
   deleteFreelance,
 } from "store/freelance/actions"
 import { notify } from "components/Common/notify"
@@ -51,8 +46,6 @@ import img from "assets/images/img.png"
 
 const FreelancerStd = props => {
   //meta title
-  const [filename, setFilename] = useState("")
-
   document.title = "Freelancer Students"
 
   const dispatch = useDispatch()
@@ -154,10 +147,8 @@ const FreelancerStd = props => {
   //   },
   // })
 
-  const { freelancer } = useSelector(store => store?.data)
+  const { freelance } = useSelector(store => store?.freelance)
 
-  console.log(freelancer);
-  const [userList, setUserList] = useState([])
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
 
@@ -302,9 +293,9 @@ const FreelancerStd = props => {
   // }, [dispatch, freelancer])
 
   useEffect(() => {
-    setContact(freelancer)
+    setContact(freelance)
     setIsEdit(false)
-  }, [freelancer])
+  }, [freelance])
 
   // useEffect(() => {
   //   if (!isEmpty(freelancer) && !!isEdit) {
@@ -403,7 +394,7 @@ const FreelancerStd = props => {
                 <CardBody>
                   <TableContainer
                     columns={columns}
-                    data={freelancer}
+                    data={freelance}
                     isGlobalFilter={true}
                     isAddFreelance={true}
                     handleUserClick={handleUserClicks}

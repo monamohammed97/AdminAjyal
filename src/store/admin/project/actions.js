@@ -1,4 +1,7 @@
 import {
+  GET_PROJECTS,
+  GET_PROJECTS_FAIL,
+  GET_PROJECTS_SUCCESS,
   ADD_PROJECT,
   ADD_PROJECT_FAIL,
   ADD_PROJECT_SUCCESS,
@@ -9,6 +12,21 @@ import {
   UPDATE_PROJECT_FAIL,
   UPDATE_PROJECT_SUCCESS,
 } from "./actionTypes"
+
+// GET_PROJECTS 
+export const getProjects = () => ({
+  type: GET_PROJECTS,
+})
+
+export const getProjectsSuccess = projects => ({
+  type: GET_PROJECTS_SUCCESS,
+  payload: projects,
+})
+
+export const getProjectsFail = error => ({
+  type: GET_PROJECTS_FAIL,
+  payload: error,
+})
 
 // actions projects
 export const addProject = (project, cbDone, cbFail) => ({

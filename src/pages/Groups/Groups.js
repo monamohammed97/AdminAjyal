@@ -41,7 +41,7 @@ import TableContainer from "components/Common/TableContainer"
 import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
 import { validationSchema } from "./validationSchema"
-import { getProjects } from "store/fetchData/actions"
+import { getProjects } from "store/admin/project/actions"
 import { getCategory } from "store/admin/category/actions"
 import { notify } from "components/Common/notify"
 import {
@@ -160,7 +160,7 @@ const Projects = props => {
   })
 
   const { groups } = useSelector(store => store?.groups)
-  const { projects } = useSelector(store => store?.data)
+  const { projects } = useSelector(store => store?.projects)
   const { category } = useSelector(store => store?.category)
 
   const [modal, setModal] = useState(false)

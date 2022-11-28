@@ -65,11 +65,6 @@ const activityType = (state = INIT_STATE, action) => {
         isLoading: true,
       }
     case UPDATE_ACTIVITY_TYPE_SUCCESS:
-      console.log("state.activityType:", state.activityType)
-      console.log(
-        ":UPDATE_ACTIVITY_TYPE_SUCCESS :action.payload:",
-        action.payload
-      )
       return {
         ...state,
         activityType: state.activityType.map(activity =>

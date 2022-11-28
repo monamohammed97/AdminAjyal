@@ -1,4 +1,7 @@
 import {
+  GET_FREELANCER,
+  GET_FREELANCER_FAIL,
+  GET_FREELANCER_SUCCESS,
   ADD_FREELANCE,
   ADD_FREELANCE_FAIL,
   ADD_FREELANCE_SUCCESS,
@@ -9,6 +12,21 @@ import {
   UPDATE_FREELANCE_FAIL,
   UPDATE_FREELANCE_SUCCESS,
 } from "./actionTypes"
+
+// FREELANCER 
+export const getFreelancer = () => ({
+  type: GET_FREELANCER,
+})
+
+export const getFreelancerSuccess = freelancer => ({
+  type: GET_FREELANCER_SUCCESS,
+  payload: freelancer,
+})
+
+export const getFreelancerFail = error => ({
+  type: GET_FREELANCER_FAIL,
+  payload: error,
+})
 
 // actions freelances
 export const addFreelance = (freelance, cbDone, cbFail) => ({

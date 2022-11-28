@@ -1,4 +1,7 @@
 import {
+  GET_FREELANCER,
+  GET_FREELANCER_FAIL,
+  GET_FREELANCER_SUCCESS,
   ADD_FREELANCE,
   ADD_FREELANCE_SUCCESS,
   ADD_FREELANCE_FAIL,
@@ -18,6 +21,23 @@ const INIT_STATE = {
 
 const freelance = (state = INIT_STATE, action) => {
   switch (action.type) {
+    // GET_FREELANCER
+    case GET_FREELANCER:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case GET_FREELANCER_SUCCESS:
+      return {
+        ...state,
+        freelance: action.payload,
+        isLoading: false,
+      }
+    case GET_FREELANCER_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      }
     // add freelance_
     case ADD_FREELANCE:
       return {
@@ -27,7 +47,7 @@ const freelance = (state = INIT_STATE, action) => {
     case ADD_FREELANCE_SUCCESS:
       return {
         ...state,
-        freelance: action.payload,
+        freelance: [...state.freelance, action.payload],
         isLoading: false,
         isSuccess: true
       }
@@ -74,7 +94,7 @@ const freelance = (state = INIT_STATE, action) => {
       return {
         ...state,
         freelance: state.freelance.filter(
-          freelance_ => freelance_.id.toString() !== action.payload.id.toString()
+          freelance_ => freelance_.id.toString() !== action.payload.toString()
         ),
         isLoading: false,
         isSuccess: true

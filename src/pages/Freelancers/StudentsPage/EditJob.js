@@ -23,11 +23,11 @@ import { notify } from "components/Common/notify"
 import { FileInput } from "components/Form/FileInput"
 import img from "assets/images/img.png"
 import {
-  getFreelancer,
   getStudents,
 } from "store/fetchData/actions"
 import { getGroups } from "store/admin/group/actions"
 import { getPlatforms } from "store/admin/platform/actions"
+import { getFreelancer } from "store/freelance/actions"
 
 const EditJob = props => {
   //meta title
@@ -42,8 +42,8 @@ const EditJob = props => {
 
   const { students } = useSelector(store => store?.data)
   const { groups } = useSelector(store => store?.groups)
-  const { platforms } = useSelector(store => store?.data)
-  const { freelancer } = useSelector(store => store?.data)
+  const { platforms } = useSelector(store => store?.platforms)
+  const { freelance } = useSelector(store => store?.freelance)
 
   const [filterData, setFilterData] = useState(
     // pages.filter(el => el?.id == id)
@@ -107,8 +107,8 @@ const EditJob = props => {
   }, [dispatch])
 
   useEffect(() => {
-    setFilterData(freelancer.filter(el => el?.id == id))
-  }, [freelancer])
+    setFilterData(freelance.filter(el => el?.id == id))
+  }, [freelance])
   return (
     <React.Fragment>
       <div className="page-content">
