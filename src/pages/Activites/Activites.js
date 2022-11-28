@@ -37,12 +37,10 @@ import TableContainer from "components/Common/TableContainer"
 import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
 import { validationSchema } from "./validationSchema"
-import {
-  getActivities,
-  getProjects,
-} from "store/fetchData/actions"
+import { getProjects } from "store/fetchData/actions"
 import img from "assets/images/img.png"
 import {
+  getActivities,
   addActivity,
   deleteActivity,
   updateActivity,
@@ -54,7 +52,7 @@ const Activites = props => {
   //meta project_id
   const [filename, setFilename] = useState("")
 
-  document.project_id = "Activites"
+  document.title = "Activites"
 
   const dispatch = useDispatch()
   const [contact, setContact] = useState()
@@ -79,16 +77,9 @@ const Activites = props => {
         edit.append("description", values?.description)
         edit.append("title", values?.title)
         edit.append("date", values?.date)
-        edit.append("image", values?.image)
-        // contact.project_id !== values.project_id &&
-        //   edit.append("project_id", values?.project_id)
-        // contact.activity_type_id !== values.activity_type_id &&
-        //   edit.append("activity_type_id", values?.activity_type_id)
-        // contact.description !== values.description &&
-        //   edit.append("description", values?.description)
-        // contact.title !== values.title && edit.append("title", values?.title)
-        // contact.date !== values.date && edit.append("date", values?.date)
-        // typeof values.image === "object" && edit.append("image", values?.image)
+        if (values?.image instanceof File) {
+          edit.append("image", values?.image)
+        }
         dispatch(
           updateActivity(
             edit,
@@ -130,11 +121,10 @@ const Activites = props => {
     },
   })
 
-  const { activities } = useSelector(store => store?.data)
-  const { activityTypes } = useSelector(store => store?.data)
+  const { activities } = useSelector(store => store?.activities)
+  const { activityType } = useSelector(store => store?.activityType)
   const { projects } = useSelector(store => store?.data)
 
-  const [userList, setUserList] = useState([])
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
 
@@ -206,7 +196,7 @@ const Activites = props => {
             {!cellProps.image ? (
               <div className="avatar-xs">
                 <span className="avatar-project_id rounded-circle">
-                  {cellProps.project_id.charAt(0)}
+                  {cellProps.title.charAt(0)}
                 </span>
               </div>
             ) : (
@@ -495,7 +485,7 @@ const Activites = props => {
                                 }
                               >
                                 <option selected disabled></option>
-                                {activityTypes?.map(el => (
+                                {activityType?.map(el => (
                                   <option key={el?.id} value={el.id}>
                                     {el.name}
                                   </option>

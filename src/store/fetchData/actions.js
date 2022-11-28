@@ -5,9 +5,6 @@ import {
   GET_MENTORS,
   GET_MENTORS_FAIL,
   GET_MENTORS_SUCCESS,
-  GET_ACTIVITES,
-  GET_ACTIVITES_FAIL,
-  GET_ACTIVITES_SUCCESS,
   GET_PROJECTS,
   GET_PROJECTS_FAIL,
   GET_PROJECTS_SUCCESS,
@@ -51,21 +48,6 @@ export const getMentorsFail = error => ({
   payload: error,
 })
 
-
-// GET_ACTIVITES 
-export const getActivities = () => ({
-  type: GET_ACTIVITES,
-})
-
-export const getActivitiesSuccess = mentors => ({
-  type: GET_ACTIVITES_SUCCESS,
-  payload: mentors,
-})
-
-export const getActivitiesFail = error => ({
-  type: GET_ACTIVITES_FAIL,
-  payload: error,
-})
 
 // GET_PROJECTS 
 export const getProjects = () => ({
