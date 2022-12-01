@@ -10,70 +10,78 @@ import {
   LOGIN_MENTOR_SUCCESS,
 } from "./actionTypes"
 
+const userRole = localStorage?.getItem("Role") || null
+const userToken = localStorage?.getItem("authUserLogin") || null
+
 const initialState = {
   error: "",
   loading: false,
-  isAuth: false,
+  isAuth: !!userToken,
+  role: userRole,
+  token: userToken,
 }
 
 const login = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_USER:
-      state = {
+      return {
         ...state,
         loading: true,
       }
-      break
     case LOGIN_SUCCESS:
-      state = {
+      return {
         ...state,
         loading: false,
-        isAuth: !!action.payload.token,
+        isAuth: !!action.payload?.token,
+        token: action.payload?.token || null,
+        role: action.payload?.type || null,
       }
-      break
-
     case LOGIN_MENTOR:
-      state = {
+      return {
         ...state,
         loading: true,
       }
-      break
     case LOGIN_MENTOR_SUCCESS:
-      state = {
+      return {
         ...state,
         loading: false,
-        isAuth: !!action.payload.token,
+        isAuth: !!action.payload?.token,
+        token: action.payload?.token || null,
+        role: action.payload?.type || null,
       }
-      break
 
     case LOGIN_STD:
-      state = {
+      return {
         ...state,
         loading: true,
       }
-      break
     case LOGIN_STD_SUCCESS:
-      state = {
+      return {
         ...state,
         loading: false,
-        isAuth: !!action.payload.token,
+        isAuth: !!action.payload?.token,
+        token: action.payload?.token || null,
+        role: action.payload?.type || null,
       }
-      break
-
     case LOGOUT_USER:
-      state = { ...state }
-      break
+      return {
+        ...state,
+        loading: true,
+      }
     case LOGOUT_USER_SUCCESS:
-      state = { ...state }
-      break
+      return {
+        ...state,
+        loading: false,
+        isAuth: false,
+        token: null,
+        role: null,
+      }
     case API_ERROR:
-      state = { ...state, error: action.payload, loading: false }
-      break
+      return { ...state, error: action.payload, loading: false }
+
     default:
-      state = { ...state }
-      break
+      return state
   }
-  return state
 }
 
 export default login

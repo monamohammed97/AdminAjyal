@@ -1,13 +1,17 @@
 import {
-     API_ERROR, LOGIN_SUCCESS, LOGIN_USER, LOGOUT_USER,
-     LOGOUT_USER_SUCCESS, SOCIAL_LOGIN,
-     LOGIN_STD,
-     LOGIN_STD_SUCCESS,
-     LOGIN_MENTOR,
-     LOGIN_MENTOR_SUCCESS
+  API_ERROR,
+  LOGIN_SUCCESS,
+  LOGIN_USER,
+  LOGOUT_USER,
+  LOGOUT_USER_SUCCESS,
+  SOCIAL_LOGIN,
+  LOGIN_STD,
+  LOGIN_STD_SUCCESS,
+  LOGIN_MENTOR,
+  LOGIN_MENTOR_SUCCESS,
 } from "./actionTypes"
 
-export const loginUser = (user, history,cb, cb2) => {
+export const loginUser = (user, history, cb, cb2) => {
   return {
     type: LOGIN_USER,
     payload: { user, history, cb, cb2 },
@@ -20,7 +24,7 @@ export const loginSuccess = user => {
     payload: user,
   }
 }
-export const loginMentor = (mentor, history,cb, cb2) => {
+export const loginMentor = (mentor, history, cb, cb2) => {
   return {
     type: LOGIN_MENTOR,
     payload: { mentor, history, cb, cb2 },
@@ -33,7 +37,7 @@ export const loginMentorSuccess = mentor => {
     payload: mentor,
   }
 }
-export const loginStudent = (student, history,cb, cb2) => {
+export const loginStudent = (student, history, cb, cb2) => {
   return {
     type: LOGIN_STD,
     payload: { student, history, cb, cb2 },
@@ -54,17 +58,12 @@ export const logoutUser = history => {
   }
 }
 
-export const logoutUserSuccess = () => {
+export const logoutUserSuccess = history => {
   return {
     type: LOGOUT_USER_SUCCESS,
-    payload: {},
+    payload: { history },
   }
 }
-
-
-
-
-
 
 export const apiError = error => {
   return {

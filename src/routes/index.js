@@ -1,8 +1,11 @@
 import { Redirect } from "react-router-dom"
+import { useSelector } from "react-redux"
+
+import { STUDENT, ADMIN, MENTOR } from "helpers/roles"
 
 // Dashboard
-import Dashboard from "../pages/Dashboard/index"
-import Logout from "../pages/Authentication/Logout"
+// import Dashboard from "../pages/Dashboard/index"
+import Logout from "pages/Authentication/Logout"
 import Users from "pages/Users/Users"
 import Mentors from "pages/Mentors/Mentors"
 import Platforms from "pages/Platforms/Platforms"
@@ -26,6 +29,15 @@ import AboutUs from "pages/LandingPage/AboutUs/AboutUs"
 import Admin from "../pages/AuthenticationInner/Admin"
 import Mentor from "pages/AuthenticationInner/Mentor"
 import Student from "pages/AuthenticationInner/Student"
+import NotFound from "pages/NotFound/NotFound"
+
+const EmptyDiv = () => {
+  const { role } = useSelector(store => store?.login)
+  if (role === STUDENT) return <Redirect to={"/freelancer"} />
+  else if (role === MENTOR) return <Redirect to={"/rates"} />
+  else if (role === ADMIN) return <Redirect to={"/users"} />
+  else return <>.</>
+}
 
 const authProtectedRoutes = [
   { path: "/users", component: Users },
@@ -51,31 +63,41 @@ const authProtectedRoutes = [
 ]
 
 const publicRoutes = [
-  { path: "/logout", component: Logout },
-  { path: "/admin_login", component: Admin },
-  { path: "/mentor_login", component: Mentor },
-  { path: "/student_login", component: Student },
+  { path: "/", component: EmptyDiv, isProtected: true },
+  { path: "/logout", component: Logout, isProtected: true },
+  {
+    path: "/admin_login",
+    component: Admin,
+    isProtected: false,
+    OnlyNoAuth: true,
+  },
+  {
+    path: "/mentor_login",
+    component: Mentor,
+    isProtected: false,
+    OnlyNoAuth: true,
+  },
+  {
+    path: "/student_login",
+    component: Student,
+    isProtected: false,
+    OnlyNoAuth: true,
+  },
+  { path: "*", component: NotFound, isProtected: false },
 ]
 
 const authMentorRoutes = [
-  { path: "/", component: Rates },
   { path: "/rates", component: Rates },
   { path: "/attendence", component: Rates },
-  // this route should be at the end of all other routes
-  // { path: "/", exact: true, component: <Redirect to="/rates" /> },
 ]
 
 const authStudentRoutes = [
-  { path: "/", component: FreelancerStd },
   { path: "/freelancer", component: FreelancerStd },
   { path: "/edit/:id", component: EditJob },
   { path: "/addjob", component: AddJob },
-  // this route should be at the end of all other routes
-  // { path: "/", exact: true, component: <Redirect to="/freelancer" /> },
 ]
 
 const authAdminRoutes = [
-  { path: "/", component: Users },
   { path: "/users", component: Users },
   { path: "/mentors", component: Mentors },
   { path: "/platforms", component: Platforms },
@@ -93,8 +115,6 @@ const authAdminRoutes = [
   { path: "/training", component: Training },
   { path: "/contacts", component: Contacts },
   { path: "/aboutus", component: AboutUs },
-  // this route should be at the end of all other routes
-  // { path: "/", exact: true, component: <Redirect to="/users" /> },
 ]
 
 export {
