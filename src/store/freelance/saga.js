@@ -22,19 +22,22 @@ import {
 // GET_FREELANCER
 function* fetchFreelancer() {
   try {
+    const STUDENT_ID = localStorage.getItem("ID")
     const response = yield call(getFreelanceAjyal)
-    yield put(getFreelancerSuccess(response?.data))
+    const filterData = response?.data?.filter(el => el?.student_id == STUDENT_ID)
+    yield put(getFreelancerSuccess(filterData))
   } catch (error) {
     yield put(getFreelancerFail(error))
   }
 }
 
 function* onAdddFreelance({ payload }) {
-  const { freelance, cbDone, cbFail } = payload
+  const { freelance, history, cbDone, cbFail } = payload
   try {
     const response = yield call(addFreelanceAjyal, freelance)
     yield put(addFreelanceSuccess(response?.data))
     cbDone?.()
+    history?.push("/freelancer")
   } catch (error) {
     cbFail?.()
     yield put(addFreelanceFail(error))
@@ -45,9 +48,9 @@ function* onUpdatedFreelance({ payload }) {
   const { freelance, id, history, cbDone, cbFail } = payload
   try {
     const response = yield call(updateFreelanceAjyal, id, freelance)
-    yield put(updateFreelanceSuccess, response?.message)
-    history?.push("/")
+    yield put(updateFreelanceSuccess(response?.data, id))
     cbDone?.()
+    history?.push("/freelancer")
   } catch (error) {
     cbFail?.()
     yield put(updateFreelanceFail(error))
@@ -55,12 +58,9 @@ function* onUpdatedFreelance({ payload }) {
 }
 function* onDeletedFreelance({ payload }) {
   const { freelance, cbDone, cbFail } = payload
-  console.log(payload)
-
   try {
-    const response = yield call(deleteFreelanceAjyal, freelance?.id)
-    console.log(response)
-    yield put(deleteFreelanceSuccess(response))
+    yield call(deleteFreelanceAjyal, freelance?.id)
+    yield put(deleteFreelanceSuccess(freelance?.id))
     cbDone?.()
   } catch (error) {
     cbFail?.()

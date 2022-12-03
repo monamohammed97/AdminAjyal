@@ -78,6 +78,8 @@ function* loginStudent({ payload }) {
     })
     localStorage.setItem("authUserLogin", response?.data?.token)
     localStorage.setItem("Role", response?.data?.type)
+    localStorage.setItem("ID", response?.data?.user?.id)
+
     yield put(loginStudentSuccess(response?.data))
     cb?.()
     history.push("/")

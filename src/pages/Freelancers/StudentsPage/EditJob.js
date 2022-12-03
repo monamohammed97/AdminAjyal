@@ -78,9 +78,10 @@ const EditJob = props => {
       data.append("status", values?.status)
       data.append("client_feedback", values?.client_feedback)
       data.append("notes", values?.notes)
-      data.append("attachment", values?.attachment)
+      if (values?.attachment instanceof File) {
+        data.append("attachment", values?.attachment)
+      }
       data.append("_method", "put")
-      console.log("props.history", props.history)
       dispatch(
         updateFreelance(
           data,
@@ -161,7 +162,6 @@ const EditJob = props => {
                         <div className="mb-3">
                           <Label className="form-label">Group</Label>
                           <Input
-                            disabled
                             name="group_id"
                             className="form-control"
                             type="select"
@@ -192,7 +192,6 @@ const EditJob = props => {
                         <div className="mb-3">
                           <Label className="form-label">Platfrom</Label>
                           <Input
-                            disabled
                             name="platform_id"
                             className="form-control"
                             type="select"

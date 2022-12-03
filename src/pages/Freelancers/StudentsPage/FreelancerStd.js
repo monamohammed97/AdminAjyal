@@ -38,10 +38,8 @@ import TableContainer from "components/Common/TableContainer"
 import Breadcrumbs from "components/Common/Breadcrumb"
 
 import { validationSchema } from "./validationSchema"
-import { getGroups, getPlatforms, getStudents } from "store/fetchData/actions"
 import { getFreelancer, deleteFreelance } from "store/freelance/actions"
 import { notify } from "components/Common/notify"
-import img from "assets/images/img.png"
 
 const FreelancerStd = props => {
   //meta title
@@ -49,109 +47,13 @@ const FreelancerStd = props => {
 
   const dispatch = useDispatch()
   const [contact, setContact] = useState()
-  // validation
-  // const validation = useFormik({
-  //   enableReinitialize: true,
-
-  //   initialValues: {
-  //     platform_id: (contact && contact.platform_id) || "",
-  //     student_id: (contact && contact.student_id) || "",
-  //     group_id: (contact && contact.group_id) || "",
-  //     job_title: (contact && contact.job_title) || "",
-  //     salary: (contact && contact.salary) || "",
-  //     job_description: (contact && contact.job_description) || "",
-  //     job_link: (contact && contact.job_link) || "",
-  //     status: (contact && contact.status) || "",
-  //     client_feedback: (contact && contact.client_feedback) || "",
-  //     notes: (contact && contact.notes) || "",
-  //     attachment: (contact && contact.attachment) || img,
-  //   },
-  //   validationSchema: validationSchema,
-  //   onSubmit: async values => {
-  //     if (isEdit) {
-  //       var edit = new FormData()
-  //       edit.append("platform_id", values?.platform_id)
-  //       edit.append("student_id", values?.student_id)
-  //       edit.append("group_id", values?.group_id)
-  //       edit.append("job_title", values?.job_title)
-  //       edit.append("salary", values?.salary)
-  //       edit.append("job_description", values?.job_description)
-  //       edit.append("job_link", values?.job_link)
-  //       edit.append("status", values?.status)
-  //       edit.append("client_feedback", values?.client_feedback)
-  //       edit.append("notes", values?.notes)
-  //       edit.append("_method", "put")
-  //       edit.append("image", values?.image)
-  //       // contact.platform_id !== values.platform_id && edit.append("platform_id", values?.platform_id)
-  //       // contact.student_id !== values.student_id && edit.append("student_id", values?.student_id)
-  //       // contact.gender !== values.gender && edit.append("gender", values?.gender)
-  //       // contact.group_id !== values.group_id && edit.append("group_id", values?.group_id)
-  //       // contact.job_title !== values.job_title && edit.append("job_title", values?.job_title)
-  //       // contact.job_description !== values.job_description && edit.append("job_description", values?.job_description)
-  //       // contact.salary !== values.salary &&
-  //       //   edit.append("salary", values?.salary)
-  //       // contact.job_link !== values.job_link &&
-  //       //   edit.append("job_link", values?.job_link)
-  //       // contact.status !== values.status &&
-  //       //   edit.append("status", values?.status)
-  //       // contact.client_feedback !== values.client_feedback &&
-  //       //   edit.append("client_feedback", values?.client_feedback)
-  //       // contact.notes !== values.notes &&
-  //       //   edit.append("notes", values?.notes)
-  //       // edit.append("_method", "put")
-  //       // typeof values.image === "object" && edit.append("image", values?.image)
-  //       dispatch(
-  //         updateStudent(
-  //           edit,
-  //           contact.id,
-  //           () => {
-  //             notify("success", "Success")
-  //           },
-  //           () => {
-  //             notify("error", "Failed")
-  //           }
-  //         )
-  //       )
-  //       setIsEdit(false)
-  //       validation.resetForm()
-  //       toggle()
-  //     } else {
-  //       var data = new FormData()
-  //       data.append("platform_id", values?.platform_id)
-  //       data.append("student_id", values?.student_id)
-  //       data.append("group_id", values?.group_id)
-  //       data.append("job_title", values?.job_title)
-  //       data.append("salary", values?.salary)
-  //       data.append("job_link", values?.job_link)
-  //       data.append("job_description", values?.job_description)
-  //       data.append("status", values?.status)
-  //       data.append("client_feedback", values?.client_feedback)
-  //       data.append("notes", values?.notes)
-  //       data.append("image", values?.image)
-
-  //       dispatch(
-  //         addStudent(
-  //           data,
-  //           () => {
-  //             notify("success", "Success")
-  //           },
-  //           () => {
-  //             notify("error", "Failed")
-  //           }
-  //         )
-  //       )
-  //       validation.resetForm()
-  //       toggle()
-  //     }
-  //   },
-  // })
 
   const { freelance } = useSelector(store => store?.freelance)
-
+  // const [filterData, setFilterData] = useState([])
   const [modal, setModal] = useState(false)
-  const [isEdit, setIsEdit] = useState(false)
+  // const [isEdit, setIsEdit] = useState(false)
 
-  const [selectedFiles, setselectedFiles] = useState([])
+  // const [selectedFiles, setselectedFiles] = useState([])
   function handleAcceptedFiles(files) {
     files.map(file =>
       Object.assign(file, {
@@ -227,7 +129,7 @@ const FreelancerStd = props => {
             {!cellProps.attachment ? (
               <div className="avatar-xs">
                 <span className="avatar-title rounded-circle">
-                  {cellProps.name.charAt(0)}
+                  {/* {cellProps.name.charAt(0)} */}
                 </span>
               </div>
             ) : (
@@ -293,7 +195,7 @@ const FreelancerStd = props => {
 
   useEffect(() => {
     setContact(freelance)
-    setIsEdit(false)
+    // setIsEdit(false)
   }, [freelance])
 
   // useEffect(() => {
@@ -303,6 +205,10 @@ const FreelancerStd = props => {
   //   }
   // }, [freelancer])
 
+  // const STUDENT_ID = localStorage.getItem("ID")
+  // useEffect(() => {
+  //   setFilterData(freelance.filter(el => el?.student_id == STUDENT_ID))
+  // }, [freelance])
   const toggle = () => {
     setModal(!modal)
   }
@@ -323,7 +229,7 @@ const FreelancerStd = props => {
       notes: student.notes,
       image: student.image,
     })
-    setIsEdit(true)
+    // setIsEdit(true)
 
     toggle()
   }

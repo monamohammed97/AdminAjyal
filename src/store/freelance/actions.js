@@ -29,9 +29,9 @@ export const getFreelancerFail = error => ({
 })
 
 // actions freelances
-export const addFreelance = (freelance, cbDone, cbFail) => ({
+export const addFreelance = (freelance, history, cbDone, cbFail) => ({
   type: ADD_FREELANCE,
-  payload: { freelance, cbDone, cbFail },
+  payload: { freelance, history, cbDone, cbFail },
 })
 
 export const addFreelanceSuccess = freelance => ({

@@ -29,6 +29,7 @@ import { getPlatforms } from "store/admin/platform/actions"
 const AddJob = props => {
   //meta title
   document.title = "New Freelancer"
+  const STUDENT_ID = localStorage.getItem("ID")
 
   const dispatch = useDispatch()
 
@@ -36,7 +37,7 @@ const AddJob = props => {
     enableReinitialize: true,
     initialValues: {
       platform_id: "",
-      student_id: "",
+      student_id: STUDENT_ID,
       group_id: "",
       job_title: "",
       salary: "",
@@ -64,6 +65,8 @@ const AddJob = props => {
       dispatch(
         addFreelance(
           data,
+          props.history
+          ,
           () => {
             notify("success", "Success")
           },
@@ -108,12 +111,13 @@ const AddJob = props => {
                         <div className="mb-3">
                           <Label className="form-label">Student</Label>
                           <Input
+                            disabled
                             name="student_id"
                             className="form-control"
                             type="select"
                             onChange={validation.handleChange}
                             onBlur={validation.handleBlur}
-                            value={validation.values.student_id || ""}
+                            value={STUDENT_ID}
                             invalid={
                               validation.touched.student_id &&
                               validation.errors.student_id
@@ -362,7 +366,9 @@ const AddJob = props => {
                         name="attachment"
                         src={
                           typeof validation.values.attachment === "object"
-                            ? URL.createObjectURL(validation.values["attachment"])
+                            ? URL.createObjectURL(
+                                validation.values["attachment"]
+                              )
                             : typeof validation.values.attachment === "string"
                             ? validation.values.attachment
                             : img
