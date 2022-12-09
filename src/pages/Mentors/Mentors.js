@@ -32,8 +32,7 @@ import TableContainer from "components/Common/TableContainer"
 import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
 import { validationSchema } from "./validationSchema"
-import { getMentors } from "store/fetchData/actions"
-import { addMentor, deleteMentor } from "store/admin/mentor/actions"
+import { getMentors, addMentor, deleteMentor, updateMentor } from "store/admin/mentor/actions"
 import { notify } from "components/Common/notify"
 import img from "assets/images/img.png"
 
@@ -65,14 +64,16 @@ const Mentors = props => {
         var edit = new FormData()
         edit.append("first_name", values?.first_name)
         edit.append("last_name", values?.last_name)
-        edit.append("password", values?.password)
+        // edit.append("password", values?.password)
         edit.append("email", values?.email)
         edit.append("phone", values?.phone)
         edit.append("gender", values?.gender)
         edit.append("overview", values?.overview)
-        edit.append("image", values?.image)
+        if (values?.image instanceof File) {
+          edit.append("image", values?.image)
+        }
         dispatch(
-          updateDoctor(
+          updateMentor(
             edit,
             contact.id,
             () => {
@@ -114,9 +115,9 @@ const Mentors = props => {
     },
   })
 
-  const { mentors } = useSelector(store => store?.data)
+  const { mentors } = useSelector(store => store?.mentors)
 
-  const [userList, setUserList] = useState([])
+  // const [userList, setUserList] = useState([])
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
 

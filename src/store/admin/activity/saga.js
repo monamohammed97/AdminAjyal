@@ -24,7 +24,7 @@ import {
 function* fetchActivities() {
   try {
     const response = yield call(getActivitiesAjyal)
-    yield put(getActivitiesSuccess(response?.data))
+    yield put(getActivitiesSuccess(response?.data?.data))
   } catch (error) {
     yield put(getActivitiesFail(error))
   }

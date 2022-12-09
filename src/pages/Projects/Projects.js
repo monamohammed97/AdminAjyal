@@ -25,6 +25,7 @@ import {
   Budget,
   EndDate,
   Status,
+  Partner,
 } from "./contactlistCol"
 
 //Import Breadcrumb
@@ -180,6 +181,14 @@ const Projects = props => {
         filterable: true,
         Cell: cellProps => {
           return <Description {...cellProps} />
+        },
+      },
+      {
+        Header: "Partner",
+        accessor: "partner_id",
+        filterable: true,
+        Cell: cellProps => {
+          return <Partner {...cellProps} />
         },
       },
       {

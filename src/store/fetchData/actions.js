@@ -1,10 +1,4 @@
 import {
-  GET_USERS,
-  GET_USERS_FAIL,
-  GET_USERS_SUCCESS,
-  GET_MENTORS,
-  GET_MENTORS_FAIL,
-  GET_MENTORS_SUCCESS,
   GET_STUDENTS,
   GET_STUDENTS_FAIL,
   GET_STUDENTS_SUCCESS,
@@ -14,34 +8,8 @@ import {
   
 } from "./actionTypes"
 
-export const getUsers = () => ({
-  type: GET_USERS,
-})
 
-export const getUsersSuccess = users => ({
-  type: GET_USERS_SUCCESS,
-  payload: users,
-})
 
-export const getUsersFail = error => ({
-  type: GET_USERS_FAIL,
-  payload: error,
-})
-
-// mentors
-export const getMentors = () => ({
-  type: GET_MENTORS,
-})
-
-export const getMentorsSuccess = mentors => ({
-  type: GET_MENTORS_SUCCESS,
-  payload: mentors,
-})
-
-export const getMentorsFail = error => ({
-  type: GET_MENTORS_FAIL,
-  payload: error,
-})
 
 
 // GET_STUDENTS 

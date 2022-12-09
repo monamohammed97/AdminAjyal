@@ -39,8 +39,7 @@ import TableContainer from "components/Common/TableContainer"
 import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
 import { validationSchema } from "./validationSchema"
-import { getUsers } from "store/fetchData/actions"
-import { addUser, deleteUser, updateUser } from "store/admin/user/actions"
+import { getUsers, addUser, deleteUser, updateUser } from "store/admin/user/actions"
 import { notify } from "components/Common/notify"
 import img from "assets/images/img.png"
 
@@ -74,35 +73,22 @@ const Users = props => {
         var edit = new FormData()
         edit.append("first_name", values?.first_name)
         edit.append("last_name", values?.last_name)
-        edit.append("password", values?.password)
+        // edit.append("password", values?.password)
         edit.append("email", values?.email)
         edit.append("phone", values?.phone)
         edit.append("gender", values?.gender)
         edit.append("overview", values?.overview)
         edit.append("position_description", values?.position_description)
         if (values?.image instanceof File) {
-          console.log(values?.image)
           edit.append("image", values?.image)
         }
-        // contact.first_name !== values.first_name &&
-        //   edit.append("first_name", values?.first_name)
-        // contact.last_name !== values.last_name &&
-        //   edit.append("last_name", values?.last_name)
-        // contact.password !== values.password &&
-        //   edit.append("password", values?.password)
-        // contact.email !== values.email && edit.append("email", values?.email)
-        // contact.phone !== values.phone && edit.append("phone", values?.phone)
-        // contact.gender !== values.gender &&
-        //   edit.append("gender", values?.gender)
-        // contact.overview !== values.overview &&
-        //   edit.append("overview", values?.overview)
-        // contact.position_description !== values.position_description &&
-        //   edit.append("position_description", values?.position_description)
-        // typeof values.image === "object" && edit.append("image", values?.image)
         edit.append("_method", "put")
         dispatch(
           updateUser(edit, contact.id, () => {
-            notify("success", `Success  to  Update ${contact.id} `)
+            notify("success", "Success")
+          },
+          () => {
+            notify("error", "Failed")
           })
         )
         setIsEdit(false)
@@ -137,9 +123,9 @@ const Users = props => {
     },
   })
 
-  const { users } = useSelector(store => store?.data)
+  const { users } = useSelector(store => store?.users)
 
-  const [userList, setUserList] = useState([])
+  // const [userList, setUserList] = useState([])
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
 
@@ -219,7 +205,7 @@ const Users = props => {
             {!cellProps.image ? (
               <div className="avatar-xs">
                 <span className="avatar-title rounded-circle">
-                  {cellProps.name.charAt(0)}
+                  {/* {cellProps.name.charAt(0)} */}
                 </span>
               </div>
             ) : (

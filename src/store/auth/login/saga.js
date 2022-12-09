@@ -91,8 +91,8 @@ function* loginStudent({ payload }) {
 
 function* logoutUser({ payload: { history } }) {
   try {
+    history.push("/admin_login")
     localStorage.clear()
-    history.push("/")
   } catch (error) {
     yield put(apiError(error))
   }

@@ -1,4 +1,7 @@
 import {
+  GET_USERS,
+  GET_USERS_FAIL,
+  GET_USERS_SUCCESS,
   ADD_USER,
   ADD_USER_FAIL,
   ADD_USER_SUCCESS,
@@ -9,6 +12,20 @@ import {
   UPDATE_USER_FAIL,
   UPDATE_USER_SUCCESS,
 } from "./actionTypes"
+
+export const getUsers = () => ({
+  type: GET_USERS,
+})
+
+export const getUsersSuccess = users => ({
+  type: GET_USERS_SUCCESS,
+  payload: users,
+})
+
+export const getUsersFail = error => ({
+  type: GET_USERS_FAIL,
+  payload: error,
+})
 
 // actions users
 export const addUser = (user, cbDone, cbFail) => ({

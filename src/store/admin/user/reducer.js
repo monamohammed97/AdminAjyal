@@ -1,4 +1,7 @@
 import {
+  GET_USERS,
+  GET_USERS_FAIL,
+  GET_USERS_SUCCESS,
   ADD_USER,
   ADD_USER_SUCCESS,
   ADD_USER_FAIL,
@@ -18,6 +21,22 @@ const INIT_STATE = {
 
 const users = (state = INIT_STATE, action) => {
   switch (action.type) {
+    case GET_USERS:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case GET_USERS_SUCCESS:
+      return {
+        ...state,
+        users: action.payload,
+      }
+    case GET_USERS_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      }
+
     // add user
     case ADD_USER:
       return {
@@ -27,7 +46,7 @@ const users = (state = INIT_STATE, action) => {
     case ADD_USER_SUCCESS:
       return {
         ...state,
-        users: action.payload,
+        users: [...state.users, action.payload],
         isLoading: false,
         isSuccess: true
       }
@@ -50,7 +69,7 @@ const users = (state = INIT_STATE, action) => {
         ...state,
         users: state.users.map(user =>
           user.id.toString() === action.payload.id.toString()
-            ? { user, ...action.payload }
+            ? { user, ...action?.payload?.user }
             : user
         ),
         isLoading: false,
@@ -74,7 +93,7 @@ const users = (state = INIT_STATE, action) => {
       return {
         ...state,
         users: state.users.filter(
-          user => user.id.toString() !== action.payload.id.toString()
+          user => user.id.toString() !== action.payload.toString()
         ),
         isLoading: false,
         isSuccess: true

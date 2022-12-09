@@ -40,7 +40,7 @@ import TableContainer from "components/Common/TableContainer"
 import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
 import { validationSchema } from "./validationSchema"
-import { getMentors } from "store/fetchData/actions"
+import { getMentors } from "store/admin/mentor/actions"
 import { getCourses } from "store/admin/course/actions"
 import { getGroups } from "store/admin/group/actions"
 
@@ -135,7 +135,7 @@ const Courses = props => {
 
   const { courses } = useSelector(store => store?.courses)
   const { groups } = useSelector(store => store?.groups)
-  const { mentors } = useSelector(store => store?.data)
+  const { mentors } = useSelector(store => store?.mentors)
 
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)

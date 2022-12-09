@@ -1,4 +1,7 @@
 import {
+  GET_MENTORS,
+  GET_MENTORS_FAIL,
+  GET_MENTORS_SUCCESS,
   ADD_MENTOR,
   ADD_MENTOR_SUCCESS,
   ADD_MENTOR_FAIL,
@@ -18,6 +21,22 @@ const INIT_STATE = {
 
 const mentors = (state = INIT_STATE, action) => {
   switch (action.type) {
+    // Mentors
+    case GET_MENTORS:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case GET_MENTORS_SUCCESS:
+      return {
+        ...state,
+        mentors: action.payload,
+      }
+    case GET_MENTORS_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      }
     // add mentor
     case ADD_MENTOR:
       return {
@@ -27,7 +46,7 @@ const mentors = (state = INIT_STATE, action) => {
     case ADD_MENTOR_SUCCESS:
       return {
         ...state,
-        mentors: action.payload,
+        mentors: [ ...state.mentors, action.payload],
         isLoading: false,
         isSuccess: true
       }
@@ -50,7 +69,7 @@ const mentors = (state = INIT_STATE, action) => {
         ...state,
         mentors: state.mentors.map(mentor =>
           mentor.id.toString() === action.payload.id.toString()
-            ? { mentor, ...action.payload }
+            ? { mentor, ...action.payload.mentor }
             : mentor
         ),
         isLoading: false,
@@ -74,7 +93,7 @@ const mentors = (state = INIT_STATE, action) => {
       return {
         ...state,
         mentors: state.mentors.filter(
-          mentor => mentor.id.toString() !== action.payload.id.toString()
+          mentor => mentor.id.toString() !== action.payload.toString()
         ),
         isLoading: false,
         isSuccess: true

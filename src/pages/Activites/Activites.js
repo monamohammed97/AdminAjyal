@@ -123,7 +123,7 @@ const Activites = props => {
 
   const { activities } = useSelector(store => store?.activities)
   const { activityType } = useSelector(store => store?.activityType)
-  const { projects } = useSelector(store => store?.data)
+  const { projects } = useSelector(store => store?.projects)
 
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)

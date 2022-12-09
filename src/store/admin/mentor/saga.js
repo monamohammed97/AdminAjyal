@@ -1,8 +1,10 @@
 import { call, put, takeEvery } from "redux-saga/effects"
 
 // Ecommerce Redux States
-import { ADD_MENTOR, UPDATE_MENTOR, DELETE_MENTOR } from "./actionTypes"
+import { GET_MENTORS, ADD_MENTOR, UPDATE_MENTOR, DELETE_MENTOR } from "./actionTypes"
 import {
+  getMentorsFail,
+  getMentorsSuccess,
   addMentorSuccess,
   addMentorFail,
   updateMentorSuccess,
@@ -11,10 +13,21 @@ import {
   deleteMentorFail,
 } from "./actions"
 import {
+  getMentorsAjyal,
   addMentorAjyal,
   deleteMentorAjyal,
   updateMentorAjyal,
 } from "helpers/fakebackend_helper"
+
+// mentors
+function* fetchMentors() {
+  try {
+    const response = yield call(getMentorsAjyal)
+    yield put(getMentorsSuccess(response?.data))
+  } catch (error) {
+    yield put(getMentorsFail(error))
+  }
+}
 
 function* onAddMentor({ payload }) {
   const { mentor, cbDone, cbFail } = payload
@@ -32,7 +45,7 @@ function* onUpdateMentor({ payload }) {
   const { mentor, id, cbDone, cbFail } = payload
   try {
     const response = yield call(updateMentorAjyal, id, mentor)
-    yield put(updateMentorSuccess, response?.message)
+    yield put(updateMentorSuccess(response?.data ,id))
     cbDone?.()
   } catch (error) {
     cbFail?.()
@@ -42,9 +55,8 @@ function* onUpdateMentor({ payload }) {
 function* onDeleteMentor({ payload }) {
   const { mentor, cbDone, cbFail } = payload
   try {
-    const response = yield call(deleteMentorAjyal, mentor?.id)
-    console.log(response)
-    yield put(deleteMentorSuccess(response))
+    yield call(deleteMentorAjyal, mentor?.id)
+    yield put(deleteMentorSuccess(mentor?.id))
     cbDone?.()
   } catch (error) {
     cbFail?.()
@@ -53,6 +65,7 @@ function* onDeleteMentor({ payload }) {
 }
 
 function* mentorsSaga() {
+  yield takeEvery(GET_MENTORS, fetchMentors)
   yield takeEvery(ADD_MENTOR, onAddMentor)
   yield takeEvery(UPDATE_MENTOR, onUpdateMentor)
   yield takeEvery(DELETE_MENTOR, onDeleteMentor)

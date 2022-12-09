@@ -1,10 +1,4 @@
 import {
-  GET_USERS,
-  GET_USERS_FAIL,
-  GET_USERS_SUCCESS,
-  GET_MENTORS,
-  GET_MENTORS_FAIL,
-  GET_MENTORS_SUCCESS,
   GET_STUDENTS,
   GET_STUDENTS_FAIL,
   GET_STUDENTS_SUCCESS,
@@ -37,38 +31,6 @@ const INIT_STATE = {
 
 const data = (state = INIT_STATE, action) => {
   switch (action.type) {
-    case GET_USERS:
-      return {
-        ...state,
-        isLoading: true,
-      }
-    case GET_USERS_SUCCESS:
-      return {
-        ...state,
-        users: action.payload,
-      }
-    case GET_USERS_FAIL:
-      return {
-        ...state,
-        error: action.payload,
-      }
-
-    // Mentors
-    case GET_MENTORS:
-      return {
-        ...state,
-        isLoading: true,
-      }
-    case GET_MENTORS_SUCCESS:
-      return {
-        ...state,
-        mentors: action.payload,
-      }
-    case GET_MENTORS_FAIL:
-      return {
-        ...state,
-        error: action.payload,
-      }
 
     // GET_STUDENTS
     case GET_STUDENTS:

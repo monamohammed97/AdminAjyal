@@ -1,4 +1,7 @@
 import {
+  GET_MENTORS,
+  GET_MENTORS_FAIL,
+  GET_MENTORS_SUCCESS,
   ADD_MENTOR,
   ADD_MENTOR_FAIL,
   ADD_MENTOR_SUCCESS,
@@ -9,6 +12,21 @@ import {
   UPDATE_MENTOR_FAIL,
   UPDATE_MENTOR_SUCCESS,
 } from "./actionTypes"
+
+// mentors
+export const getMentors = () => ({
+  type: GET_MENTORS,
+})
+
+export const getMentorsSuccess = mentors => ({
+  type: GET_MENTORS_SUCCESS,
+  payload: mentors,
+})
+
+export const getMentorsFail = error => ({
+  type: GET_MENTORS_FAIL,
+  payload: error,
+})
 
 // actions mentors
 export const addMentor = (mentor, cbDone, cbFail) => ({
