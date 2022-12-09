@@ -14,7 +14,7 @@
 
 // const fireBaseBackend = getFirebaseBackend();
 
-import { call, put, takeEvery, takeLatest } from "redux-saga/effects"
+import { call, put, takeEvery } from "redux-saga/effects"
 
 // Login Redux States
 import {
@@ -22,6 +22,7 @@ import {
   loginMentorSuccess,
   loginStudentSuccess,
   loginSuccess,
+  logoutUserSuccess,
 } from "./actions"
 import { LOGIN_MENTOR, LOGIN_STD, LOGIN_USER, LOGOUT_USER } from "./actionTypes"
 
@@ -91,7 +92,7 @@ function* loginStudent({ payload }) {
 
 function* logoutUser({ payload: { history } }) {
   try {
-    history.push("/admin_login")
+    yield put(logoutUserSuccess())
     localStorage.clear()
   } catch (error) {
     yield put(apiError(error))
