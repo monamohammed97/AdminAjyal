@@ -76,7 +76,7 @@ const Students = props => {
       total_jobs: (contact && contact.total_jobs) || "",
       image: (contact && contact.image) || img,
     },
-    validationSchema: validationSchema,
+    // validationSchema: validationSchema,
     onSubmit: async values => {
       if (isEdit) {
         var edit = new FormData()
@@ -346,8 +346,8 @@ const Students = props => {
     const student = arg
     setContact({
       id: student.id,
-      first_name: mentor.first_name,
-      last_name: mentor.last_name,
+      first_name: student.first_name,
+      last_name: student.last_name,
       email: student.email,
       phone: student.phone,
       transport: student.transport,
@@ -478,24 +478,46 @@ const Students = props => {
                         <Row form>
                           <Col xs={12}>
                             <div className="mb-3">
-                              <Label className="form-label">Name</Label>
+                              <Label className="form-label">First Name</Label>
                               <Input
-                                name="name"
+                                name="first_name"
                                 type="text"
                                 onChange={validation.handleChange}
                                 onBlur={validation.handleBlur}
-                                value={validation.values.name || ""}
+                                value={validation.values.first_name || ""}
                                 invalid={
-                                  validation.touched.name &&
-                                  validation.errors.name
+                                  validation.touched.first_name &&
+                                  validation.errors.first_name
                                     ? true
                                     : false
                                 }
                               />
-                              {validation.touched.name &&
-                              validation.errors.name ? (
+                              {validation.touched.first_name &&
+                              validation.errors.first_name ? (
                                 <FormFeedback type="invalid">
-                                  {validation.errors.name}
+                                  {validation.errors.first_name}
+                                </FormFeedback>
+                              ) : null}
+                            </div>
+                            <div className="mb-3">
+                              <Label className="form-label">Last Name</Label>
+                              <Input
+                                name="last_name"
+                                type="text"
+                                onChange={validation.handleChange}
+                                onBlur={validation.handleBlur}
+                                value={validation.values.last_name || ""}
+                                invalid={
+                                  validation.touched.last_name &&
+                                  validation.errors.last_name
+                                    ? true
+                                    : false
+                                }
+                              />
+                              {validation.touched.last_name &&
+                              validation.errors.last_name ? (
+                                <FormFeedback type="invalid">
+                                  {validation.errors.last_name}
                                 </FormFeedback>
                               ) : null}
                             </div>
