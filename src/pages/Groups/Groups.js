@@ -49,6 +49,7 @@ import {
   updateGroup,
   addGroup,
   deleteGroup,
+  importExcel,
 } from "store/admin/group/actions"
 import img from "assets/images/img.png"
 
@@ -164,6 +165,7 @@ const Projects = props => {
   const { category } = useSelector(store => store?.category)
 
   const [modal, setModal] = useState(false)
+  const [excelModal, setExcelModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
 
   const [selectedFiles, setselectedFiles] = useState([])
@@ -298,6 +300,22 @@ const Projects = props => {
             <div className="d-flex gap-3">
               <Link
                 to="#"
+                className="text-primary"
+                onClick={() => {
+                  const userData = cellProps.row.original
+                  onClickImportExcel(userData)
+                }}
+              >
+                <i
+                  className="mdi mdi-file-import font-size-18"
+                  id="importtooltip"
+                />
+                <UncontrolledTooltip placement="top" target="importtooltip">
+                  Import Excel
+                </UncontrolledTooltip>
+              </Link>
+              <Link
+                to="#"
                 className="text-success"
                 onClick={() => {
                   const userData = cellProps.row.original
@@ -357,6 +375,10 @@ const Projects = props => {
 
   const toggle = () => {
     setModal(!modal)
+  }
+
+  const toggleExcelModal = () => {
+    setExcelModal(!excelModal)
   }
 
   const handleUserClick = arg => {
@@ -423,6 +445,40 @@ const Projects = props => {
     toggle()
   }
 
+  const [selectedExcelFile, setSelectedExcelFile] = useState(null)
+
+  const handleFileChange = event => {
+    setSelectedExcelFile(event.target.files[0])
+  }
+
+  const onClickImportExcel = groups => {
+    setContact(groups)
+    toggleExcelModal()
+  }
+  const handleImportExcel = e => {
+    e.preventDefault()
+    let data = new FormData()
+    data.append("group_id", contact?.id)
+    if (selectedExcelFile instanceof File) {
+      data.append("students", selectedExcelFile)
+    }
+    if (!selectedExcelFile) {
+      notify("error", "Enter the file")
+      return false
+    }
+    dispatch(
+      importExcel(
+        data,
+        () => {
+          notify("success", "Success")
+        },
+        () => {
+          notify("error", "Failed")
+        }
+      )
+    )
+    toggleExcelModal()
+  }
 
   return (
     <React.Fragment>
@@ -748,6 +804,39 @@ const Projects = props => {
                               ) : null}
                             </div>
                           </Col>
+                        </Row>
+                        <Row>
+                          <Col>
+                            <div className="text-end">
+                              <button
+                                type="submit"
+                                className="btn btn-success save-user"
+                              >
+                                Save
+                              </button>
+                            </div>
+                          </Col>
+                        </Row>
+                      </Form>
+                    </ModalBody>
+                  </Modal>
+
+                  {/* excel modal */}
+
+                  <Modal isOpen={excelModal} toggle={toggleExcelModal}>
+                    <ModalHeader toggle={toggleExcelModal} tag="h4">
+                      Import Excel File
+                    </ModalHeader>
+                    <ModalBody>
+                      <Form onSubmit={handleImportExcel}>
+                        <Row className="wrapperdiv">
+                          <label>
+                            <input
+                              type="file"
+                              onChange={handleFileChange}
+                              className="form-control"
+                            />
+                          </label>
                         </Row>
                         <Row>
                           <Col>
