@@ -33,8 +33,7 @@ const Status = (cell) => {
     return cell.value ? cell.value : '';
 };
 const Partner = (cell) => {
-  console.log("cell partner:", cell)
-    return cell.value ? cell.value : '';
+    return cell.name ? cell.name : '';
 };
 
 

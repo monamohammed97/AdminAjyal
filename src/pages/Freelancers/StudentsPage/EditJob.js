@@ -24,10 +24,11 @@ import { FileInput } from "components/Form/FileInput"
 import img from "assets/images/img.png"
 import {
   getStudents,
-} from "store/fetchData/actions"
+} from "store/admin/student/actions"
 import { getGroups } from "store/admin/group/actions"
 import { getPlatforms } from "store/admin/platform/actions"
 import { getFreelancer } from "store/freelance/actions"
+import { validationSchema } from "./validationSchema"
 
 const EditJob = props => {
   //meta title
@@ -40,7 +41,7 @@ const EditJob = props => {
     },
   } = props
 
-  const { students } = useSelector(store => store?.data)
+  const { students } = useSelector(store => store?.students)
   const { groups } = useSelector(store => store?.groups)
   const { platforms } = useSelector(store => store?.platforms)
   const { freelance } = useSelector(store => store?.freelance)
@@ -65,8 +66,10 @@ const EditJob = props => {
       notes: (filterData && filterData[0]?.notes) || "",
       attachment: (filterData && filterData[0]?.attachment) || img,
     },
-    // validationSchema: validationSchema,
+    validationSchema: validationSchema,
     onSubmit: async values => {
+      console.log("freelance",values.salary)
+
       var data = new FormData()
       data.append("platform_id", values?.platform_id)
       data.append("student_id", values?.student_id)
@@ -82,6 +85,9 @@ const EditJob = props => {
         data.append("attachment", values?.attachment)
       }
       data.append("_method", "put")
+
+
+
       dispatch(
         updateFreelance(
           data,
@@ -224,7 +230,7 @@ const EditJob = props => {
                           <Input
                             name="salary"
                             label="Salary"
-                            type="number"
+                            type="text"
                             onChange={validation.handleChange}
                             onBlur={validation.handleBlur}
                             value={validation.values.salary || ""}

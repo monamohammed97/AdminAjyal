@@ -31,15 +31,13 @@ import TableContainer from "components/Common/TableContainer"
 import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
 import { validationSchema } from "./validationSchema"
-import { getRates, getStudents } from "store/fetchData/actions"
+import { getStudents } from "store/admin/student/actions"
 import { getCourses } from "store/admin/course/actions"
 import { notify } from "components/Common/notify"
-import { addRate, deleteRate, updateRate } from "store/mentor/rate/actions"
-import img from "assets/images/img.png"
+import { getRates, addRate, deleteRate, updateRate } from "store/mentor/rate/actions"
 
 const Rates = props => {
   //meta student_id
-  const [filename, setFilename] = useState("")
 
   document.title = "Rates"
 
@@ -111,11 +109,10 @@ const Rates = props => {
     },
   })
 
-  const { rates } = useSelector(store => store?.data)
-  const { students } = useSelector(store => store?.data)
-  const { courses } = useSelector(store => store?.data)
+  const { rates } = useSelector(store => store?.rates)
+  const { students } = useSelector(store => store?.students)
+  const { courses } = useSelector(store => store?.courses)
 
-  const [userList, setUserList] = useState([])
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
 

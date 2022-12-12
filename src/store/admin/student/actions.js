@@ -1,4 +1,7 @@
 import {
+  GET_STUDENTS,
+  GET_STUDENTS_FAIL,
+  GET_STUDENTS_SUCCESS,
   ADD_STUDENT,
   ADD_STUDENT_FAIL,
   ADD_STUDENT_SUCCESS,
@@ -9,6 +12,21 @@ import {
   UPDATE_STUDENT_FAIL,
   UPDATE_STUDENT_SUCCESS,
 } from "./actionTypes"
+
+// GET_STUDENTS 
+export const getStudents = () => ({
+  type: GET_STUDENTS,
+})
+
+export const getStudentsSuccess = mentors => ({
+  type: GET_STUDENTS_SUCCESS,
+  payload: mentors,
+})
+
+export const getStudentsFail = error => ({
+  type: GET_STUDENTS_FAIL,
+  payload: error,
+})
 
 // actions students
 export const addStudent = (student, cbDone, cbFail) => ({

@@ -1,8 +1,10 @@
 import { call, put, takeEvery } from "redux-saga/effects"
 
 // Ecommerce Redux States
-import { ADD_STUDENT, UPDATE_STUDENT, DELETE_STUDENT } from "./actionTypes"
+import { GET_STUDENTS, ADD_STUDENT, UPDATE_STUDENT, DELETE_STUDENT } from "./actionTypes"
 import {
+  getStudentsFail,
+  getStudentsSuccess,
   addStudentSuccess,
   addStudentFail,
   updateStudentSuccess,
@@ -11,11 +13,21 @@ import {
   deleteStudentFail,
 } from "./actions"
 import {
+  getStudentsAjyal,
   addStudentAjyal,
   deleteStudentAjyal,
   updateStudentAjyal,
 } from "helpers/fakebackend_helper"
 
+// GET_STUDENTS
+function* fetchStudents() {
+  try {
+    const response = yield call(getStudentsAjyal)
+    yield put(getStudentsSuccess(response?.data))
+  } catch (error) {
+    yield put(getStudentsFail(error))
+  }
+}
 function* onAddStudent({ payload }) {
   const { student, cbDone, cbFail } = payload
   try {
@@ -53,6 +65,7 @@ function* onDeleteStudent({ payload }) {
 }
 
 function* studentsSaga() {
+  yield takeEvery(GET_STUDENTS, fetchStudents)
   yield takeEvery(ADD_STUDENT, onAddStudent)
   yield takeEvery(UPDATE_STUDENT, onUpdateStudent)
   yield takeEvery(DELETE_STUDENT, onDeleteStudent)

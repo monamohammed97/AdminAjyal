@@ -1,8 +1,10 @@
 import { call, put, takeEvery } from "redux-saga/effects"
 
 // Ecommerce Redux States
-import { ADD_RATE, UPDATE_RATE, DELETE_RATE } from "./actionTypes"
+import { GET_RATES, ADD_RATE, UPDATE_RATE, DELETE_RATE } from "./actionTypes"
 import {
+  getRatesFail,
+  getRatesSuccess,
   addRateSuccess,
   addRateFail,
   updateRateSuccess,
@@ -11,10 +13,21 @@ import {
   deleteRateFail,
 } from "./actions"
 import {
+  getRatesAjyal,
   addRateAjyal,
   deleteRateAjyal,
   updateRateAjyal,
 } from "helpers/fakebackend_helper"
+
+// GET_RATES
+function* fetchRates() {
+  try {
+    const response = yield call(getRatesAjyal)
+    yield put(getRatesSuccess(response?.data))
+  } catch (error) {
+    yield put(getRatesFail(error))
+  }
+}
 
 function* onAddRate({ payload }) {
   const { rate, cbDone, cbFail } = payload
@@ -32,8 +45,7 @@ function* onUpdateRate({ payload }) {
   const { rate, id, cbDone, cbFail } = payload
   try {
     const response = yield call(updateRateAjyal, id, rate)
-
-    yield put(updateRateSuccess, response?.message)
+    yield put(updateRateSuccess(response?.data, id))
     cbDone?.()
   } catch (error) {
     cbFail?.()
@@ -43,9 +55,8 @@ function* onUpdateRate({ payload }) {
 function* onDeleteRate({ payload }) {
   const { rate, cbDone, cbFail } = payload
   try {
-    const response = yield call(deleteRateAjyal, rate?.student_id)
-    console.log(response, rate)
-    yield put(deleteRateSuccess(response))
+    yield call(deleteRateAjyal, rate?.student_id)
+    yield put(deleteRateSuccess(rate?.student_id))
     cbDone?.()
   } catch (error) {
     cbFail?.()
@@ -54,6 +65,7 @@ function* onDeleteRate({ payload }) {
 }
 
 function* ratesSaga() {
+  yield takeEvery(GET_RATES, fetchRates)
   yield takeEvery(ADD_RATE, onAddRate)
   yield takeEvery(UPDATE_RATE, onUpdateRate)
   yield takeEvery(DELETE_RATE, onDeleteRate)

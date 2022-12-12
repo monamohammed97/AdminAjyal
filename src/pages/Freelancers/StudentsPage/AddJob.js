@@ -22,7 +22,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { notify } from "components/Common/notify"
 import { FileInput } from "components/Form/FileInput"
 import img from "assets/images/img.png"
-import { getStudents } from "store/fetchData/actions"
+import { getStudents } from "store/admin/student/actions"
 import { getGroups } from "store/admin/group/actions"
 import { getPlatforms } from "store/admin/platform/actions"
 
@@ -80,7 +80,7 @@ const AddJob = props => {
   })
   const [filename, setFilename] = useState("")
 
-  const { students } = useSelector(store => store?.data)
+  const { students } = useSelector(store => store?.students)
   const { groups } = useSelector(store => store?.groups)
   const { platforms } = useSelector(store => store?.platforms)
 

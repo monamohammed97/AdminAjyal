@@ -1,4 +1,7 @@
 import {
+  GET_STUDENTS,
+  GET_STUDENTS_FAIL,
+  GET_STUDENTS_SUCCESS,
   ADD_STUDENT,
   ADD_STUDENT_SUCCESS,
   ADD_STUDENT_FAIL,
@@ -18,6 +21,23 @@ const INIT_STATE = {
 
 const students = (state = INIT_STATE, action) => {
   switch (action.type) {
+    // GET_STUDENTS
+    case GET_STUDENTS:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case GET_STUDENTS_SUCCESS:
+      return {
+        ...state,
+        students: action.payload,
+      }
+    case GET_STUDENTS_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      }
+    
     // add student
     case ADD_STUDENT:
       return {

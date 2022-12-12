@@ -76,6 +76,7 @@ const Projects = props => {
       if (isEdit) {
         var edit = new FormData()
         edit.append("budget", values?.budget)
+        edit.append("partner_id", values?.partner_id)
         edit.append("end_date", values?.end_date)
         edit.append("description", values?.description)
         edit.append("title", values?.title)
@@ -85,19 +86,7 @@ const Projects = props => {
         if (values?.image instanceof File) {
           edit.append("image", values?.image)
         }
-        // contact.budget !== values.budget &&
-        //   edit.append("budget", values?.budget)
-        // contact.end_date !== values.end_date &&
-        //   edit.append("end_date", values?.end_date)
-        // contact.description !== values.description &&
-        //   edit.append("description", values?.description)
-        // contact.title !== values.title && edit.append("title", values?.title)
-        // contact.start_date !== values.start_date &&
-        //   edit.append("start_date", values?.start_date)
-        // contact.status !== values.status &&
-        //   edit.append("status", values?.status)
-        // edit.append("_method", "put")
-        // typeof values.image === "object" && edit.append("image", values?.image)
+
 
         dispatch(
           updateProject(
@@ -145,7 +134,7 @@ const Projects = props => {
   const { projects } = useSelector(store => store?.projects)
   const { partners } = useSelector(store => store?.partners)
 
-  const [userList, setUserList] = useState([])
+  // const [userList, setUserList] = useState([])
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
 
@@ -185,11 +174,11 @@ const Projects = props => {
       },
       {
         Header: "Partner",
-        accessor: "partner_id",
+        accessor: "partners",
         filterable: true,
-        Cell: cellProps => {
-          return <Partner {...cellProps} />
-        },
+        Cell: cellProps =>(
+          <Partner {...cellProps?.value[0]} />
+        ),
       },
       {
         Header: "Budget",
@@ -199,7 +188,6 @@ const Projects = props => {
           return <Budget {...cellProps} />
         },
       },
-
       {
         Header: "Start Date",
         accessor: "start_date",

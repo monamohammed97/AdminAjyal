@@ -1,4 +1,7 @@
 import {
+  GET_RATES,
+  GET_RATES_FAIL,
+  GET_RATES_SUCCESS,
   ADD_RATE,
   ADD_RATE_SUCCESS,
   ADD_RATE_FAIL,
@@ -18,6 +21,22 @@ const INIT_STATE = {
 
 const rates = (state = INIT_STATE, action) => {
   switch (action.type) {
+    // GET_RATES
+    case GET_RATES:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case GET_RATES_SUCCESS:
+      return {
+        ...state,
+        rates: action.payload,
+      }
+    case GET_RATES_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      }
     // add rate
     case ADD_RATE:
       return {
@@ -27,7 +46,7 @@ const rates = (state = INIT_STATE, action) => {
     case ADD_RATE_SUCCESS:
       return {
         ...state,
-        rates: action.payload,
+        rates: [ ...state.rates, action.payload],
         isLoading: false,
         isSuccess: true
       }
@@ -74,7 +93,7 @@ const rates = (state = INIT_STATE, action) => {
       return {
         ...state,
         rates: state.rates.filter(
-          rate => rate.id.toString() !== action.payload.id.toString()
+          rate => rate.id.toString() !== action.payload.toString()
         ),
         isLoading: false,
         isSuccess: true

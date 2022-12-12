@@ -1,4 +1,7 @@
 import {
+  GET_RATES,
+  GET_RATES_FAIL,
+  GET_RATES_SUCCESS,
   ADD_RATE,
   ADD_RATE_FAIL,
   ADD_RATE_SUCCESS,
@@ -10,6 +13,20 @@ import {
   UPDATE_RATE_SUCCESS,
 } from "./actionTypes"
 
+// GET_RATES 
+export const getRates = () => ({
+  type: GET_RATES,
+})
+
+export const getRatesSuccess = mentors => ({
+  type: GET_RATES_SUCCESS,
+  payload: mentors,
+})
+
+export const getRatesFail = error => ({
+  type: GET_RATES_FAIL,
+  payload: error,
+})
 // actions rates
 export const addRate = (rate, cbDone, cbFail) => ({
   type: ADD_RATE,

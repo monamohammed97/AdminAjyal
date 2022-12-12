@@ -1,3 +1,7 @@
+export const GET_RATES = "GET_RATES"
+export const GET_RATES_SUCCESS = "GET_RATES_SUCCESS"
+export const GET_RATES_FAIL = "GET_RATES_FAIL"
+
 export const ADD_RATE = "ADD_RATE"
 export const ADD_RATE_SUCCESS = "ADD_RATE_SUCCESS"
 export const ADD_RATE_FAIL = "ADD_RATE_FAIL"
