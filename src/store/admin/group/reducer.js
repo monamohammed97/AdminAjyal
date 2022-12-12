@@ -11,6 +11,9 @@ import {
   DELETE_GROUP,
   DELETE_GROUP_SUCCESS,
   DELETE_GROUP_FAIL,
+  IMPORT_EXCEL,
+  IMPORT_EXCEL_SUCCESS,
+  IMPORT_EXCEL_FAIL,
 } from "./actionTypes"
 
 const INIT_STATE = {
@@ -99,6 +102,25 @@ const groups = (state = INIT_STATE, action) => {
         isSuccess: true,
       }
     case DELETE_GROUP_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+        isLoading: false,
+      }
+
+    // import excel
+    case IMPORT_EXCEL:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case IMPORT_EXCEL_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        isSuccess: true,
+      }
+    case IMPORT_EXCEL_FAIL:
       return {
         ...state,
         error: action.payload,

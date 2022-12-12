@@ -530,6 +530,10 @@ export const updateStudentAjyal = (id, student) => {
   }
   return post(`${url.UPDATE_STUDENT_AJYAL}/${id}`, student, config)
 }
+
+// Import-excel
+export const ImportExcelAjyal = excel => post(url.IMPORT_EXCEL, excel)
+
 // GET_RATES
 export const getRatesAjyal = () => get(url.GET_RATES_AJYAL)
 export const addRateAjyal = rate => post(url.ADD_RATE_AJYAL, rate)
