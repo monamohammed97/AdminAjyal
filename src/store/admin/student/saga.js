@@ -44,7 +44,7 @@ function* onUpdateStudent({ payload }) {
   const { student, id, cbDone, cbFail } = payload
   try {
     const response = yield call(updateStudentAjyal, id, student)
-    yield put(updateStudentSuccess, response?.message)
+    yield put(updateStudentSuccess(response?.data, id))
     cbDone?.()
   } catch (error) {
     cbFail?.()
@@ -54,9 +54,8 @@ function* onUpdateStudent({ payload }) {
 function* onDeleteStudent({ payload }) {
   const { student, cbDone, cbFail } = payload
   try {
-    const response = yield call(deleteStudentAjyal, student?.id)
-    console.log(response)
-    yield put(deleteStudentSuccess(response))
+    yield call(deleteStudentAjyal, student?.id)
+    yield put(deleteStudentSuccess(student?.id))
     cbDone?.()
   } catch (error) {
     cbFail?.()

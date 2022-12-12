@@ -24,7 +24,7 @@ const Address = (cell) => {
     return cell.value ? cell.value : '';
 };
 const Phone = (cell) => {
-    return cell.value ? cell.value : '';
+    return cell.value !=0 ? cell.value : '0';
 };
 const Rate = (cell) => {
     return cell.value ? cell.value : '';
@@ -41,6 +41,9 @@ const TotalIncome = (cell) => {
 const TotalJobs = (cell) => {
     return cell.value ? cell.value : '';
 };
+const Group = (cell) => {
+    return cell.value ? cell.value : '';
+};
 
 
 export {
@@ -52,5 +55,6 @@ export {
     Transport,
     Status,
     TotalIncome,
-    TotalJobs
+    TotalJobs,
+    Group
 };
