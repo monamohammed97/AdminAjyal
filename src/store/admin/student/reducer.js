@@ -37,7 +37,7 @@ const students = (state = INIT_STATE, action) => {
         ...state,
         error: action.payload,
       }
-    
+
     // add student
     case ADD_STUDENT:
       return {
@@ -47,9 +47,9 @@ const students = (state = INIT_STATE, action) => {
     case ADD_STUDENT_SUCCESS:
       return {
         ...state,
-        students: action.payload,
+        students: [...state.students, action.payload],
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case ADD_STUDENT_FAIL:
       return {
@@ -74,7 +74,7 @@ const students = (state = INIT_STATE, action) => {
             : student
         ),
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case UPDATE_STUDENT_FAIL:
       return {
@@ -94,10 +94,10 @@ const students = (state = INIT_STATE, action) => {
       return {
         ...state,
         students: state.students.filter(
-          student => student.id.toString() !== action.payload.id.toString()
+          student => student.id.toString() !== action.payload.toString()
         ),
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case DELETE_STUDENT_FAIL:
       return {
@@ -105,7 +105,6 @@ const students = (state = INIT_STATE, action) => {
         error: action.payload,
         isLoading: false,
       }
-
 
     default:
       return state

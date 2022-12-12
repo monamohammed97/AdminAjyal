@@ -28,6 +28,7 @@ import {
   Status,
   TotalIncome,
   TotalJobs,
+  Group,
 } from "./contactlistCol"
 
 //Import Breadcrumb
@@ -49,6 +50,7 @@ import {
 } from "store/admin/student/actions"
 import { notify } from "components/Common/notify"
 import img from "assets/images/img.png"
+import { getGroups } from "store/admin/group/actions"
 
 const Students = props => {
   //meta title
@@ -66,14 +68,16 @@ const Students = props => {
       first_name: (contact && contact.first_name) || "",
       last_name: (contact && contact.last_name) || "",
       email: (contact && contact.email) || "",
+      password: (contact && contact.password) || "",
       gender: (contact && contact.gender) || "",
       phone: (contact && contact.phone) || "",
       address: (contact && contact.address) || "",
       rate: (contact && contact.rate) || "",
       transport: (contact && contact.transport) || "",
       status: (contact && contact.status) || "",
-      total_income: (contact && contact.total_income) || "",
-      total_jobs: (contact && contact.total_jobs) || "",
+      // total_income: (contact && contact.total_income) || "",
+      // total_jobs: (contact && contact.total_jobs) || "",
+      group_id: (contact && contact.group_id) || "",
       image: (contact && contact.image) || img,
     },
     // validationSchema: validationSchema,
@@ -85,11 +89,13 @@ const Students = props => {
         edit.append("gender", values?.gender)
         edit.append("email", values?.email)
         edit.append("phone", values?.phone)
+        edit.append("rate", values?.rate)
         edit.append("address", values?.address)
         edit.append("transport", values?.transport)
         edit.append("status", values?.status)
-        edit.append("total_income", values?.total_income)
-        edit.append("total_jobs", values?.total_jobs)
+        // edit.append("total_income", values?.total_income)
+        // edit.append("total_jobs", values?.total_jobs)
+        edit.append("group_id", values?.group_id)
         edit.append("_method", "put")
         edit.append("image", values?.image)
         // contact.first_name !== values.first_name && edit.append("first_name", values?.first_name)
@@ -130,12 +136,16 @@ const Students = props => {
         data.append("first_name", values?.first_name)
         data.append("last_name", values?.last_name)
         data.append("email", values?.email)
+        data.append("password", values?.password)
         data.append("phone", values?.phone)
+        data.append("gender", values?.gender)
+        data.append("rate", values?.rate)
         data.append("address", values?.address)
         data.append("transport", values?.transport)
         data.append("status", values?.status)
-        data.append("total_income", values?.total_income)
-        data.append("total_jobs", values?.total_jobs)
+        // data.append("total_income", values?.total_income)
+        // data.append("total_jobs", values?.total_jobs)
+        data.append("group_id", values?.group_id)
         data.append("image", values?.image)
 
         dispatch(
@@ -156,8 +166,8 @@ const Students = props => {
   })
 
   const { students } = useSelector(store => store?.students)
+  const { groups } = useSelector(store => store?.groups)
 
-  const [userList, setUserList] = useState([])
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
 
@@ -236,19 +246,11 @@ const Students = props => {
         },
       },
       {
-        Header: "TotalIncome",
-        accessor: "total_income",
+        Header: "Group",
+        accessor: "group_id",
         filterable: true,
         Cell: cellProps => {
-          return <TotalIncome {...cellProps} />
-        },
-      },
-      {
-        Header: "TotalJobs",
-        accessor: "total_jobs",
-        filterable: true,
-        Cell: cellProps => {
-          return <TotalJobs {...cellProps} />
+          return <Group {...cellProps} />
         },
       },
       {
@@ -316,6 +318,7 @@ const Students = props => {
     []
   )
   useEffect(() => {
+    dispatch(getGroups())
     dispatch(getStudents())
   }, [dispatch])
 
@@ -349,12 +352,16 @@ const Students = props => {
       first_name: student.first_name,
       last_name: student.last_name,
       email: student.email,
+      password: student.password,
       phone: student.phone,
+      gender: student.gender,
       transport: student.transport,
       address: student.address,
       status: student.status,
-      total_income: student.total_income,
-      total_jobs: student.total_jobs,
+      reate: student.reate,
+      // total_income: student.total_income,
+      // total_jobs: student.total_jobs,
+      group_id: student.group_id,
       image: student.image,
     })
     setIsEdit(true)
@@ -544,6 +551,52 @@ const Students = props => {
                                 </FormFeedback>
                               ) : null}
                             </div>
+                            {
+                              isEdit?null:<div className="mb-3">
+                              <Label className="form-label">Password</Label>
+                              <Input
+                                name="password"
+                                label="Password"
+                                type="password"
+                                onChange={validation.handleChange}
+                                onBlur={validation.handleBlur}
+                                value={validation.values.password || ""}
+                                invalid={
+                                  validation.touched.password &&
+                                  validation.errors.password
+                                    ? true
+                                    : false
+                                }
+                              />
+                              {validation.touched.password &&
+                              validation.errors.password ? (
+                                <FormFeedback type="invalid">
+                                  {validation.errors.password}
+                                </FormFeedback>
+                              ) : null}
+                            </div>
+                            }
+                            <div className="mb-3">
+                              <Label className="form-label">Gender</Label>
+                              <Input
+                                name="gender"
+                                type="select"
+                                className="form-select"
+                                onChange={validation.handleChange}
+                                onBlur={validation.handleBlur}
+                                value={validation.values.gender || ""}
+                              >
+                                <option selected disabled></option>
+                                <option value={"male"}>Male </option>
+                                <option value={"female"}>Female</option>
+                              </Input>
+                              {validation.touched.gender &&
+                              validation.errors.gender ? (
+                                <FormFeedback type="invalid">
+                                  {validation.errors.gender}
+                                </FormFeedback>
+                              ) : null}
+                            </div>
                             <div className="mb-3">
                               <Label className="form-label">Phone</Label>
                               <Input
@@ -572,7 +625,7 @@ const Students = props => {
                               <Input
                                 name="transport"
                                 label="Transport"
-                                type="text"
+                                type="number"
                                 onChange={validation.handleChange}
                                 onBlur={validation.handleBlur}
                                 value={validation.values.transport || ""}
@@ -595,7 +648,9 @@ const Students = props => {
                               <Input
                                 name="rate"
                                 label="Rate"
-                                type="text"
+                                type="number"
+                                max={5}
+                                min={0}
                                 onChange={validation.handleChange}
                                 onBlur={validation.handleBlur}
                                 value={validation.values.rate || ""}
@@ -640,18 +695,16 @@ const Students = props => {
                               <Label className="form-label">Status</Label>
                               <Input
                                 name="status"
-                                label="Status"
-                                type="text"
+                                type="select"
+                                className="form-select"
                                 onChange={validation.handleChange}
                                 onBlur={validation.handleBlur}
                                 value={validation.values.status || ""}
-                                invalid={
-                                  validation.touched.status &&
-                                  validation.errors.status
-                                    ? true
-                                    : false
-                                }
-                              />
+                              >
+                                <option selected disabled></option>
+                                <option value={"active"}>Active </option>
+                                <option value={"inactive"}>Inactive</option>
+                              </Input>
                               {validation.touched.status &&
                               validation.errors.status ? (
                                 <FormFeedback type="invalid">
@@ -660,48 +713,32 @@ const Students = props => {
                               ) : null}
                             </div>
                             <div className="mb-3">
-                              <Label className="form-label">Total Income</Label>
+                              <Label className="form-label">Group</Label>
                               <Input
-                                name="total_income"
-                                label="Total Income"
-                                type="text"
+                                name="group_id"
+                                className="form-control"
+                                type="select"
                                 onChange={validation.handleChange}
                                 onBlur={validation.handleBlur}
-                                value={validation.values.total_income || ""}
+                                value={validation.values.group_id || ""}
                                 invalid={
-                                  validation.touched.total_income &&
-                                  validation.errors.total_income
+                                  validation.touched.group_id &&
+                                  validation.errors.group_id
                                     ? true
                                     : false
                                 }
-                              />
-                              {validation.touched.total_income &&
-                              validation.errors.total_income ? (
+                              >
+                                <option defaultValue disabled></option>
+                                {groups?.map(el => (
+                                  <option key={el?.id} value={el.id}>
+                                    {el.title}
+                                  </option>
+                                ))}
+                              </Input>
+                              {validation.touched.group_id &&
+                              validation.errors.group_id ? (
                                 <FormFeedback type="invalid">
-                                  {validation.errors.total_income}
-                                </FormFeedback>
-                              ) : null}
-                            </div>
-                            <div className="mb-3">
-                              <Label className="form-label">Total Jobs</Label>
-                              <Input
-                                name="total_jobs"
-                                label="Total Jobs"
-                                type="text"
-                                onChange={validation.handleChange}
-                                onBlur={validation.handleBlur}
-                                value={validation.values.total_jobs || ""}
-                                invalid={
-                                  validation.touched.total_jobs &&
-                                  validation.errors.total_jobs
-                                    ? true
-                                    : false
-                                }
-                              />
-                              {validation.touched.total_jobs &&
-                              validation.errors.total_jobs ? (
-                                <FormFeedback type="invalid">
-                                  {validation.errors.total_jobs}
+                                  {validation.errors.group_id}
                                 </FormFeedback>
                               ) : null}
                             </div>
