@@ -641,3 +641,14 @@ export const addAboutusAjyal = aboutus => {
   }
   return post(url.ADD_ABOUTUS_AJYAL, aboutus, config)
 }
+// change Pass
+export const changePass = data => {
+  const token = localStorage.getItem("token")
+  const config = {
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }
+ return post(url.CHANGE_PASS, data, config)
+}

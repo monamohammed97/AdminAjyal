@@ -8,6 +8,7 @@ import login from "./auth/login/reducer"
 import Account from "./auth/register/reducer"
 import ForgetPassword from "./auth/forgetpwd/reducer"
 import Profile from "./auth/profile/reducer"
+import changePassword from "./auth/changePass/reducer"
 
 //Dashboard
 import Dashboard from "./dashboard/reducer"
@@ -59,6 +60,7 @@ const rootReducer = combineReducers({
   freelance,
   contacts,
   landingPage,
+  changePassword
 })
 
 export default rootReducer

@@ -30,7 +30,7 @@ import Admin from "../pages/AuthenticationInner/Admin"
 import Mentor from "pages/AuthenticationInner/Mentor"
 import Student from "pages/AuthenticationInner/Student"
 import NotFound from "pages/NotFound/NotFound"
-import ChangePass from "pages/Authentication/ChangePass"
+// import ChangePass from "pages/Authentication/ChangePass"
 
 const EmptyDiv = () => {
   const { role } = useSelector(store => store?.login)
@@ -66,7 +66,7 @@ const authProtectedRoutes = [
 const publicRoutes = [
   { path: "/", component: EmptyDiv, isProtected: true },
   { path: "/logout", component: Logout, isProtected: true },
-  { path: "/change_password", component: ChangePass, isProtected: true },
+  // { path: "/change_password", component: ChangePass, isProtected: true },
   {
     path: "/admin_login",
     component: Admin,
