@@ -184,7 +184,7 @@ const Courses = props => {
       },
       {
         Header: "Mentor",
-        accessor: "mentor_id",
+        accessor: "mentor",
         filterable: true,
         Cell: cellProps => {
           return <MentorID {...cellProps} />
@@ -192,7 +192,7 @@ const Courses = props => {
       },
       {
         Header: "Group",
-        accessor: "group_id",
+        accessor: "group",
         filterable: true,
         Cell: cellProps => {
           return <GroupID {...cellProps} />

@@ -258,12 +258,12 @@ const SidebarContent = props => {
                     <span>{props.t("Courses")}</span>
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link to="/training">
                     <i className="far fa-newspaper"></i>
                     <span>{props.t("Latest Training Courses")}</span>
                   </Link>
-                </li>
+                </li> */}
               </>
             ) : null}
             {role == "student" ? (
