@@ -11,6 +11,9 @@ import {
   UPDATE_GROUP,
   UPDATE_GROUP_FAIL,
   UPDATE_GROUP_SUCCESS,
+  IMPORT_EXCEL,
+  IMPORT_EXCEL_SUCCESS,
+  IMPORT_EXCEL_FAIL,
 } from "./actionTypes"
 
 // GET_GROUPS
@@ -71,5 +74,20 @@ export const deleteGroupSuccess = group => ({
 
 export const deleteGroupFail = error => ({
   type: DELETE_GROUP_FAIL,
+  payload: error,
+})
+
+export const importExcel = (excel, cbDone, cbFail) => ({
+  type: IMPORT_EXCEL,
+  payload: { excel, cbDone, cbFail },
+})
+
+export const importExcelSuccess = excel => ({
+  type: IMPORT_EXCEL_SUCCESS,
+  payload: excel,
+})
+
+export const importExcelFail = error => ({
+  type: IMPORT_EXCEL_FAIL,
   payload: error,
 })

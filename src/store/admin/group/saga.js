@@ -6,6 +6,7 @@ import {
   ADD_GROUP,
   UPDATE_GROUP,
   DELETE_GROUP,
+  IMPORT_EXCEL,
 } from "./actionTypes"
 import {
   getGroupsSuccess,
@@ -16,12 +17,16 @@ import {
   updateGroupFail,
   deleteGroupSuccess,
   deleteGroupFail,
+  importExcel,
+  importExcelSuccess,
+  importExcelFail,
 } from "./actions"
 import {
   getGroupsAjyal,
   addGroupAjyal,
   deleteGroupAjyal,
   updateGroupAjyal,
+  ImportExcelAjyal,
 } from "helpers/fakebackend_helper"
 
 // GET_GROUPS
@@ -69,11 +74,24 @@ function* onDeleteGroup({ payload }) {
   }
 }
 
+function* onImportExcel({ payload }) {
+  const { excel, cbDone, cbFail } = payload
+  try {
+    const response = yield call(ImportExcelAjyal, excel)
+    yield put(importExcelSuccess(response?.data))
+    cbDone?.()
+  } catch (error) {
+    cbFail?.()
+    yield put(importExcelFail(error))
+  }
+}
+
 function* groupsSaga() {
   yield takeEvery(GET_GROUPS, fetchGroups)
   yield takeEvery(ADD_GROUP, onAddGroup)
   yield takeEvery(UPDATE_GROUP, onUpdateGroup)
   yield takeEvery(DELETE_GROUP, onDeleteGroup)
+  yield takeEvery(IMPORT_EXCEL, onImportExcel)
 }
 
 export default groupsSaga
