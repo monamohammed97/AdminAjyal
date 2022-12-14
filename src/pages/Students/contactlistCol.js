@@ -27,7 +27,7 @@ const Phone = (cell) => {
     return cell.value ? cell.value : '';
 };
 const Rate = (cell) => {
-    return cell.value !=0 ? cell.value : '0';
+    return cell.value ? cell.value : '';
 };
 const Transport = (cell) => {
     return cell.value ? cell.value : '';

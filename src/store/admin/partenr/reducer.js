@@ -70,7 +70,7 @@ const partners = (state = INIT_STATE, action) => {
         ...state,
         partners: state.partners.map(partenr =>
           partenr.id.toString() === action.payload.id.toString()
-            ? { partenr, ...action.payload?.partenr }
+            ? { partenr, ...action.payload.partner }
             : partenr
         ),
         isLoading: false,

@@ -145,7 +145,7 @@ const Students = props => {
         data.append("status", values?.status)
         // data.append("total_income", values?.total_income)
         // data.append("total_jobs", values?.total_jobs)
-        data.append("group_id", values?.group_id)
+        data.append("group_id[]", [values?.group_id])
         data.append("image", values?.image)
 
         dispatch(
@@ -647,20 +647,18 @@ const Students = props => {
                               <Label className="form-label">Rate</Label>
                               <Input
                                 name="rate"
-                                label="Rate"
-                                type="number"
-                                max={5}
-                                min={0}
+                                type="select"
+                                className="form-select"
                                 onChange={validation.handleChange}
                                 onBlur={validation.handleBlur}
                                 value={validation.values.rate || ""}
-                                invalid={
-                                  validation.touched.rate &&
-                                  validation.errors.rate
-                                    ? true
-                                    : false
-                                }
-                              />
+                              >
+                                <option selected disabled></option>
+                                <option value={"Featured"}>Featured </option>
+                                <option value={"Junior"}>Junior</option>
+                                <option value={"Average"}>Average</option>
+                                <option value={"Unclassified"}>Unclassified</option>
+                              </Input>
                               {validation.touched.rate &&
                               validation.errors.rate ? (
                                 <FormFeedback type="invalid">
