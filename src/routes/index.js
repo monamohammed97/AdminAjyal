@@ -30,12 +30,13 @@ import Admin from "../pages/AuthenticationInner/Admin"
 import Mentor from "pages/AuthenticationInner/Mentor"
 import Student from "pages/AuthenticationInner/Student"
 import NotFound from "pages/NotFound/NotFound"
+import Attendence from "pages/Attendence/Attendence"
 // import ChangePass from "pages/Authentication/ChangePass"
 
 const EmptyDiv = () => {
   const { role } = useSelector(store => store?.login)
   if (role === STUDENT) return <Redirect to={"/freelancer"} />
-  else if (role === MENTOR) return <Redirect to={"/rates"} />
+  else if (role === MENTOR) return <Redirect to={"/attendence"} />
   else if (role === ADMIN) return <Redirect to={"/users"} />
   else return <>.</>
 }
@@ -89,8 +90,8 @@ const publicRoutes = [
 ]
 
 const authMentorRoutes = [
+  { path: "/attendence", component: Attendence },
   { path: "/rates", component: Rates },
-  { path: "/attendence", component: Rates },
 ]
 
 const authStudentRoutes = [
