@@ -190,7 +190,7 @@ const Students = props => {
   const [isEdit, setIsEdit] = useState(false)
   const [dataSelect, setData] = useState([])
 
-  console.log(dataSelect)
+  // console.log(dataSelect)
   const [selectedFiles, setselectedFiles] = useState([])
   function handleAcceptedFiles(files) {
     files.map(file =>
