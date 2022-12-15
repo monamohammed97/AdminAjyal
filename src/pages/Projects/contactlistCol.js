@@ -33,7 +33,7 @@ const Status = (cell) => {
     return cell.value ? cell.value : '';
 };
 const Partner = (cell) => {
-    return cell.name ? cell.name : '';
+    return cell.name ? cell.name +", " : '';
 };
 
 

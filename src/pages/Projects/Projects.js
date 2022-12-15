@@ -48,6 +48,7 @@ import {
 } from "store/admin/project/actions"
 import { getPartenrs } from "store/admin/partenr/actions"
 import img from "assets/images/img.png"
+import Select from "react-select"
 
 const Projects = props => {
   //meta budget
@@ -76,7 +77,10 @@ const Projects = props => {
       if (isEdit) {
         var edit = new FormData()
         edit.append("budget", values?.budget)
-        edit.append("partner_id", values?.partner_id)
+        // edit.append("partner_id", values?.partner_id)
+        dataSelect?.map((el, index) => {
+          data.append(`partner_id[${index}]`, el.value)
+        })
         edit.append("end_date", values?.end_date)
         edit.append("description", values?.description)
         edit.append("title", values?.title)
@@ -106,7 +110,10 @@ const Projects = props => {
       } else {
         var data = new FormData()
         data.append("budget", values?.budget)
-        data.append("partner_id", values?.partner_id)
+        // data.append("partner_id", values?.partner_id)
+        dataSelect?.map((el, index) => {
+          data.append(`partner_id[${index}]`, el.value)
+        })
         data.append("end_date", values?.end_date)
         data.append("description", values?.description)
         data.append("title", values?.title)
@@ -133,10 +140,13 @@ const Projects = props => {
 
   const { projects } = useSelector(store => store?.projects)
   const { partners } = useSelector(store => store?.partners)
+  let optionGroups = []
+  partners?.forEach(el => optionGroups.push({ label: el?.name, value: el?.id }))
 
   // const [userList, setUserList] = useState([])
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
+  const [dataSelect, setData] = useState([])
 
   const [selectedFiles, setselectedFiles] = useState([])
   function handleAcceptedFiles(files) {
@@ -176,9 +186,9 @@ const Projects = props => {
         Header: "Partner",
         accessor: "partners",
         filterable: true,
-        Cell: cellProps =>(
-          <Partner {...cellProps?.value[0]} />
-        ),
+        Cell: cellProps =>{
+          return cellProps?.value?.map(el => <Partner key={el?.id} {...el} />)
+        },
       },
       {
         Header: "Budget",
@@ -247,7 +257,12 @@ const Projects = props => {
                 className="text-success"
                 onClick={() => {
                   const userData = cellProps.row.original
-                  // console.log("userData :", userData)
+                  // let optionGroups = []
+                  // userData?.partners?.forEach(el =>
+                  //   optionGroups.push({ label: el?.title, value: el?.id })
+                  // )
+                  // setData(optionGroups)
+                  console.log("userData :", userData)
                   handleUserClick(userData)
                 }}
               >
@@ -507,27 +522,16 @@ const Projects = props => {
                             </div>
                             <div className="mb-3">
                               <Label className="form-label">Partner</Label>
-                              <Input
-                                name="partner_id"
-                                className="form-control"
-                                type="select"
-                                onChange={validation.handleChange}
-                                onBlur={validation.handleBlur}
-                                value={validation.values.partner_id || ""}
-                                invalid={
-                                  validation.touched.partner_id &&
-                                  validation.errors.partner_id
-                                    ? true
-                                    : false
-                                }
-                              >
-                                <option selected disabled></option>
-                                {partners?.map(el => (
-                                  <option key={el?.id} value={el.id}>
-                                    {el.name}
-                                  </option>
-                                ))}
-                              </Input>
+                              <Select
+                                value={dataSelect}
+                                isMulti={true}
+                                onChange={dataSelect => {
+                                  // console.log(value)
+                                  setData(dataSelect)
+                                }}
+                                options={optionGroups}
+                                classNamePrefix="select2-selection"
+                              />
                               {validation.touched.partner_id &&
                               validation.errors.partner_id ? (
                                 <FormFeedback type="invalid">
