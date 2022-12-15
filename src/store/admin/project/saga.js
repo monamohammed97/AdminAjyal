@@ -1,7 +1,12 @@
 import { call, put, takeEvery } from "redux-saga/effects"
 
 // Ecommerce Redux States
-import { GET_PROJECTS, ADD_PROJECT, UPDATE_PROJECT, DELETE_PROJECT } from "./actionTypes"
+import {
+  GET_PROJECTS,
+  ADD_PROJECT,
+  UPDATE_PROJECT,
+  DELETE_PROJECT,
+} from "./actionTypes"
 import {
   getProjectsFail,
   getProjectsSuccess,
@@ -23,12 +28,11 @@ import {
 function* fetchProjects() {
   try {
     const response = yield call(getProjectsAjyal)
-    yield put(getProjectsSuccess(response?.data))
+    yield put(getProjectsSuccess(response?.data?.projectsr))
   } catch (error) {
     yield put(getProjectsFail(error))
   }
 }
-
 
 function* onAddProject({ payload }) {
   const { project, cbDone, cbFail } = payload

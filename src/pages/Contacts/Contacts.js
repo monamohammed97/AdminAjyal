@@ -30,29 +30,14 @@ import { notify } from "components/Common/notify"
 
 const Contacts = props => {
   //meta question
-  const [filename, setFilename] = useState("")
-
   document.title = "Contacts"
 
   const dispatch = useDispatch()
   const [contact, setContact] = useState()
-
-  const { contacts } = useSelector(store => store?.contacts)
-
-  const [userList, setUserList] = useState([])
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
 
-  const [selectedFiles, setselectedFiles] = useState([])
-  function handleAcceptedFiles(files) {
-    files.map(file =>
-      Object.assign(file, {
-        preview: URL.createObjectURL(file),
-        formattedSize: formatBytes(file.size),
-      })
-    )
-    setselectedFiles(files)
-  }
+  const { contacts } = useSelector(store => store?.contacts)
 
   const columns = useMemo(
     () => [
@@ -135,13 +120,6 @@ const Contacts = props => {
     dispatch(getContacts())
   }, [dispatch])
 
-  // useEffect(() => {
-  //   if (contacts && !contacts.length) {
-  //     dispatch(getContacts())
-  //     setIsEdit(false)
-  //   }
-  // }, [dispatch, contacts])
-
   useEffect(() => {
     setContact(contacts)
     setIsEdit(false)
@@ -214,8 +192,6 @@ const Contacts = props => {
     setIsEdit(false)
     toggle()
   }
-
-  const keyField = "id"
 
   return (
     <React.Fragment>

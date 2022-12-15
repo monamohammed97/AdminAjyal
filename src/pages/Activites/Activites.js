@@ -36,7 +36,7 @@ import DeleteModal from "components/Common/DeleteModal"
 import TableContainer from "components/Common/TableContainer"
 import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
-import { validationSchema } from "./validationSchema"
+import { getValidationSchema } from "./validationSchema"
 import { getProjects } from "store/admin/project/actions"
 import img from "assets/images/img.png"
 import {
@@ -49,26 +49,25 @@ import { getActivityType } from "store/admin/activityType/actions"
 import { notify } from "components/Common/notify"
 
 const Activites = props => {
-  //meta project_id
-  const [filename, setFilename] = useState("")
-
   document.title = "Activites"
 
   const dispatch = useDispatch()
   const [contact, setContact] = useState()
+  const [modal, setModal] = useState(false)
+  const [isEdit, setIsEdit] = useState(false)
+
   // validation
   const validation = useFormik({
     enableReinitialize: true,
-
     initialValues: {
       project_id: (contact && contact.project_id) || "",
       activity_type_id: (contact && contact.activity_type_id) || "",
       title: (contact && contact.title) || "",
       description: (contact && contact.description) || "",
       date: (contact && contact.date) || "",
-      image: (contact && contact.image) || img,
+      image: (contact && contact?.image) || null,
     },
-    // validationSchema: validationSchema,
+    validationSchema: getValidationSchema(isEdit),
     onSubmit: async values => {
       if (isEdit) {
         var edit = new FormData()
@@ -124,20 +123,6 @@ const Activites = props => {
   const { activities } = useSelector(store => store?.activities)
   const { activityType } = useSelector(store => store?.activityType)
   const { projects } = useSelector(store => store?.projects)
-
-  const [modal, setModal] = useState(false)
-  const [isEdit, setIsEdit] = useState(false)
-
-  const [selectedFiles, setselectedFiles] = useState([])
-  function handleAcceptedFiles(files) {
-    files.map(file =>
-      Object.assign(file, {
-        preview: URL.createObjectURL(file),
-        formattedSize: formatBytes(file.size),
-      })
-    )
-    setselectedFiles(files)
-  }
 
   const columns = useMemo(
     () => [
@@ -221,7 +206,6 @@ const Activites = props => {
                 className="text-success"
                 onClick={() => {
                   const userData = cellProps.row.original
-                  // console.log("userData :", userData)
                   handleUserClick(userData)
                 }}
               >
@@ -250,6 +234,7 @@ const Activites = props => {
     ],
     []
   )
+
   useEffect(() => {
     dispatch(getActivities())
     dispatch(getActivityType())
@@ -338,8 +323,6 @@ const Activites = props => {
     toggle()
   }
 
-  const keyField = "id"
-
   return (
     <React.Fragment>
       <DeleteModal
@@ -384,34 +367,30 @@ const Activites = props => {
                           <FileInput
                             name="image"
                             src={
-                              typeof validation.values.image === "object"
-                                ? URL.createObjectURL(
-                                    validation.values["image"]
-                                  )
+                              typeof validation.values?.image === "object" &&
+                              validation.values?.image
+                                ? URL.createObjectURL(validation.values?.image)
                                 : typeof validation.values.image === "string"
-                                ? validation.values["image"]
-                                : filename
                                 ? validation.values.image
-                                : img2
+                                : img
                             }
                             onChange={event => {
-                              setFilename(
-                                prev => event.target.files[0]?.project_id || ""
-                              )
-
                               validation.setFieldValue(
                                 "image",
                                 event.currentTarget.files[0]
                               )
                             }}
                           />
-                          {/* {filename && (
+                          {validation.touched.image &&
+                          validation.errors.image ? (
                             <h6>
-                              {filename} <span htmlFor={"avatar"}>Change</span>
+                              <span className="text-danger" htmlFor={"image"}>
+                                {validation.errors.image}
+                              </span>
                             </h6>
-                          )} */}
+                          ) : null}
                         </Row>
-                        <Row form>
+                        <Row>
                           <Col xs={12}>
                             <div className="mb-3">
                               <Label className="form-label">Title</Label>
