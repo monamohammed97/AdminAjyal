@@ -30,30 +30,42 @@ import { withRouter, Link } from "react-router-dom"
 import user1 from "../../../assets/images/users/male_avatar.webp"
 import { useFormik } from "formik"
 import * as Yup from "yup"
+import { changePassword } from "store/auth/changePass/actions"
+import { useDispatch } from "react-redux"
+import { notify } from "components/Common/notify"
 
 const ProfileMenu = props => {
   // Declare a new state variable, which we'll call "menu"
   const [menu, setMenu] = useState(false)
   const [modal, setModal] = useState(false)
-
+  const dispatch = useDispatch()
   const validation = useFormik({
     // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
 
     initialValues: {
-      current_password: "",
+      old_password: "",
       new_password: "",
-      password_confirmation: "",
+      new_password_confirmation: "",
     },
     validationSchema: Yup.object({
-      current_password: Yup.string().required("Please Enter Current Password"),
+      old_password: Yup.string().required("Please Enter Current Password"),
       new_password: Yup.string().required("Please Enter New Password"),
-      password_confirmation: Yup.string()
+      new_password_confirmation: Yup.string()
         .required("Please Enter Confirm Password")
-        .oneOf([Yup.ref("password"), null], "Passwords must match"),
+        .oneOf([Yup.ref("new_password"), null], "Passwords must match"),
     }),
     onSubmit: values => {
-      dispatch(changePasswordUser(values))
+      var data = new FormData()
+      data.append("old_password", values?.old_password)
+      data.append("new_password", values?.new_password)
+      data.append("new_password_confirmation", values?.new_password_confirmation)
+   
+      dispatch(changePassword(data,(msgSuccess)=>{
+        notify("success", msgSuccess)
+      },(msgError)=>{
+        notify("error", msgError)
+      }))
       validation.resetForm()
       toggle()
     },
@@ -124,7 +136,7 @@ const ProfileMenu = props => {
               toggle()
             }}
           >
-            <i className="bx bx-power-off font-size-16 align-middle me-1 text-danger" />
+            <i className="mdi mdi-pencil font-size-16 align-middle me-1 text-success" />
             <span>{props.t("Change Password")}</span>
           </Link>
           <Link to="/logout" className="dropdown-item">
@@ -152,23 +164,23 @@ const ProfileMenu = props => {
                     <div className="mb-3">
                       <Label className="form-label">Current Password</Label>
                       <Input
-                        name="current_password"
-                        label="Titcurrent_passwordle"
+                        name="old_password"
+                        label="Titold_passwordle"
                         type="text"
                         onChange={validation.handleChange}
                         onBlur={validation.handleBlur}
-                        value={validation.values.current_password || ""}
+                        value={validation.values.old_password || ""}
                         invalid={
-                          validation.touched.current_password &&
-                          validation.errors.current_password
+                          validation.touched.old_password &&
+                          validation.errors.old_password
                             ? true
                             : false
                         }
                       />
-                      {validation.touched.current_password &&
-                      validation.errors.current_password ? (
+                      {validation.touched.old_password &&
+                      validation.errors.old_password ? (
                         <FormFeedback type="invalid">
-                          {validation.errors.current_password}
+                          {validation.errors.old_password}
                         </FormFeedback>
                       ) : null}
                     </div>
@@ -198,23 +210,23 @@ const ProfileMenu = props => {
                     <div className="mb-3">
                       <Label className="form-label">Confirm Password</Label>
                       <Input
-                        name="password_confirmation"
-                        label="Titpassword_confirmationle"
+                        name="new_password_confirmation"
+                        label="new_password_confirmation"
                         type="text"
                         onChange={validation.handleChange}
                         onBlur={validation.handleBlur}
-                        value={validation.values.password_confirmation || ""}
+                        value={validation.values.new_password_confirmation || ""}
                         invalid={
-                          validation.touched.password_confirmation &&
-                          validation.errors.password_confirmation
+                          validation.touched.new_password_confirmation &&
+                          validation.errors.new_password_confirmation
                             ? true
                             : false
                         }
                       />
-                      {validation.touched.password_confirmation &&
-                      validation.errors.password_confirmation ? (
+                      {validation.touched.new_password_confirmation &&
+                      validation.errors.new_password_confirmation ? (
                         <FormFeedback type="invalid">
-                          {validation.errors.password_confirmation}
+                          {validation.errors.new_password_confirmation}
                         </FormFeedback>
                       ) : null}
                     </div>

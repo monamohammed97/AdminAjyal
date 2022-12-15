@@ -58,7 +58,7 @@ const partners = props => {
       link: (contact && contact.link) || "",
       logo: (contact && contact.logo) || img,
     },
-    validationSchema: validationSchema,
+    // validationSchema: validationSchema,
     onSubmit: async values => {
       if (isEdit) {
         var edit = new FormData()
@@ -172,7 +172,7 @@ const partners = props => {
             {!cellProps.logo ? (
               <div className="avatar-xs">
                 <span className="avatar-title rounded-circle">
-                  {cellProps.name.charAt(0)}
+                  {/* {cellProps.name.charAt(0)} */}
                 </span>
               </div>
             ) : (

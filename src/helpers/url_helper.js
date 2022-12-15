@@ -264,6 +264,10 @@ export const GET_ABOUTUS_AJYAL = "/landing-page"
 export const ADD_ABOUTUS_AJYAL = "/dashboard/landing-page/aboutUs"
 
 // AUTH
-export const ADMIN_LOGIN = "/auth/admin/access-token"
-export const MENTOR_LOGIN = "/auth/mentor/access-token"
-export const STUDENT_LOGIN = "/auth/student/access-token"
+
+export const ADMIN_LOGIN = "/auth/admin/access-token";
+export const MENTOR_LOGIN = "/auth/mentor/access-token";
+export const STUDENT_LOGIN = "/auth/student/access-token";
+
+export const CHANGE_PASS = "/change-password";
+
