@@ -33,7 +33,7 @@ const groups = (state = INIT_STATE, action) => {
     case GET_GROUPS_SUCCESS:
       return {
         ...state,
-        groups: action.payload,
+        groups: action.payload || [],
       }
     case GET_GROUPS_FAIL:
       return {

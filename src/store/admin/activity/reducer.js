@@ -30,7 +30,7 @@ const activities = (state = INIT_STATE, action) => {
     case GET_ACTIVITES_SUCCESS:
       return {
         ...state,
-        activities: action.payload,
+        activities: action.payload || [],
       }
     case GET_ACTIVITES_FAIL:
       return {
@@ -48,7 +48,7 @@ const activities = (state = INIT_STATE, action) => {
         ...state,
         activities: [...state.activities, action.payload],
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case ADD_ACTIVITY_FAIL:
       return {
@@ -73,7 +73,7 @@ const activities = (state = INIT_STATE, action) => {
             : activity
         ),
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case UPDATE_ACTIVITY_FAIL:
       return {
@@ -96,7 +96,7 @@ const activities = (state = INIT_STATE, action) => {
           activity => activity.id.toString() !== action.payload.toString()
         ),
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case DELETE_ACTIVITY_FAIL:
       return {
@@ -104,7 +104,6 @@ const activities = (state = INIT_STATE, action) => {
         error: action.payload,
         isLoading: false,
       }
-
 
     default:
       return state

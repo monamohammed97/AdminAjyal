@@ -30,7 +30,7 @@ import DeleteModal from "components/Common/DeleteModal"
 import TableContainer from "components/Common/TableContainer"
 import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
-import { validationSchema } from "./validationSchema"
+import { getValidationSchema } from "./validationSchema"
 import {
   getPartenrs,
   addPartner,
@@ -42,12 +42,13 @@ import img from "assets/images/img.png"
 
 const partners = props => {
   //meta title
-  const [filename, setFilename] = useState("")
-
   document.title = "partners"
 
   const dispatch = useDispatch()
   const [contact, setContact] = useState()
+  const [modal, setModal] = useState(false)
+  const [isEdit, setIsEdit] = useState(false)
+
   // validation
   const validation = useFormik({
     enableReinitialize: true,
@@ -56,24 +57,22 @@ const partners = props => {
       name: (contact && contact.name) || "",
       description: (contact && contact.description) || "",
       link: (contact && contact.link) || "",
-      logo: (contact && contact.logo) || img,
+      logo: (contact && contact?.logo) || null,
     },
-    // validationSchema: validationSchema,
+    validationSchema: getValidationSchema(isEdit),
     onSubmit: async values => {
       if (isEdit) {
         var edit = new FormData()
+
         edit.append("name", values?.name)
         edit.append("description", values?.description)
-        edit.append("link", values?.link)
+        if (values?.link) edit.append("link", values?.link)
         edit.append("_method", "put")
+
         if (values?.logo instanceof File) {
           edit.append("logo", values?.logo)
         }
-        // contact.name !== values.name && edit.append("name", values?.name)
-        // contact.description !== values.description &&
-        //   edit.append("description", values?.description)
-        // edit.append("_method", "put")
-        // typeof values.logo === "object" && edit.append("logo", values?.logo)
+
         dispatch(
           updatePartner(
             edit,
@@ -93,7 +92,7 @@ const partners = props => {
         var data = new FormData()
         data.append("name", values?.name)
         data.append("description", values?.description)
-        data.append("link", values?.link)
+        if (values?.link) data.append("link", values?.link)
         data.append("logo", values?.logo)
 
         dispatch(
@@ -114,22 +113,6 @@ const partners = props => {
   })
 
   const { partners } = useSelector(store => store?.partners)
-
-  console.log(partners);
-
-  const [modal, setModal] = useState(false)
-  const [isEdit, setIsEdit] = useState(false)
-
-  const [selectedFiles, setselectedFiles] = useState([])
-  function handleAcceptedFiles(files) {
-    files.map(file =>
-      Object.assign(file, {
-        preview: URL.createObjectURL(file),
-        formattedSize: formatBytes(file.size),
-      })
-    )
-    setselectedFiles(files)
-  }
 
   const columns = useMemo(
     () => [
@@ -197,7 +180,6 @@ const partners = props => {
                 className="text-success"
                 onClick={() => {
                   const userData = cellProps.row.original
-                  // console.log("userData :", userData)
                   handleUserClick(userData)
                 }}
               >
@@ -310,8 +292,6 @@ const partners = props => {
     toggle()
   }
 
-  const keyField = "id"
-
   return (
     <React.Fragment>
       <DeleteModal
@@ -353,32 +333,29 @@ const partners = props => {
                           <FileInput
                             name="logo"
                             src={
-                              typeof validation.values.logo === "object"
-                                ? URL.createObjectURL(validation.values["logo"])
+                              typeof validation.values?.logo === "object" &&
+                              validation.values?.logo
+                                ? URL.createObjectURL(validation.values?.logo)
                                 : typeof validation.values.logo === "string"
-                                ? validation.values["logo"]
-                                : filename
                                 ? validation.values.logo
                                 : img
                             }
                             onChange={event => {
-                              setFilename(
-                                prev => event.target.files[0]?.name || ""
-                              )
-
                               validation.setFieldValue(
                                 "logo",
                                 event.currentTarget.files[0]
                               )
                             }}
                           />
-                          {/* {filename && (
+                          {validation.touched.logo && validation.errors.logo ? (
                             <h6>
-                              {filename} <span htmlFor={"avatar"}>Change</span>
+                              <span className="text-danger" htmlFor={"logo"}>
+                                {validation.errors.logo}
+                              </span>
                             </h6>
-                          )} */}
+                          ) : null}
                         </Row>
-                        <Row form>
+                        <Row>
                           <Col xs={12}>
                             <div className="mb-3">
                               <Label className="form-label">Name</Label>
@@ -430,7 +407,7 @@ const partners = props => {
                               <Input
                                 name="link"
                                 label="Link"
-                                type="url"
+                                type="text"
                                 onChange={validation.handleChange}
                                 onBlur={validation.handleBlur}
                                 value={validation.values.link || ""}

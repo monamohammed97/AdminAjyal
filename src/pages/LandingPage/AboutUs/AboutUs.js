@@ -3,33 +3,24 @@ import React, { useEffect } from "react"
 import {
   Form,
   Card,
-  CardBody,
   Col,
   Row,
   Container,
-  Label,
   Input,
   FormFeedback,
   UncontrolledTooltip,
 } from "reactstrap"
 
-// Form Editor
-import { Editor } from "react-draft-wysiwyg"
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
-
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic"
-
 //Import Breadcrumb
 import Breadcrumbs from "../../../components/Common/Breadcrumb"
-import { CKEditor } from "@ckeditor/ckeditor5-react"
 import { useFormik } from "formik"
 import { useState } from "react"
-import * as Yup from "yup"
 import { useDispatch, useSelector } from "react-redux"
 import { notify } from "components/Common/notify"
 import Dropzone from "react-dropzone"
 import { Link } from "react-router-dom"
 import { getAboutus, addAboutus } from "store/admin/landingpage/actions"
+import { validationSchema } from "./validationSchema"
 
 const AboutUs = props => {
   //meta title
@@ -39,40 +30,38 @@ const AboutUs = props => {
 
   const dispatch = useDispatch()
   const [selectedFiles, setselectedFiles] = useState([])
-  const [images, setImages] = useState([])
 
   const validation = useFormik({
-    // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
-
     initialValues: {
       content: aboutUs?.content || "",
       images: [],
     },
-    // validationSchema: Yup.object({
-    //   name: Yup.string().required("Please Enter Your Name"),
-    //   content: Yup.string().required("Please Enter Your Description"),
-    // }),
+    validationSchema: validationSchema,
     onSubmit: values => {
       let data = new FormData()
       data.append("content", values?.content)
-      if (values?.images instanceof Array) {
-        values?.images?.forEach(image => {
-          data.append("images[]", image)
-        })
-      }
 
-      dispatch(
-        addAboutus(
-          data,
-          () => {
-            notify("success", "success")
-          },
-          () => {
-            notify("error", "failed")
-          }
+      if (values?.images.length == 4) {
+        if (values?.images instanceof Array) {
+          values?.images?.forEach(image => {
+            data.append("images[]", image)
+          })
+        }
+        dispatch(
+          addAboutus(
+            data,
+            () => {
+              notify("success", "success")
+            },
+            () => {
+              notify("error", "failed")
+            }
+          )
         )
-      )
+      } else {
+        notify("error", "Please Enter Four Images")
+      }
     },
   })
 
@@ -103,12 +92,7 @@ const AboutUs = props => {
 
   useEffect(() => {
     dispatch(getAboutus())
-    // setImages(aboutUs?.[]||[])
   }, [dispatch])
-
-  // const handleDelete = img => {
-  //   setImages([]?.filter(src => src != img))
-  // }
 
   const handleDelete = img => {
     const filterData = selectedFiles?.filter(src => src?.preview != img)
@@ -128,7 +112,6 @@ const AboutUs = props => {
             }}
           >
             <div className="mb-3">
-              {/* <Label className="form-label">Description</Label> */}
               <Input
                 dir="rtl"
                 name="content"
@@ -149,6 +132,20 @@ const AboutUs = props => {
                 </FormFeedback>
               ) : null}
             </div>
+            {/* <Row className="align-items-center">
+              {aboutUs?.images &&
+                aboutUs?.images.map((img, index) => (
+                  <Col key={index} className="col-auto">
+                    <img
+                      data-dz-thumbnail=""
+                      height="80"
+                      className="avatar-sm rounded bg-light"
+                      src={img}
+                    />
+                  </Col>
+                ))}
+            </Row> */}
+
             <Dropzone
               onDrop={acceptedFiles => {
                 handleAcceptedFiles(acceptedFiles)
@@ -165,6 +162,13 @@ const AboutUs = props => {
                       <i className="display-4 text-muted bx bxs-cloud-upload" />
                     </div>
                     <h4>Drop files here or click to upload.</h4>
+                    {validation?.values.images?.length != 4 ? (
+                      <h6>
+                        <span className="text-danger" htmlFor={"image"}>
+                          Please Enter Just Four Images
+                        </span>
+                      </h6>
+                    ) : null}
                   </div>
                 </div>
               )}
@@ -219,48 +223,6 @@ const AboutUs = props => {
                 )
               })}
             </div>
-            {/* <div className="dropzone-previews mt-3" id="file-previews">
-              {[]?.map((f, i) => {
-                return (
-                  <Card
-                    className="mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
-                    key={i + "-file"}
-                  >
-                    <div className="p-2 d-flex justify-content-between align-items-center">
-                      <Row className="align-items-center col-11">
-                        <Col className="col-auto">
-                          <img
-                            data-dz-thumbnail=""
-                            height="80"
-                            className="avatar-sm rounded bg-light"
-                            alt={f.name}
-                            src={f}
-                          />
-                        </Col>
-                      </Row>
-                      <Link
-                        to="#"
-                        className="text-danger pe-3"
-                        onClick={() => {
-                          handleDelete(f)
-                        }}
-                      >
-                        <i
-                          className="mdi mdi-delete font-size-18"
-                          id="deletetooltip"
-                        />
-                        <UncontrolledTooltip
-                          placement="top"
-                          target="deletetooltip"
-                        >
-                          Delete
-                        </UncontrolledTooltip>
-                      </Link>
-                    </div>
-                  </Card>
-                )
-              })}
-            </div> */}
             <Row>
               <Col>
                 <div className="text-end my-4">

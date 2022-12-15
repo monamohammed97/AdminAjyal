@@ -20,10 +20,9 @@ const INIT_STATE = {
 }
 
 const partners = (state = INIT_STATE, action) => {
-  
   switch (action.type) {
-     // GET_PARTNERS
-     case GET_PARTNERS:
+    // GET_PARTNERS
+    case GET_PARTNERS:
       return {
         ...state,
         isLoading: true,
@@ -31,7 +30,7 @@ const partners = (state = INIT_STATE, action) => {
     case GET_PARTNERS_SUCCESS:
       return {
         ...state,
-        partners: action.payload,
+        partners: action.payload || [],
       }
     case GET_PARTNERS_FAIL:
       return {
@@ -49,7 +48,7 @@ const partners = (state = INIT_STATE, action) => {
         ...state,
         partners: [...state.partners, action.payload],
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case ADD_PARTNER_FAIL:
       return {
@@ -74,7 +73,7 @@ const partners = (state = INIT_STATE, action) => {
             : partenr
         ),
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case UPDATE_PARTNER_FAIL:
       return {
@@ -97,7 +96,7 @@ const partners = (state = INIT_STATE, action) => {
           partenr => partenr.id.toString() !== action.payload.toString()
         ),
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case DELETE_PARTNER_FAIL:
       return {
@@ -105,7 +104,6 @@ const partners = (state = INIT_STATE, action) => {
         error: action.payload,
         isLoading: false,
       }
-
 
     default:
       return state

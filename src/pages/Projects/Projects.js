@@ -52,8 +52,6 @@ import Select from "react-select"
 
 const Projects = props => {
   //meta budget
-  const [filename, setFilename] = useState("")
-
   document.title = "Projects"
 
   const dispatch = useDispatch()
@@ -61,7 +59,6 @@ const Projects = props => {
   // validation
   const validation = useFormik({
     enableReinitialize: true,
-
     initialValues: {
       budget: (contact && contact.budget) || "",
       partner_id: (contact && contact.partner_id) || "",
@@ -70,70 +67,75 @@ const Projects = props => {
       description: (contact && contact.description) || "",
       start_date: (contact && contact.start_date) || "",
       status: (contact && contact.status) || "",
-      image: (contact && contact.image) || img,
+      image: (contact && contact.image) || null,
     },
-    // validationSchema: validationSchema,
+    validationSchema: validationSchema,
     onSubmit: async values => {
       if (isEdit) {
         var edit = new FormData()
-        edit.append("budget", values?.budget)
-        // edit.append("partner_id", values?.partner_id)
+        if (values?.budget) edit.append("budget", values?.budget)
         dataSelect?.map((el, index) => {
-          data.append(`partner_id[${index}]`, el.value)
+          edit.append(`partner_id[${index}]`, el.value)
         })
-        edit.append("end_date", values?.end_date)
+        if (values?.end_date) edit.append("end_date", values?.end_date)
         edit.append("description", values?.description)
         edit.append("title", values?.title)
-        edit.append("start_date", values?.start_date)
+        if (values?.start_date) edit.append("start_date", values?.start_date)
         edit.append("status", values?.status)
         edit.append("_method", "put")
         if (values?.image instanceof File) {
           edit.append("image", values?.image)
         }
 
-
-        dispatch(
-          updateProject(
-            edit,
-            contact.id,
-            () => {
-              notify("success", "Success")
-            },
-            () => {
-              notify("error", "Failed")
-            }
+        if (dataSelect.length >= 1) {
+          dispatch(
+            updateProject(
+              edit,
+              contact.id,
+              () => {
+                notify("success", "Success")
+              },
+              () => {
+                notify("error", "Failed")
+              }
+            )
           )
-        )
-        setIsEdit(false)
-        validation.resetForm()
-        toggle()
+          setIsEdit(false)
+          validation.resetForm()
+          toggle()
+        } else {
+          notify("error", "Please Select Partner")
+        }
       } else {
         var data = new FormData()
-        data.append("budget", values?.budget)
-        // data.append("partner_id", values?.partner_id)
+        if (values?.budget) data.append("budget", values?.budget)
         dataSelect?.map((el, index) => {
           data.append(`partner_id[${index}]`, el.value)
         })
-        data.append("end_date", values?.end_date)
+        if (values?.end_date) data.append("end_date", values?.end_date)
         data.append("description", values?.description)
         data.append("title", values?.title)
-        data.append("start_date", values?.start_date)
+        if (values?.start_date) data.append("start_date", values?.start_date)
         data.append("status", values?.status)
-        data.append("image", values?.image)
+        if (values?.image) data.append("image", values?.image)
 
-        dispatch(
-          addProject(
-            data,
-            () => {
-              notify("success", "Success")
-            },
-            () => {
-              notify("error", "Failed")
-            }
+        if (dataSelect.length >= 1) {
+          dispatch(
+            addProject(
+              data,
+              () => {
+                notify("success", "Success")
+              },
+              () => {
+                notify("error", "Failed")
+              }
+            )
           )
-        )
-        validation.resetForm()
-        toggle()
+          validation.resetForm()
+          toggle()
+        } else {
+          notify("error", "Please Select Partner")
+        }
       }
     },
   })
@@ -143,21 +145,9 @@ const Projects = props => {
   let optionGroups = []
   partners?.forEach(el => optionGroups.push({ label: el?.name, value: el?.id }))
 
-  // const [userList, setUserList] = useState([])
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
   const [dataSelect, setData] = useState([])
-
-  const [selectedFiles, setselectedFiles] = useState([])
-  function handleAcceptedFiles(files) {
-    files.map(file =>
-      Object.assign(file, {
-        preview: URL.createObjectURL(file),
-        formattedSize: formatBytes(file.size),
-      })
-    )
-    setselectedFiles(files)
-  }
 
   const columns = useMemo(
     () => [
@@ -186,7 +176,7 @@ const Projects = props => {
         Header: "Partner",
         accessor: "partners",
         filterable: true,
-        Cell: cellProps =>{
+        Cell: cellProps => {
           return cellProps?.value?.map(el => <Partner key={el?.id} {...el} />)
         },
       },
@@ -262,7 +252,6 @@ const Projects = props => {
                   //   optionGroups.push({ label: el?.title, value: el?.id })
                   // )
                   // setData(optionGroups)
-                  console.log("userData :", userData)
                   handleUserClick(userData)
                 }}
               >
@@ -379,8 +368,6 @@ const Projects = props => {
     toggle()
   }
 
-  const keyField = "id"
-
   return (
     <React.Fragment>
       <DeleteModal
@@ -422,35 +409,37 @@ const Projects = props => {
                         <Row className="wrapperdiv">
                           <FileInput
                             name="image"
+                            invalid={
+                              validation.touched.image &&
+                              validation.errors.image
+                                ? true
+                                : false
+                            }
                             src={
-                              typeof validation.values.image === "object"
-                                ? URL.createObjectURL(
-                                    validation.values["image"]
-                                  )
+                              typeof validation.values?.image === "object" &&
+                              validation.values?.image
+                                ? URL.createObjectURL(validation.values?.image)
                                 : typeof validation.values.image === "string"
-                                ? validation.values["image"]
-                                : filename
                                 ? validation.values.image
                                 : img
                             }
                             onChange={event => {
-                              setFilename(
-                                prev => event.target.files[0]?.title || ""
-                              )
-
                               validation.setFieldValue(
                                 "image",
                                 event.currentTarget.files[0]
                               )
                             }}
                           />
-                          {/* {filename && (
+                          {validation.touched.image &&
+                          validation.errors.image ? (
                             <h6>
-                              {filename} <span htmlFor={"avatar"}>Change</span>
+                              <span className="text-danger" htmlFor={"image"}>
+                                {validation.errors.image}
+                              </span>
                             </h6>
-                          )} */}
+                          ) : null}
                         </Row>
-                        <Row form>
+                        <Row>
                           <Col xs={12}>
                             <div className="mb-3">
                               <Label className="form-label">Title</Label>
@@ -523,21 +512,15 @@ const Projects = props => {
                             <div className="mb-3">
                               <Label className="form-label">Partner</Label>
                               <Select
+                                name=""
                                 value={dataSelect}
                                 isMulti={true}
                                 onChange={dataSelect => {
-                                  // console.log(value)
                                   setData(dataSelect)
                                 }}
                                 options={optionGroups}
                                 classNamePrefix="select2-selection"
                               />
-                              {validation.touched.partner_id &&
-                              validation.errors.partner_id ? (
-                                <FormFeedback type="invalid">
-                                  {validation.errors.partner_id}
-                                </FormFeedback>
-                              ) : null}
                             </div>
                             <div className="mb-3">
                               <Label className="form-label">Start Date</Label>
@@ -594,8 +577,14 @@ const Projects = props => {
                                 onChange={validation.handleChange}
                                 onBlur={validation.handleBlur}
                                 value={validation.values.status || ""}
+                                invalid={
+                                  validation.touched.status &&
+                                  validation.errors.status
+                                    ? true
+                                    : false
+                                }
                               >
-                                <option selected disabled></option>
+                                <option defaultValue disabled></option>
                                 <option value={"ongoing"}>Ongoing</option>
                                 <option value={"completed"}>Completed</option>
                                 <option value={"draft"}>Draft</option>

@@ -28,10 +28,8 @@ import { isEmpty } from "lodash"
 import { useDispatch, useSelector } from "react-redux"
 import DeleteModal from "components/Common/DeleteModal"
 import TableContainer from "components/Common/TableContainer"
-import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
 import { validationSchema } from "./validationSchema"
-import { addCourse } from "store/admin/course/actions"
 import {
   getQuestions,
   addQuestion,
@@ -42,7 +40,6 @@ import { notify } from "components/Common/notify"
 
 const Questions = props => {
   //meta question
-  const [filename, setFilename] = useState("")
 
   document.title = "Questions"
 
@@ -51,23 +48,17 @@ const Questions = props => {
   // validation
   const validation = useFormik({
     enableReinitialize: true,
-
     initialValues: {
       question: (contact && contact.question) || "",
       answer: (contact && contact.answer) || "",
     },
-    // validationSchema: validationSchema,
+    validationSchema: validationSchema,
     onSubmit: async values => {
       if (isEdit) {
         var edit = new FormData()
         edit.append("question", values?.question)
         edit.append("answer", values?.answer)
         edit.append("_method", "put")
-        // contact.question !== values.question &&
-        //   edit.append("question", values?.question)
-        // contact.answer !== values.answer &&
-        //   edit.append("answer", values?.answer)
-        //   edit.append("_method", "put")
         dispatch(
           updateQuestion(
             edit,
@@ -87,7 +78,6 @@ const Questions = props => {
         var data = new FormData()
         data.append("question", values?.question)
         data.append("answer", values?.answer)
-
         dispatch(
           addQuestion(
             data,
@@ -107,20 +97,8 @@ const Questions = props => {
 
   const { questions } = useSelector(store => store?.questions)
 
-  const [userList, setUserList] = useState([])
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
-
-  const [selectedFiles, setselectedFiles] = useState([])
-  function handleAcceptedFiles(files) {
-    files.map(file =>
-      Object.assign(file, {
-        preview: URL.createObjectURL(file),
-        formattedSize: formatBytes(file.size),
-      })
-    )
-    setselectedFiles(files)
-  }
 
   const columns = useMemo(
     () => [
@@ -155,7 +133,6 @@ const Questions = props => {
                 className="text-success"
                 onClick={() => {
                   const userData = cellProps.row.original
-                  // console.log("userData :", userData)
                   handleUserClick(userData)
                 }}
               >
@@ -266,8 +243,6 @@ const Questions = props => {
     toggle()
   }
 
-  const keyField = "id"
-
   return (
     <React.Fragment>
       <DeleteModal
@@ -305,7 +280,7 @@ const Questions = props => {
                           return false
                         }}
                       >
-                        <Row form>
+                        <Row>
                           <Col xs={12}>
                             <div className="mb-3">
                               <Label className="form-label">Question</Label>

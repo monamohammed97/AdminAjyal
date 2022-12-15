@@ -614,6 +614,12 @@ const Courses = props => {
                                 onChange={validation.handleChange}
                                 onBlur={validation.handleBlur}
                                 value={validation.values.status || ""}
+                                invalid={
+                                  validation.touched.status &&
+                                  validation.errors.status
+                                    ? true
+                                    : false
+                                }
                               >
                                 <option defaultValue disabled></option>
                                 <option value={"ongoing"}>Ongoing</option>

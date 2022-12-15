@@ -1,23 +1,29 @@
-import * as Yup from 'yup'
+import * as Yup from "yup"
 
-const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"]
+export const getValidationSchema = isEdit => {
+  if (isEdit) {
+    return Yup.object({
+      first_name: Yup.string().required("Please Enter First Name"),
+      last_name: Yup.string().required("Please Enter Last Name"),
+      email: Yup.string().email().required("Please Enter Email"),
+      phone: Yup.number().required("Please Enter Phone"),
+      gender: Yup.string().required("Please Select Gender"),
+      address: Yup.string().required("Please Enter Address"),
+      status: Yup.string().required("Please Select Status"),
+    })
+  }
 
-export const validationSchema=Yup.object({
-          name: Yup.string().required("Please Enter Your Name"),
-          description: Yup.string().required("Please Enter Your Description"),
-          code: Yup.string().required("Please Enter Code"),
-          specialty: Yup.string().required("Please Enter Your Specialty"),
-          image: Yup.mixed()
-            .required("يرجى إدخال اسم  صورة  مستخدم  بطريقة  صحيحة  *")
-            .nullable()
-            .test(
-              "fileSize",
-              "* 11يجب ان تكون الصورة أكبر من 500* 500 بيكسل وبحجم لا يتجاوز 300 كليو بايت",
-              value => !value || (value && value?.size <= 1024 * 1024)
-            )
-            .test(
-              "fileFormat",
-              "* يجب ان تكون الصورة أكبر من 500* 500 بيكسل وبحجم لا يتجاوز 300 كليوssss بايت",
-              value => !value || (value && SUPPORTED_FORMATS.includes(value?.type))
-            ),
-        })
+  return Yup.object({
+    first_name: Yup.string().required("Please Enter First Name"),
+    last_name: Yup.string().required("Please Enter Last Name"),
+    email: Yup.string().email().required("Please Enter Email"),
+    password: Yup.string().required("Please Enter Email"),
+    phone: Yup.number().required("Please Enter Phone"),
+    gender: Yup.string().required("Please Select Gender"),
+    address: Yup.string().required("Please Enter Address"),
+    rate: Yup.string().required("Please Select Rate"),
+    transport: Yup.number().required("Please Enter Transport"),
+    status: Yup.string().required("Please Select Status"),
+    image: Yup.mixed().nullable(),
+  })
+}

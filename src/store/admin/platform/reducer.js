@@ -30,7 +30,7 @@ const platforms = (state = INIT_STATE, action) => {
     case GET_PLATFORMS_SUCCESS:
       return {
         ...state,
-        platforms: action.payload,
+        platforms: action.payload || [],
       }
     case GET_PLATFORMS_FAIL:
       return {
@@ -46,9 +46,9 @@ const platforms = (state = INIT_STATE, action) => {
     case ADD_PLATFORM_SUCCESS:
       return {
         ...state,
-        platforms:[...state.platforms, action.payload],
+        platforms: [...state.platforms, action.payload],
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case ADD_PLATFORM_FAIL:
       return {
@@ -65,7 +65,6 @@ const platforms = (state = INIT_STATE, action) => {
         isLoading: true,
       }
     case UPDATE_PLATFORM_SUCCESS:
-      console.log("action.payload",action.payload);
       return {
         ...state,
         platforms: state.platforms.map(platform => {
@@ -74,7 +73,7 @@ const platforms = (state = INIT_STATE, action) => {
           } else return platform
         }),
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case UPDATE_PLATFORM_FAIL:
       return {
@@ -91,14 +90,13 @@ const platforms = (state = INIT_STATE, action) => {
         isLoading: true,
       }
     case DELETE_PLATFORM_SUCCESS:
-      console.log("action.payload",action.payload);
       return {
         ...state,
         platforms: state.platforms.filter(
           platform => platform.id.toString() !== action.payload.toString()
         ),
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case DELETE_PLATFORM_FAIL:
       return {
@@ -106,7 +104,6 @@ const platforms = (state = INIT_STATE, action) => {
         error: action.payload,
         isLoading: false,
       }
-
 
     default:
       return state

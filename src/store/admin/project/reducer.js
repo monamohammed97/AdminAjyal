@@ -21,7 +21,6 @@ const INIT_STATE = {
 
 const projects = (state = INIT_STATE, action) => {
   switch (action.type) {
-
     // GET_PROJECTS
     case GET_PROJECTS:
       return {
@@ -31,7 +30,7 @@ const projects = (state = INIT_STATE, action) => {
     case GET_PROJECTS_SUCCESS:
       return {
         ...state,
-        projects: action.payload,
+        projects: action.payload || [],
       }
     case GET_PROJECTS_FAIL:
       return {
@@ -50,7 +49,7 @@ const projects = (state = INIT_STATE, action) => {
         ...state,
         projects: [...state.projects, action.payload],
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case ADD_PROJECT_FAIL:
       return {
@@ -75,7 +74,7 @@ const projects = (state = INIT_STATE, action) => {
             : project
         ),
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case UPDATE_PROJECT_FAIL:
       return {
@@ -98,7 +97,7 @@ const projects = (state = INIT_STATE, action) => {
           project => project.id.toString() !== action.payload.toString()
         ),
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case DELETE_PROJECT_FAIL:
       return {
@@ -106,7 +105,6 @@ const projects = (state = INIT_STATE, action) => {
         error: action.payload,
         isLoading: false,
       }
-
 
     default:
       return state

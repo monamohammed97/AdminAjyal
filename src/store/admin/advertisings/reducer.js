@@ -30,7 +30,7 @@ const advertisings = (state = INIT_STATE, action) => {
     case GET_ADVERTISINGS_SUCCESS:
       return {
         ...state,
-        ads: action.payload,
+        ads: action.payload || [],
       }
     case GET_ADVERTISINGS_FAIL:
       return {

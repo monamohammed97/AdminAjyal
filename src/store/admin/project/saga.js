@@ -28,7 +28,7 @@ import {
 function* fetchProjects() {
   try {
     const response = yield call(getProjectsAjyal)
-    yield put(getProjectsSuccess(response?.data?.projectsr))
+    yield put(getProjectsSuccess(response?.data))
   } catch (error) {
     yield put(getProjectsFail(error))
   }

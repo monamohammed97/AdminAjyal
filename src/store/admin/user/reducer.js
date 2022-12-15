@@ -29,7 +29,7 @@ const users = (state = INIT_STATE, action) => {
     case GET_USERS_SUCCESS:
       return {
         ...state,
-        users: action.payload,
+        users: action.payload || [],
       }
     case GET_USERS_FAIL:
       return {

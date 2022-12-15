@@ -124,10 +124,8 @@ const Attendence = props => {
 
   const useCB = useCallback(
     (cellProps, value) => {
-      // console.log("cell //",cellProps,"value", value);
       let obj = {}
       obj[cellProps?.row?.original?.id] = !value
-      // console.log(obj, value)
 
       setQu(prev => {
         // let obj = {}
@@ -136,10 +134,8 @@ const Attendence = props => {
             // prev[el] = !qu[el]
             // setIsActive(obj)
             qu[el] = !qu[el]
-            // console.log("obj[el]",obj[el]);
           }
         })
-        // console.log("{ ...prev, ...obj }",{ ...obj });
         return { ...prev, ...obj }
       })
     },
@@ -151,7 +147,6 @@ const Attendence = props => {
 
   // let newStatus = {}
   // const handleChangeCheck = id => {
-  //   // console.log("cellProps?.row? id=qu", qu[id])
   //   let newStatus = {}
   //   Object.keys(qu).map(el => {
   //     if (el == id) {
@@ -160,7 +155,6 @@ const Attendence = props => {
   //       newStatus[el] = qu[el]
   //     }
   //   })
-  //   console.log(newStatus)
   // }
 
   const columns = useMemo(
@@ -195,13 +189,7 @@ const Attendence = props => {
               className="me-1"
               onColor="#800000"
               onChange={() => useCB(cellProps, qu[cellProps?.row?.original?.id])
-                // console.log("onChange",value);
                 // return useCB(cellProps, e.target.checked)
-                // console.log(value);
-                // console.log(
-                //   cellProps?.row?.original?.id,
-                //   Object.keys(isActive)
-                //   )
               }
               checked= {qu[cellProps?.row?.original?.id]}
             />
@@ -211,11 +199,8 @@ const Attendence = props => {
     ],
     []
   )
-  console.log("newArr", qu)
 
-  // console.log("//obj", Object.keys(isActive), isActive)
   useEffect(() => {
-    // console.log("3", questions)
 
     dispatch(getQuestions())
   }, [dispatch])
