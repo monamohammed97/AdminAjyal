@@ -40,7 +40,7 @@ import DeleteModal from "components/Common/DeleteModal"
 import TableContainer from "components/Common/TableContainer"
 import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
-import { validationSchema } from "./validationSchema"
+import { getValidationSchema } from "./validationSchema"
 import { getProjects } from "store/admin/project/actions"
 import { getCategory } from "store/admin/category/actions"
 import { notify } from "components/Common/notify"
@@ -54,19 +54,18 @@ import {
 import img from "assets/images/img.png"
 
 const Projects = props => {
-  //meta budget
-  const [filename, setFilename] = useState("")
-
   document.title = "Groups"
 
   const dispatch = useDispatch()
   const [contact, setContact] = useState()
+  const [modal, setModal] = useState(false)
+  const [excelModal, setExcelModal] = useState(false)
+  const [isEdit, setIsEdit] = useState(false)
+
   // validation
   const validation = useFormik({
     enableReinitialize: true,
-
     initialValues: {
-      // budget: (contact && contact.budget) || "",
       project_id: (contact && contact.project_id) || "",
       category_id: (contact && contact.category_id) || "",
       end_date: (contact && contact.end_date) || "",
@@ -76,13 +75,12 @@ const Projects = props => {
       hour_count: (contact && contact.hour_count) || "",
       participants_count: (contact && contact.participants_count) || "",
       status: (contact && contact.status) || "",
-      image: (contact && contact.image) || img,
+      image: (contact && contact?.image) || null,
     },
-    // validationSchema: validationSchema,
+    validationSchema: getValidationSchema(isEdit),
     onSubmit: async values => {
       if (isEdit) {
         var edit = new FormData()
-        // edit.append("budget", values?.budget)
         edit.append("end_date", values?.end_date)
         edit.append("description", values?.description)
         edit.append("title", values?.title)
@@ -96,24 +94,6 @@ const Projects = props => {
           edit.append("image", values?.image)
         }
         edit.append("_method", "put")
-        // contact.budget !== values.budget &&
-        //   edit.append("budget", values?.budget)
-        // contact.end_date !== values.end_date &&
-        //   edit.append("end_date", values?.end_date)
-        // contact.description !== values.description &&
-        //   edit.append("description", values?.description)
-        // contact.title !== values.title && edit.append("title", values?.title)
-        // contact.start_date !== values.start_date &&
-        //   edit.append("start_date", values?.start_date)
-        // contact.hour_count !== values.hour_count &&
-        //   edit.append("hour_count", values?.hour_count)
-        // contact.category !== values.category &&
-        //   edit.append("category", values?.category)
-        // contact.project !== values.project &&
-        //   edit.append("project", values?.project)
-        // contact.participants_count !== values.participants_count &&
-        //   edit.append("participants_count", values?.participants_count)
-        // typeof values.image === "object" && edit.append("image", values?.image)
         dispatch(
           updateGroup(
             edit,
@@ -131,7 +111,6 @@ const Projects = props => {
         toggle()
       } else {
         var data = new FormData()
-        // data.append("budget", values?.budget)
         data.append("end_date", values?.end_date)
         data.append("description", values?.description)
         data.append("title", values?.title)
@@ -163,21 +142,6 @@ const Projects = props => {
   const { groups } = useSelector(store => store?.groups)
   const { projects } = useSelector(store => store?.projects)
   const { category } = useSelector(store => store?.category)
-
-  const [modal, setModal] = useState(false)
-  const [excelModal, setExcelModal] = useState(false)
-  const [isEdit, setIsEdit] = useState(false)
-
-  const [selectedFiles, setselectedFiles] = useState([])
-  function handleAcceptedFiles(files) {
-    files.map(file =>
-      Object.assign(file, {
-        preview: URL.createObjectURL(file),
-        formattedSize: formatBytes(file.size),
-      })
-    )
-    setselectedFiles(files)
-  }
 
   const columns = useMemo(
     () => [
@@ -489,7 +453,6 @@ const Projects = props => {
       />
       <div className="page-content">
         <Container fluid>
-          {/* Render Breadcrumbs */}
           <Breadcrumbs title="Groups List" breadcrumbItem="All Groups" />
           <Row>
             <Col lg="12">
@@ -521,32 +484,28 @@ const Projects = props => {
                           <FileInput
                             name="image"
                             src={
-                              typeof validation.values.image === "object"
-                                ? URL.createObjectURL(
-                                    validation.values["image"]
-                                  )
+                              typeof validation.values?.image === "object" &&
+                              validation.values?.image
+                                ? URL.createObjectURL(validation.values?.image)
                                 : typeof validation.values.image === "string"
-                                ? validation.values["image"]
-                                : filename
                                 ? validation.values.image
-                                : ""
+                                : img
                             }
                             onChange={event => {
-                              setFilename(
-                                prev => event.target.files[0]?.title || ""
-                              )
-
                               validation.setFieldValue(
                                 "image",
                                 event.currentTarget.files[0]
                               )
                             }}
                           />
-                          {/* {filename && (
+                          {validation.touched.image &&
+                          validation.errors.image ? (
                             <h6>
-                              {filename} <span htmlFor={"avatar"}>Change</span>
+                              <span className="text-danger" htmlFor={"image"}>
+                                {validation.errors.image}
+                              </span>
                             </h6>
-                          )} */}
+                          ) : null}
                         </Row>
                         <Row>
                           <Col xs={12}>
@@ -656,28 +615,6 @@ const Projects = props => {
                                 </FormFeedback>
                               ) : null}
                             </div>
-                            {/* <div className="mb-3">
-                              <Label className="form-label">Budget</Label>
-                              <Input
-                                name="budget"
-                                type="text"
-                                onChange={validation.handleChange}
-                                onBlur={validation.handleBlur}
-                                value={validation.values.budget || ""}
-                                invalid={
-                                  validation.touched.budget &&
-                                  validation.errors.budget
-                                    ? true
-                                    : false
-                                }
-                              />
-                              {validation.touched.budget &&
-                              validation.errors.budget ? (
-                                <FormFeedback type="invalid">
-                                  {validation.errors.budget}
-                                </FormFeedback>
-                              ) : null}
-                            </div> */}
                             <div className="mb-3">
                               <Label className="form-label">Start Date</Label>
                               <Input
@@ -820,8 +757,6 @@ const Projects = props => {
                       </Form>
                     </ModalBody>
                   </Modal>
-
-                  {/* excel modal */}
 
                   <Modal isOpen={excelModal} toggle={toggleExcelModal}>
                     <ModalHeader toggle={toggleExcelModal} tag="h4">

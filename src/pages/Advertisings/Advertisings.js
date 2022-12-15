@@ -38,23 +38,27 @@ import DeleteModal from "components/Common/DeleteModal"
 import TableContainer from "components/Common/TableContainer"
 import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
-import { validationSchema } from "./validationSchema"
-import { getAds, addAds, deleteAds, updateAds } from "store/admin/advertisings/actions"
+import { getValidationSchema } from "./validationSchema"
+import {
+  getAds,
+  addAds,
+  deleteAds,
+  updateAds,
+} from "store/admin/advertisings/actions"
 import { notify } from "components/Common/notify"
 import img from "assets/images/img.png"
 
 const Advertisings = props => {
   //meta title
-  const [filename, setFilename] = useState("")
-
   document.title = "Advertisings"
 
   const dispatch = useDispatch()
   const [contact, setContact] = useState()
+  const [modal, setModal] = useState(false)
+  const [isEdit, setIsEdit] = useState(false)
   // validation
   const validation = useFormik({
     enableReinitialize: true,
-
     initialValues: {
       title: (contact && contact.title) || "",
       details: (contact && contact.details) || "",
@@ -62,18 +66,15 @@ const Advertisings = props => {
       attachment: (contact && contact.attachment) || "",
       status: (contact && contact.status) || "",
       deadline: (contact && contact.deadline) || "",
-      image: (contact && contact.image) || img,
+      image: (contact && contact?.image) || null,
     },
-    validationSchema: validationSchema,
+    validationSchema: getValidationSchema(isEdit),
     onSubmit: async values => {
       if (isEdit) {
         var edit = new FormData()
         edit.append("title", values?.title)
         edit.append("details", values?.details)
-        // edit.append("attachment", values?.attachment)
-        if (values?.attachment instanceof File) {
-          edit.append("attachment", values?.attachment)
-        }
+        edit.append("attachment", values?.attachment)
         edit.append("notes", values?.notes)
         edit.append("deadline", values?.deadline)
         edit.append("status", values?.status)
@@ -81,7 +82,6 @@ const Advertisings = props => {
         if (values?.image instanceof File) {
           edit.append("image", values?.image)
         }
-        console.log("values :=>",values);
         dispatch(
           updateAds(
             edit,
@@ -125,20 +125,6 @@ const Advertisings = props => {
   })
 
   const { ads } = useSelector(store => store?.advertisings)
-
-  const [modal, setModal] = useState(false)
-  const [isEdit, setIsEdit] = useState(false)
-
-  const [selectedFiles, setselectedFiles] = useState([])
-  function handleAcceptedFiles(files) {
-    files.map(file =>
-      Object.assign(file, {
-        preview: URL.createObjectURL(file),
-        formattedSize: formatBytes(file.size),
-      })
-    )
-    setselectedFiles(files)
-  }
 
   const columns = useMemo(
     () => [
@@ -390,34 +376,30 @@ const Advertisings = props => {
                           <FileInput
                             name="image"
                             src={
-                              typeof validation.values.image === "object"
-                                ? URL.createObjectURL(
-                                    validation.values["image"]
-                                  )
+                              typeof validation.values?.image === "object" &&
+                              validation.values?.image
+                                ? URL.createObjectURL(validation.values?.image)
                                 : typeof validation.values.image === "string"
-                                ? validation.values["image"]
-                                : filename
                                 ? validation.values.image
                                 : img
                             }
                             onChange={event => {
-                              setFilename(
-                                prev => event.target.files[0]?.title || ""
-                              )
-
                               validation.setFieldValue(
                                 "image",
                                 event.currentTarget.files[0]
                               )
                             }}
                           />
-                          {/* {filename && (
+                          {validation.touched.image &&
+                          validation.errors.image ? (
                             <h6>
-                              {filename} <span htmlFor={"avatar"}>Change</span>
+                              <span className="text-danger" htmlFor={"image"}>
+                                {validation.errors.image}
+                              </span>
                             </h6>
-                          )} */}
+                          ) : null}
                         </Row>
-                        <Row form>
+                        <Row>
                           <Col xs={12}>
                             <div className="mb-3">
                               <Label className="form-label">Title</Label>
@@ -549,11 +531,8 @@ const Advertisings = props => {
                                     : false
                                 }
                               >
-                                <option selected disabled></option>
-                                <option value={"published"}>Published </option>
-                                <option value={"ongoing"}>Ongoing</option>
-                                <option value={"completed"}>Completed</option>
-                                <option value={"draft"}>Draft</option>
+                                <option defaultValue disabled></option>
+                                <option value={"published"}>Published</option>
                               </Input>
                               {validation.touched.status &&
                               validation.errors.status ? (

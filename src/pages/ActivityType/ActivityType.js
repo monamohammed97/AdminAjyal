@@ -98,16 +98,6 @@ const ActivityType = props => {
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
 
-  const [selectedFiles, setselectedFiles] = useState([])
-  function handleAcceptedFiles(files) {
-    files.map(file =>
-      Object.assign(file, {
-        preview: URL.createObjectURL(file),
-        formattedSize: formatBytes(file.size),
-      })
-    )
-    setselectedFiles(files)
-  }
 
   const columns = useMemo(
     () => [
@@ -244,8 +234,6 @@ const ActivityType = props => {
     setIsEdit(false)
     toggle()
   }
-
-  const keyField = "id"
 
   return (
     <React.Fragment>

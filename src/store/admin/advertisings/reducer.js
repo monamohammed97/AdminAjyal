@@ -21,8 +21,8 @@ const INIT_STATE = {
 
 const advertisings = (state = INIT_STATE, action) => {
   switch (action.type) {
-     // GET_ADVERTISINGS
-     case GET_ADVERTISINGS:
+    // GET_ADVERTISINGS
+    case GET_ADVERTISINGS:
       return {
         ...state,
         isLoading: true,
@@ -48,7 +48,7 @@ const advertisings = (state = INIT_STATE, action) => {
         ...state,
         ads: [...state?.ads, action.payload],
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case ADD_ADS_FAIL:
       return {
@@ -69,11 +69,11 @@ const advertisings = (state = INIT_STATE, action) => {
         ...state,
         ads: state.ads.map(ad =>
           ad.id.toString() === action.payload.id.toString()
-            ? { ad, ...action.payload?.ad }
+            ? { ad, ...action.payload?.ads }
             : ad
         ),
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case UPDATE_ADS_FAIL:
       return {
@@ -96,7 +96,7 @@ const advertisings = (state = INIT_STATE, action) => {
           ad => ad.id.toString() !== action.payload.toString()
         ),
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case DELETE_ADS_FAIL:
       return {
@@ -104,7 +104,6 @@ const advertisings = (state = INIT_STATE, action) => {
         error: action.payload,
         isLoading: false,
       }
-
 
     default:
       return state

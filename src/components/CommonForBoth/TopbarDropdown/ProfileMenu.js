@@ -130,6 +130,7 @@ const ProfileMenu = props => {
           </DropdownItem>
           <div className="dropdown-divider" /> */}
           <Link
+            to="#"
             className="dropdown-item"
             onClick={() => {
               toggle()

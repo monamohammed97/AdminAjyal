@@ -42,34 +42,31 @@ import img from "assets/images/img.png"
 
 const Category = props => {
   //meta title
-  const [filename, setFilename] = useState("")
-
   document.title = "Category"
 
   const dispatch = useDispatch()
   const [contact, setContact] = useState()
+  const [modal, setModal] = useState(false)
+  const [isEdit, setIsEdit] = useState(false)
+  
   // validation
   const validation = useFormik({
     enableReinitialize: true,
-
     initialValues: {
       title: (contact && contact.title) || "",
       description: (contact && contact.description) || "",
-      image: (contact && contact.image) || img,
+      image: (contact && contact?.image) || null,
     },
-    // validationSchema: validationSchema,
+    validationSchema: validationSchema,
     onSubmit: async values => {
       if (isEdit) {
         var edit = new FormData()
         edit.append("title", values?.title)
         edit.append("description", values?.description)
         edit.append("_method", "put")
-        edit.append("image", values?.image)
-        // contact.title !== values.title && edit.append("title", values?.title)
-        // contact.description !== values.description &&
-        //   edit.append("description", values?.description)
-        // edit.append("_method", "put")
-        // typeof values.image === "object" && edit.append("image", values?.image)
+        if (values?.image instanceof File) {
+          edit.append("image", values?.image)
+        }
         dispatch(
           updateCategory(
             edit,
@@ -109,21 +106,6 @@ const Category = props => {
   })
 
   const { category } = useSelector(store => store?.category)
-
-  const [userList, setUserList] = useState([])
-  const [modal, setModal] = useState(false)
-  const [isEdit, setIsEdit] = useState(false)
-
-  const [selectedFiles, setselectedFiles] = useState([])
-  function handleAcceptedFiles(files) {
-    files.map(file =>
-      Object.assign(file, {
-        preview: URL.createObjectURL(file),
-        formattedSize: formatBytes(file.size),
-      })
-    )
-    setselectedFiles(files)
-  }
 
   const columns = useMemo(
     () => [
@@ -295,8 +277,6 @@ const Category = props => {
     toggle()
   }
 
-  const keyField = "id"
-
   return (
     <React.Fragment>
       <DeleteModal
@@ -338,32 +318,28 @@ const Category = props => {
                           <FileInput
                             name="image"
                             src={
-                              typeof validation.values.image === "object"
-                                ? URL.createObjectURL(
-                                    validation.values["image"]
-                                  )
+                              typeof validation.values?.image === "object" &&
+                              validation.values?.image
+                                ? URL.createObjectURL(validation.values?.image)
                                 : typeof validation.values.image === "string"
-                                ? validation.values["image"]
-                                : filename
                                 ? validation.values.image
                                 : img
                             }
                             onChange={event => {
-                              setFilename(
-                                prev => event.target.files[0]?.name || ""
-                              )
-
                               validation.setFieldValue(
                                 "image",
                                 event.currentTarget.files[0]
                               )
                             }}
                           />
-                          {/* {filename && (
+                          {validation.touched.image &&
+                          validation.errors.image ? (
                             <h6>
-                              {filename} <span htmlFor={"avatar"}>Change</span>
+                              <span className="text-danger" htmlFor={"image"}>
+                                {validation.errors.image}
+                              </span>
                             </h6>
-                          )} */}
+                          ) : null}
                         </Row>
                         <Row>
                           <Col xs={12}>

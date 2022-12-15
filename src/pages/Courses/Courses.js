@@ -54,16 +54,15 @@ import img from "assets/images/img.png"
 
 const Courses = props => {
   //meta group_id
-  const [filename, setFilename] = useState("")
-
   document.title = "Courses"
 
   const dispatch = useDispatch()
   const [contact, setContact] = useState()
+  const [modal, setModal] = useState(false)
+  const [isEdit, setIsEdit] = useState(false)
   // validation
   const validation = useFormik({
     enableReinitialize: true,
-
     initialValues: {
       group_id: (contact && contact.group_id) || "",
       end_date: (contact && contact.end_date) || "",
@@ -73,9 +72,9 @@ const Courses = props => {
       hour_count: (contact && contact.hour_count) || "",
       mentor_id: (contact && contact.mentor_id) || "",
       status: (contact && contact.status) || "",
-      image: (contact && contact.image) || img,
+      image: (contact && contact?.image) || null,
     },
-    // validationSchema: validationSchema,
+    validationSchema: validationSchema,
     onSubmit: async values => {
       if (isEdit) {
         var edit = new FormData()
@@ -88,7 +87,9 @@ const Courses = props => {
         edit.append("mentor_id", values?.mentor_id)
         edit.append("status", values?.status)
         edit.append("_method", "put")
-        edit.append("image", values?.image)
+        if (values?.image instanceof File) {
+          edit.append("image", values?.image)
+        }
         dispatch(
           updateCourse(
             edit,
@@ -136,20 +137,6 @@ const Courses = props => {
   const { courses } = useSelector(store => store?.courses)
   const { groups } = useSelector(store => store?.groups)
   const { mentors } = useSelector(store => store?.mentors)
-
-  const [modal, setModal] = useState(false)
-  const [isEdit, setIsEdit] = useState(false)
-
-  const [selectedFiles, setselectedFiles] = useState([])
-  function handleAcceptedFiles(files) {
-    files.map(file =>
-      Object.assign(file, {
-        preview: URL.createObjectURL(file),
-        formattedSize: formatBytes(file.size),
-      })
-    )
-    setselectedFiles(files)
-  }
 
   const columns = useMemo(
     () => [
@@ -257,7 +244,6 @@ const Courses = props => {
                 className="text-success"
                 onClick={() => {
                   const userData = cellProps.row.original
-                  // console.log("userData :", userData)
                   handleUserClick(userData)
                 }}
               >
@@ -286,6 +272,7 @@ const Courses = props => {
     ],
     []
   )
+
   useEffect(() => {
     dispatch(getCourses())
     dispatch(getGroups())
@@ -377,8 +364,6 @@ const Courses = props => {
     toggle()
   }
 
-  const keyField = "id"
-
   return (
     <React.Fragment>
       <DeleteModal
@@ -406,7 +391,7 @@ const Courses = props => {
 
                   <Modal isOpen={modal} toggle={toggle}>
                     <ModalHeader toggle={toggle} tag="h4">
-                      {!!isEdit ? "Edit Doctor" : "Add Doctor"}
+                      {!!isEdit ? "Edit Courses" : "Add Courses"}
                     </ModalHeader>
                     <ModalBody>
                       <Form
@@ -420,32 +405,28 @@ const Courses = props => {
                           <FileInput
                             name="image"
                             src={
-                              typeof validation.values.image === "object"
-                                ? URL.createObjectURL(
-                                    validation.values["image"]
-                                  )
+                              typeof validation.values?.image === "object" &&
+                              validation.values?.image
+                                ? URL.createObjectURL(validation.values?.image)
                                 : typeof validation.values.image === "string"
-                                ? validation.values["image"]
-                                : filename
                                 ? validation.values.image
                                 : img
                             }
                             onChange={event => {
-                              setFilename(
-                                prev => event.target.files[0]?.title || ""
-                              )
-
                               validation.setFieldValue(
                                 "image",
                                 event.currentTarget.files[0]
                               )
                             }}
                           />
-                          {/* {filename && (
+                          {validation.touched.image &&
+                          validation.errors.image ? (
                             <h6>
-                              {filename} <span htmlFor={"avatar"}>Change</span>
+                              <span className="text-danger" htmlFor={"image"}>
+                                {validation.errors.image}
+                              </span>
                             </h6>
-                          )} */}
+                          ) : null}
                         </Row>
                         <Row>
                           <Col xs={12}>

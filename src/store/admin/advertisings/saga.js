@@ -1,7 +1,12 @@
 import { call, put, takeEvery } from "redux-saga/effects"
 
 // Ecommerce Redux States
-import { GET_ADVERTISINGS, ADD_ADS, UPDATE_ADS, DELETE_ADS } from "./actionTypes"
+import {
+  GET_ADVERTISINGS,
+  ADD_ADS,
+  UPDATE_ADS,
+  DELETE_ADS,
+} from "./actionTypes"
 import {
   getAdsFail,
   getAdsSuccess,
