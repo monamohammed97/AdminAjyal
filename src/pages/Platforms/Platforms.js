@@ -42,25 +42,24 @@ import img from "assets/images/img.png"
 
 const Platforms = props => {
   //meta title
-  const [filename, setFilename] = useState("")
-
   document.title = "Platforms"
 
   const dispatch = useDispatch()
   const [contact, setContact] = useState()
+  const [modal, setModal] = useState(false)
+  const [isEdit, setIsEdit] = useState(false)
+
   // validation
   const validation = useFormik({
     enableReinitialize: true,
-
     initialValues: {
       name: (contact && contact.name) || "",
       jobs_count: (contact && contact.jobs_count) || "",
-      image: (contact && contact.image) || img,
+      image: (contact && contact?.image) || null,
     },
     validationSchema: validationSchema,
     onSubmit: async values => {
       if (isEdit) {
-        console.log("edit ", values)
         var edit = new FormData()
         edit.append("name", values?.name)
         edit.append("_method", "put")
@@ -87,7 +86,7 @@ const Platforms = props => {
         var data = new FormData()
         data.append("name", values?.name)
         data.append("jobs_count", values?.jobs_count)
-        data.append("image", values?.image)
+        if (values?.image) data.append("image", values?.image)
 
         dispatch(
           addPlatform(
@@ -107,20 +106,6 @@ const Platforms = props => {
   })
 
   const { platforms } = useSelector(store => store?.platforms)
-
-  const [modal, setModal] = useState(false)
-  const [isEdit, setIsEdit] = useState(false)
-
-  const [selectedFiles, setselectedFiles] = useState([])
-  function handleAcceptedFiles(files) {
-    files.map(file =>
-      Object.assign(file, {
-        preview: URL.createObjectURL(file),
-        formattedSize: formatBytes(file.size),
-      })
-    )
-    setselectedFiles(files)
-  }
 
   const columns = useMemo(
     () => [
@@ -180,7 +165,6 @@ const Platforms = props => {
                 className="text-success"
                 onClick={() => {
                   const userData = cellProps.row.original
-                  // console.log("userData :", userData)
                   handleUserClick(userData)
                 }}
               >
@@ -340,29 +324,30 @@ const Platforms = props => {
                                 : false
                             }
                             src={
-                              typeof validation.values.image === "object"
-                                ? URL.createObjectURL(
-                                    validation.values["image"]
-                                  )
+                              typeof validation.values?.image === "object" &&
+                              validation.values?.image
+                                ? URL.createObjectURL(validation.values?.image)
                                 : typeof validation.values.image === "string"
-                                ? validation.values["image"]
-                                : filename
                                 ? validation.values.image
-                                : ""
+                                : img
                             }
                             onChange={event => {
-                              setFilename(
-                                prev => event.target.files[0]?.name || ""
-                              )
-
                               validation.setFieldValue(
                                 "image",
                                 event.currentTarget.files[0]
                               )
                             }}
                           />
+                          {validation.touched.image &&
+                          validation.errors.image ? (
+                            <h6>
+                              <span className="text-danger" htmlFor={"image"}>
+                                {validation.errors.image}
+                              </span>
+                            </h6>
+                          ) : null}
                         </Row>
-                        <Row form>
+                        <Row>
                           <Col xs={12}>
                             <div className="mb-3">
                               <Label className="form-label">Name</Label>

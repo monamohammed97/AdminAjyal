@@ -30,7 +30,7 @@ const category = (state = INIT_STATE, action) => {
     case GET_CATEGORY_SUCCESS:
       return {
         ...state,
-        category: action.payload,
+        category: action.payload || [],
       }
     case GET_CATEGORY_FAIL:
       return {

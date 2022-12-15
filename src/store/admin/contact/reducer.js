@@ -24,7 +24,7 @@ const contact = (state = INIT_STATE, action) => {
     case GET_CONTACTS_SUCCESS:
       return {
         ...state,
-        contacts: action.payload,
+        contacts: action.payload || [],
         isLoading: false,
       }
     case GET_CONTACTS_FAIL:

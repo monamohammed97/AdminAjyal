@@ -30,7 +30,7 @@ const activityType = (state = INIT_STATE, action) => {
     case GET_ACTIVITY_TYPE_SUCCESS:
       return {
         ...state,
-        activityType: action.payload,
+        activityType: action.payload || [],
       }
     case GET_ACTIVITY_TYPE_FAIL:
       return {

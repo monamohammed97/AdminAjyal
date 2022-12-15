@@ -30,7 +30,7 @@ const questions = (state = INIT_STATE, action) => {
     case GET_QUESTIONS_SUCCESS:
       return {
         ...state,
-        questions: action.payload,
+        questions: action.payload || [],
       }
     case GET_QUESTIONS_FAIL:
       return {

@@ -41,7 +41,7 @@ import DeleteModal from "components/Common/DeleteModal"
 import TableContainer from "components/Common/TableContainer"
 import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
-import { validationSchema } from "./validationSchema"
+import { getValidationSchema } from "./validationSchema"
 import {
   getStudents,
   addStudent,
@@ -55,16 +55,15 @@ import Select from "react-select"
 
 const Students = props => {
   //meta title
-  const [filename, setFilename] = useState("")
-
   document.title = "Students"
 
   const dispatch = useDispatch()
   const [contact, setContact] = useState()
+  const [modal, setModal] = useState(false)
+  const [isEdit, setIsEdit] = useState(false)
   // validation
   const validation = useFormik({
     enableReinitialize: true,
-
     initialValues: {
       first_name: (contact && contact.first_name) || "",
       last_name: (contact && contact.last_name) || "",
@@ -76,12 +75,10 @@ const Students = props => {
       rate: (contact && contact.rate) || "",
       transport: (contact && contact.transport) || "",
       status: (contact && contact.status) || "",
-      // total_income: (contact && contact.total_income) || "",
-      // total_jobs: (contact && contact.total_jobs) || "",
       group_id: (contact && contact.group_id) || "",
-      image: (contact && contact.image) || img,
+      image: (contact && contact.image) || null,
     },
-    // validationSchema: validationSchema,
+    validationSchema: getValidationSchema(isEdit),
     onSubmit: async values => {
       if (isEdit) {
         var edit = new FormData()
@@ -94,32 +91,13 @@ const Students = props => {
         edit.append("address", values?.address)
         edit.append("transport", values?.transport)
         edit.append("status", values?.status)
-        // edit.append("total_income", values?.total_income)
-        // edit.append("total_jobs", values?.total_jobs)
         dataSelect?.map((el, index) => {
-          data.append(`group_id[${index}]`, el.value)
+          edit.append(`group_id[${index}]`, el.value)
         })
         edit.append("_method", "put")
-        edit.append("image", values?.image)
-        // contact.first_name !== values.first_name && edit.append("first_name", values?.first_name)
-        // contact.last_name !== values.last_name && edit.append("last_name", values?.last_name)
-        // contact.gender !== values.gender && edit.append("gender", values?.gender)
-        // contact.email !== values.email && edit.append("email", values?.email)
-        // contact.phone !== values.phone && edit.append("phone", values?.phone)
-        // contact.rate !== values.rate && edit.append("rate", values?.rate)
-        // contact.address !== values.address &&
-        //   edit.append("address", values?.address)
-        // contact.transport !== values.transport &&
-        //   edit.append("transport", values?.transport)
-        // contact.status !== values.status &&
-        //   edit.append("status", values?.status)
-        // contact.total_income !== values.total_income &&
-        //   edit.append("total_income", values?.total_income)
-        // contact.total_jobs !== values.total_jobs &&
-        //   edit.append("total_jobs", values?.total_jobs)
-        // edit.append("_method", "put")
-        // typeof values.image === "object" && edit.append("image", values?.image)
-
+        if (values?.image instanceof File) {
+          edit.append("image", values?.image)
+        }
         dispatch(
           updateStudent(
             edit,
@@ -132,7 +110,6 @@ const Students = props => {
             }
           )
         )
-        console.log("values",values);
         setIsEdit(false)
         validation.resetForm()
         toggle()
@@ -148,16 +125,13 @@ const Students = props => {
         data.append("address", values?.address)
         data.append("transport", values?.transport)
         data.append("status", values?.status)
-        // data.append("total_income", values?.total_income)
-        // data.append("total_jobs", values?.total_jobs)
-
-        data.append("image", values?.image)
-
+        if (values?.image instanceof File) {
+          edit.append("image", values?.image)
+        }
         dataSelect?.map((el, index) => {
           data.append(`group_id[${index}]`, el.value)
         })
 
-        
         dispatch(
           addStudent(
             data,
@@ -181,26 +155,7 @@ const Students = props => {
   let optionGroups = []
   groups?.forEach(el => optionGroups.push({ label: el?.title, value: el?.id }))
 
-  //   [
-  //     { label: "Mustard", value: "1" },
-  //     { label: "Ketchup", value: "2" },
-  //     { label: "Relish", value: "3" }
-  // ]
-  const [modal, setModal] = useState(false)
-  const [isEdit, setIsEdit] = useState(false)
   const [dataSelect, setData] = useState([])
-
-  // console.log(dataSelect)
-  const [selectedFiles, setselectedFiles] = useState([])
-  function handleAcceptedFiles(files) {
-    files.map(file =>
-      Object.assign(file, {
-        preview: URL.createObjectURL(file),
-        formattedSize: formatBytes(file.size),
-      })
-    )
-    setselectedFiles(files)
-  }
 
   const columns = useMemo(
     () => [
@@ -308,7 +263,6 @@ const Students = props => {
                 className="text-success"
                 onClick={() => {
                   const userData = cellProps.row.original
-                  // console.log("userData :", userData)
                   let optionGroups = []
                   userData?.groups?.forEach(el =>
                     optionGroups.push({ label: el?.title, value: el?.id })
@@ -437,8 +391,6 @@ const Students = props => {
     toggle()
   }
 
-  const keyField = "id"
-
   return (
     <React.Fragment>
       <DeleteModal
@@ -480,34 +432,30 @@ const Students = props => {
                           <FileInput
                             name="image"
                             src={
-                              typeof validation.values.image === "object"
-                                ? URL.createObjectURL(
-                                    validation.values["image"]
-                                  )
+                              typeof validation.values?.image === "object" &&
+                              validation.values?.image
+                                ? URL.createObjectURL(validation.values?.image)
                                 : typeof validation.values.image === "string"
-                                ? validation.values["image"]
-                                : filename
                                 ? validation.values.image
-                                : img2
+                                : img
                             }
                             onChange={event => {
-                              setFilename(
-                                prev => event.target.files[0]?.name || ""
-                              )
-
                               validation.setFieldValue(
                                 "image",
                                 event.currentTarget.files[0]
                               )
                             }}
                           />
-                          {/* {filename && (
+                          {validation.touched.image &&
+                          validation.errors.image ? (
                             <h6>
-                              {filename} <span htmlFor={"avatar"}>Change</span>
+                              <span className="text-danger" htmlFor={"image"}>
+                                {validation.errors.image}
+                              </span>
                             </h6>
-                          )} */}
+                          ) : null}
                         </Row>
-                        <Row form>
+                        <Row>
                           <Col xs={12}>
                             <div className="mb-3">
                               <Label className="form-label">First Name</Label>
@@ -610,8 +558,14 @@ const Students = props => {
                                 onChange={validation.handleChange}
                                 onBlur={validation.handleBlur}
                                 value={validation.values.gender || ""}
+                                invalid={
+                                  validation.touched.email &&
+                                  validation.errors.email
+                                    ? true
+                                    : false
+                                }
                               >
-                                <option selected disabled></option>
+                                <option defaultValue disabled></option>
                                 <option value={"male"}>Male </option>
                                 <option value={"female"}>Female</option>
                               </Input>
@@ -677,8 +631,14 @@ const Students = props => {
                                 onChange={validation.handleChange}
                                 onBlur={validation.handleBlur}
                                 value={validation.values.rate || ""}
+                                invalid={
+                                  validation.touched.rate &&
+                                  validation.errors.rate
+                                    ? true
+                                    : false
+                                }
                               >
-                                <option selected disabled></option>
+                                <option defaultValue disabled></option>
                                 <option value={"Featured"}>Featured </option>
                                 <option value={"Junior"}>Junior</option>
                                 <option value={"Average"}>Average</option>
@@ -725,8 +685,14 @@ const Students = props => {
                                 onChange={validation.handleChange}
                                 onBlur={validation.handleBlur}
                                 value={validation.values.status || ""}
+                                invalid={
+                                  validation.touched.status &&
+                                  validation.errors.status
+                                    ? true
+                                    : false
+                                }
                               >
-                                <option selected disabled></option>
+                                <option defaultValue disabled></option>
                                 <option value={"active"}>Active </option>
                                 <option value={"inactive"}>Inactive</option>
                               </Input>
@@ -743,7 +709,6 @@ const Students = props => {
                                 value={dataSelect}
                                 isMulti={true}
                                 onChange={dataSelect => {
-                                  // console.log(value)
                                   setData(dataSelect)
                                 }}
                                 options={optionGroups}

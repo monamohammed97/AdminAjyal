@@ -165,7 +165,6 @@ const Category = props => {
                 className="text-success"
                 onClick={() => {
                   const userData = cellProps.row.original
-                  // console.log("userData :", userData)
                   handleUserClick(userData)
                 }}
               >

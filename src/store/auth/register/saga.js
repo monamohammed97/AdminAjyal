@@ -16,9 +16,7 @@ const fireBaseBackend = getFirebaseBackend()
 
 // Is user register successfull then direct plot user in redux.
 function* registerUser({ payload: { user } }) {
-  console.log("using the following url for registration: ")
   try {
-    console.log("Trying to register user (within try block)")
     if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
       const response = yield call(
         fireBaseBackend.registerUser,
@@ -34,7 +32,6 @@ function* registerUser({ payload: { user } }) {
       yield put(registerUserSuccessful(response))
     }
   } catch (error) {
-    console.log("There was an error registering: ", error)
     yield put(registerUserFailed(error))
   }
 }

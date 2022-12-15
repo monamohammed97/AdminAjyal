@@ -25,6 +25,7 @@ import img from "assets/images/img.png"
 import { getStudents } from "store/admin/student/actions"
 import { getGroups } from "store/admin/group/actions"
 import { getPlatforms } from "store/admin/platform/actions"
+import { validationSchema } from "./validationSchema"
 
 const AddJob = props => {
   //meta title
@@ -46,9 +47,9 @@ const AddJob = props => {
       status: "",
       client_feedback: "",
       notes: "",
-      attachment: img,
+      attachment: null,
     },
-    // validationSchema: validationSchema,
+    validationSchema: validationSchema,
     onSubmit: async values => {
       var data = new FormData()
       data.append("platform_id", values?.platform_id)
@@ -56,17 +57,21 @@ const AddJob = props => {
       data.append("group_id", values?.group_id)
       data.append("job_title", values?.job_title)
       data.append("salary", values?.salary)
-      data.append("job_link", values?.job_link)
-      data.append("job_description", values?.job_description)
+      if (values?.job_link) data.append("job_link", values?.job_link)
+      if (values?.job_description)
+        data.append("job_description", values?.job_description)
+
       data.append("status", values?.status)
-      data.append("client_feedback", values?.client_feedback)
-      data.append("notes", values?.notes)
-      data.append("attachment", values?.attachment)
+      if (values?.client_feedback)
+        data.append("client_feedback", values?.client_feedback)
+      if (values?.notes) data.append("notes", values?.notes)
+      if (values?.attachment instanceof File) {
+        data.append("attachment", values?.attachment)
+      }
       dispatch(
         addFreelance(
           data,
-          props.history
-          ,
+          props.history,
           () => {
             notify("success", "Success")
           },
@@ -78,7 +83,6 @@ const AddJob = props => {
       validation.resetForm()
     },
   })
-  const [filename, setFilename] = useState("")
 
   const { students } = useSelector(store => store?.students)
   const { groups } = useSelector(store => store?.groups)
@@ -106,7 +110,7 @@ const AddJob = props => {
                       return false
                     }}
                   >
-                    <Row form>
+                    <Row>
                       <Col xs={12}>
                         <div className="mb-3">
                           <Label className="form-label">Student</Label>
@@ -125,7 +129,7 @@ const AddJob = props => {
                                 : false
                             }
                           >
-                            <option selected disabled></option>
+                            <option defaultValue disabled></option>
                             {students?.map(el => (
                               <option key={el?.id} value={el.id}>
                                 {el.name}
@@ -155,7 +159,7 @@ const AddJob = props => {
                                 : false
                             }
                           >
-                            <option selected disabled></option>
+                            <option defaultValue disabled></option>
                             {groups?.map(el => (
                               <option key={el?.id} value={el.id}>
                                 {el.title}
@@ -185,7 +189,7 @@ const AddJob = props => {
                                 : false
                             }
                           >
-                            <option selected disabled></option>
+                            <option defaultValue disabled></option>
                             {platforms?.map(el => (
                               <option key={el?.id} value={el.id}>
                                 {el.name}
@@ -301,8 +305,14 @@ const AddJob = props => {
                             onChange={validation.handleChange}
                             onBlur={validation.handleBlur}
                             value={validation.values.status || ""}
+                            invalid={
+                              validation.touched.status &&
+                              validation.errors.status
+                                ? true
+                                : false
+                            }
                           >
-                            <option selected disabled></option>
+                            <option defaultValue disabled></option>
                             <option value={"ongoing"}>Ongoing</option>
                             <option value={"completed"}>Completed</option>
                           </Input>
@@ -365,28 +375,20 @@ const AddJob = props => {
                       <FileInput
                         name="attachment"
                         src={
-                          typeof validation.values.attachment === "object"
-                            ? URL.createObjectURL(
-                                validation.values["attachment"]
-                              )
+                          typeof validation.values?.attachment === "object" &&
+                          validation.values?.attachment
+                            ? URL.createObjectURL(validation.values?.attachment)
                             : typeof validation.values.attachment === "string"
                             ? validation.values.attachment
                             : img
                         }
                         onChange={event => {
-                          setFilename(prev => event.target.files[0]?.name || "")
-
                           validation.setFieldValue(
                             "attachment",
                             event.currentTarget.files[0]
                           )
                         }}
                       />
-                      {/* {filename && (
-                            <h6>
-                              {filename} <span htmlFor={"avatar"}>Change</span>
-                            </h6>
-                          )} */}
                     </Row>
                     <Row>
                       <Col>

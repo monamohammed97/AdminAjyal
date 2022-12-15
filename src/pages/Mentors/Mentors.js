@@ -21,7 +21,6 @@ import {
 import { Name, Email, Gender, Phone, Overview } from "./contactlistCol"
 
 //Import Breadcrumb
-import user from "../../assets/images/users/mona.png"
 
 import { isEmpty } from "lodash"
 
@@ -31,19 +30,25 @@ import DeleteModal from "components/Common/DeleteModal"
 import TableContainer from "components/Common/TableContainer"
 import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
-import { validationSchema } from "./validationSchema"
-import { getMentors, addMentor, deleteMentor, updateMentor } from "store/admin/mentor/actions"
+import { getValidationSchema } from "./validationSchema"
+import {
+  getMentors,
+  addMentor,
+  deleteMentor,
+  updateMentor,
+} from "store/admin/mentor/actions"
 import { notify } from "components/Common/notify"
 import img from "assets/images/img.png"
 
 const Mentors = props => {
   //meta title
-  const [filename, setFilename] = useState("")
-
   document.title = "Mentors"
 
   const dispatch = useDispatch()
   const [contact, setContact] = useState()
+  const [modal, setModal] = useState(false)
+  const [isEdit, setIsEdit] = useState(false)
+
   // validation
   const validation = useFormik({
     enableReinitialize: true,
@@ -56,19 +61,18 @@ const Mentors = props => {
       phone: (contact && contact.phone) || "",
       gender: (contact && contact.gender) || "",
       overview: (contact && contact.overview) || "",
-      image: (contact && contact.image) || img,
+      image: (contact && contact?.image) || null,
     },
-    // validationSchema: validationSchema,
+    validationSchema: getValidationSchema(isEdit),
     onSubmit: async values => {
       if (isEdit) {
         var edit = new FormData()
         edit.append("first_name", values?.first_name)
         edit.append("last_name", values?.last_name)
-        // edit.append("password", values?.password)
         edit.append("email", values?.email)
         edit.append("phone", values?.phone)
         edit.append("gender", values?.gender)
-        edit.append("overview", values?.overview)
+        if (values?.overview) edit.append("overview", values?.overview)
         if (values?.image instanceof File) {
           edit.append("image", values?.image)
         }
@@ -95,9 +99,10 @@ const Mentors = props => {
         data.append("email", values?.email)
         data.append("phone", values?.phone)
         data.append("gender", values?.gender)
-        data.append("overview", values?.overview)
-        data.append("image", values?.image)
-
+        if (values?.overview) edit.append("overview", values?.overview)
+        if (values?.image instanceof File) {
+          edit.append("image", values?.image)
+        }
         dispatch(
           addMentor(
             data,
@@ -116,21 +121,6 @@ const Mentors = props => {
   })
 
   const { mentors } = useSelector(store => store?.mentors)
-
-  // const [userList, setUserList] = useState([])
-  const [modal, setModal] = useState(false)
-  const [isEdit, setIsEdit] = useState(false)
-
-  const [selectedFiles, setselectedFiles] = useState([])
-  function handleAcceptedFiles(files) {
-    files.map(file =>
-      Object.assign(file, {
-        preview: URL.createObjectURL(file),
-        formattedSize: formatBytes(file.size),
-      })
-    )
-    setselectedFiles(files)
-  }
 
   const columns = useMemo(
     () => [
@@ -214,7 +204,6 @@ const Mentors = props => {
                 className="text-success"
                 onClick={() => {
                   const userData = cellProps.row.original
-                  // console.log("userData :", userData)
                   handleUserClick(userData)
                 }}
               >
@@ -331,8 +320,6 @@ const Mentors = props => {
     toggle()
   }
 
-  const keyField = "id"
-
   return (
     <React.Fragment>
       <DeleteModal
@@ -374,34 +361,30 @@ const Mentors = props => {
                           <FileInput
                             name="image"
                             src={
-                              typeof validation.values.image === "object"
-                                ? URL.createObjectURL(
-                                    validation.values["image"]
-                                  )
+                              typeof validation.values?.image === "object" &&
+                              validation.values?.image
+                                ? URL.createObjectURL(validation.values?.image)
                                 : typeof validation.values.image === "string"
-                                ? validation.values["image"]
-                                : filename
                                 ? validation.values.image
-                                : ""
+                                : img
                             }
                             onChange={event => {
-                              setFilename(
-                                prev => event.target.files[0]?.name || ""
-                              )
-
                               validation.setFieldValue(
                                 "image",
                                 event.currentTarget.files[0]
                               )
                             }}
                           />
-                          {/* {filename && (
+                          {validation.touched.image &&
+                          validation.errors.image ? (
                             <h6>
-                              {filename} <span htmlFor={"avatar"}>Change</span>
+                              <span className="text-danger" htmlFor={"image"}>
+                                {validation.errors.image}
+                              </span>
                             </h6>
-                          )} */}
+                          ) : null}
                         </Row>
-                        <Row form>
+                        <Row>
                           <Col xs={12}>
                             <div className="mb-3">
                               <Label className="form-label">First Name</Label>
@@ -471,31 +454,31 @@ const Mentors = props => {
                                 </FormFeedback>
                               ) : null}
                             </div>
-                            {
-                              isEdit?null:<div className="mb-3">
-                              <Label className="form-label">Password</Label>
-                              <Input
-                                name="password"
-                                label="Password"
-                                type="password"
-                                onChange={validation.handleChange}
-                                onBlur={validation.handleBlur}
-                                value={validation.values.password || ""}
-                                invalid={
-                                  validation.touched.password &&
-                                  validation.errors.password
-                                    ? true
-                                    : false
-                                }
-                              />
-                              {validation.touched.password &&
-                              validation.errors.password ? (
-                                <FormFeedback type="invalid">
-                                  {validation.errors.password}
-                                </FormFeedback>
-                              ) : null}
-                            </div>
-                            }
+                            {isEdit ? null : (
+                              <div className="mb-3">
+                                <Label className="form-label">Password</Label>
+                                <Input
+                                  name="password"
+                                  label="Password"
+                                  type="password"
+                                  onChange={validation.handleChange}
+                                  onBlur={validation.handleBlur}
+                                  value={validation.values.password || ""}
+                                  invalid={
+                                    validation.touched.password &&
+                                    validation.errors.password
+                                      ? true
+                                      : false
+                                  }
+                                />
+                                {validation.touched.password &&
+                                validation.errors.password ? (
+                                  <FormFeedback type="invalid">
+                                    {validation.errors.password}
+                                  </FormFeedback>
+                                ) : null}
+                              </div>
+                            )}
                             <div className="mb-3">
                               <Label className="form-label">Phone</Label>
                               <Input
@@ -528,8 +511,14 @@ const Mentors = props => {
                                 onChange={validation.handleChange}
                                 onBlur={validation.handleBlur}
                                 value={validation.values.gender || ""}
+                                invalid={
+                                  validation.touched.gender &&
+                                  validation.errors.gender
+                                    ? true
+                                    : false
+                                }
                               >
-                                <option selected disabled></option>
+                                <option defaultValue disabled></option>
                                 <option value={"male"}>Male </option>
                                 <option value={"female"}>Female</option>
                               </Input>

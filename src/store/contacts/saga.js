@@ -130,7 +130,6 @@ export const getDoctor = (state) => state.doctors
 function* onAddNewDoctor({ payload: doctor }) {
   try {
     const response = yield call(addNewDoctor, doctor)
-    console.log("res :", response)
     yield put(addDoctorSuccess(response?.items))
   } catch (error) {
     yield put(addDoctorFail(error))
@@ -161,7 +160,6 @@ function* onDeleteDoctor({ payload: doctor }) {
 function* onAddNewClinic({ payload: clinic }) {
   try {
     const response = yield call(addNewClinic, clinic)
-    // console.log("res :", response)
     yield put(addClinicsSuccess(response))
   } catch (error) {
     yield put(addClinicsFail(error))
@@ -179,8 +177,6 @@ function* onUpdateClinic({ payload: clinic }) {
 
 function* onDeleteClinic({ payload: clinic }) {
   try {
-    // console.log("clinic Delete", clinic)
-
     const response = yield call(deleteClinic, clinic)
     yield put(deleteClinicSuccess(response))
   } catch (error) {
@@ -192,7 +188,6 @@ function* onDeleteClinic({ payload: clinic }) {
 function* onAddNewPage({ payload: page }) {
   try {
     const response = yield call(addNewPage, page)
-    // console.log("res :", response)
     yield put(addPageSuccess(response))
   } catch (error) {
     yield put(addPageFail(error))
@@ -214,7 +209,6 @@ function* onUpdatePage({ payload }) {
 
 function* onDeletePage({ payload: page }) {
   try {
-    // console.log("page Delete", page)
     const response = yield call(deletePage, page)
     yield put(deletePageSuccess(response))
   } catch (error) {

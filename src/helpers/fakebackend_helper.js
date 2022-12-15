@@ -283,7 +283,6 @@ export const updateFile = file => put(url.UPDATE_FILE, file)
 // export const getDoctors = async () =>{
 //   const res = await axiosApi.get(url.GET_DOCTORS);
 //   const data = await res.JSON();
-//   console.log(data);
 // };
 
 // get clinics

@@ -38,8 +38,13 @@ import DeleteModal from "components/Common/DeleteModal"
 import TableContainer from "components/Common/TableContainer"
 import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
-import { validationSchema } from "./validationSchema"
-import { getUsers, addUser, deleteUser, updateUser } from "store/admin/user/actions"
+import { getValidationSchema } from "./validationSchema"
+import {
+  getUsers,
+  addUser,
+  deleteUser,
+  updateUser,
+} from "store/admin/user/actions"
 import { notify } from "components/Common/notify"
 import img from "assets/images/img.png"
 
@@ -51,10 +56,11 @@ const Users = props => {
 
   const dispatch = useDispatch()
   const [contact, setContact] = useState()
+  const [modal, setModal] = useState(false)
+  const [isEdit, setIsEdit] = useState(false)
   // validation
   const validation = useFormik({
     enableReinitialize: true,
-
     initialValues: {
       first_name: (contact && contact.first_name) || "",
       last_name: (contact && contact.last_name) || "",
@@ -64,32 +70,35 @@ const Users = props => {
       gender: (contact && contact.gender) || "",
       position_description: (contact && contact.position_description) || "",
       overview: (contact && contact.overview) || "",
-      image: (contact && contact.image) || img,
+      image: (contact && contact.image) || null,
     },
-    validationSchema: validationSchema,
+    validationSchema: getValidationSchema(isEdit),
     onSubmit: async values => {
-      console.log("values: ", values)
       if (isEdit) {
         var edit = new FormData()
         edit.append("first_name", values?.first_name)
         edit.append("last_name", values?.last_name)
-        // edit.append("password", values?.password)
         edit.append("email", values?.email)
         edit.append("phone", values?.phone)
         edit.append("gender", values?.gender)
-        edit.append("overview", values?.overview)
-        edit.append("position_description", values?.position_description)
+        if (values?.overview) edit.append("overview", values?.overview)
+        if (values?.position_description)
+          edit.append("position_description", values?.position_description)
         if (values?.image instanceof File) {
           edit.append("image", values?.image)
         }
         edit.append("_method", "put")
         dispatch(
-          updateUser(edit, contact.id, () => {
-            notify("success", "Success")
-          },
-          () => {
-            notify("error", "Failed")
-          })
+          updateUser(
+            edit,
+            contact.id,
+            () => {
+              notify("success", "Success")
+            },
+            () => {
+              notify("error", "Failed")
+            }
+          )
         )
         setIsEdit(false)
         validation.resetForm()
@@ -102,9 +111,9 @@ const Users = props => {
         data.append("email", values?.email)
         data.append("phone", values?.phone)
         data.append("gender", values?.gender)
-        data.append("overview", values?.overview)
+        if (values?.overview) data.append("overview", values?.overview)
         data.append("position_description", values?.position_description)
-        data.append("image", values?.image)
+        if (values?.image) data.append("image", values?.image)
 
         dispatch(
           addUser(
@@ -124,21 +133,6 @@ const Users = props => {
   })
 
   const { users } = useSelector(store => store?.users)
-
-  // const [userList, setUserList] = useState([])
-  const [modal, setModal] = useState(false)
-  const [isEdit, setIsEdit] = useState(false)
-
-  const [selectedFiles, setselectedFiles] = useState([])
-  function handleAcceptedFiles(files) {
-    files.map(file =>
-      Object.assign(file, {
-        preview: URL.createObjectURL(file),
-        formattedSize: formatBytes(file.size),
-      })
-    )
-    setselectedFiles(files)
-  }
 
   const columns = useMemo(
     () => [
@@ -230,7 +224,6 @@ const Users = props => {
                 className="text-success"
                 onClick={() => {
                   const userData = cellProps.row.original
-                  // console.log("userData :", userData)
                   handleUserClick(userData)
                 }}
               >
@@ -348,8 +341,6 @@ const Users = props => {
     toggle()
   }
 
-  const keyField = "id"
-
   return (
     <React.Fragment>
       <DeleteModal
@@ -391,34 +382,30 @@ const Users = props => {
                           <FileInput
                             name="image"
                             src={
-                              typeof validation.values.image === "object"
-                                ? URL.createObjectURL(
-                                    validation.values["image"]
-                                  )
+                              typeof validation.values?.image === "object" &&
+                              validation.values?.image
+                                ? URL.createObjectURL(validation.values?.image)
                                 : typeof validation.values.image === "string"
-                                ? validation.values["image"]
-                                : filename
                                 ? validation.values.image
-                                : ""
+                                : img
                             }
                             onChange={event => {
-                              setFilename(
-                                prev => event.target.files[0]?.name || ""
-                              )
-
                               validation.setFieldValue(
                                 "image",
                                 event.currentTarget.files[0]
                               )
                             }}
                           />
-                          {/* {filename && (
+                          {validation.touched.image &&
+                          validation.errors.image ? (
                             <h6>
-                              {filename} <span htmlFor={"avatar"}>Change</span>
+                              <span className="text-danger" htmlFor={"image"}>
+                                {validation.errors.image}
+                              </span>
                             </h6>
-                          )} */}
+                          ) : null}
                         </Row>
-                        <Row form>
+                        <Row>
                           <Col xs={12}>
                             <div className="mb-3">
                               <Label className="form-label">Fisrt Name</Label>
@@ -544,8 +531,14 @@ const Users = props => {
                                 onChange={validation.handleChange}
                                 onBlur={validation.handleBlur}
                                 value={validation.values.gender || ""}
+                                invalid={
+                                  validation.touched.gender &&
+                                  validation.errors.gender
+                                    ? true
+                                    : false
+                                }
                               >
-                                <option selected disabled></option>
+                                <option defaultValue disabled></option>
                                 <option value={"male"}>Male </option>
                                 <option value={"female"}>Female</option>
                               </Input>

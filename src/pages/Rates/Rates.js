@@ -34,11 +34,15 @@ import { validationSchema } from "./validationSchema"
 import { getStudents } from "store/admin/student/actions"
 import { getCourses } from "store/admin/course/actions"
 import { notify } from "components/Common/notify"
-import { getRates, addRate, deleteRate, updateRate } from "store/mentor/rate/actions"
+import {
+  getRates,
+  addRate,
+  deleteRate,
+  updateRate,
+} from "store/mentor/rate/actions"
 
 const Rates = props => {
   //meta student_id
-
   document.title = "Rates"
 
   const dispatch = useDispatch()
@@ -46,14 +50,13 @@ const Rates = props => {
   // validation
   const validation = useFormik({
     enableReinitialize: true,
-
     initialValues: {
       student_id: (contact && contact.student_id) || "",
       course_id: (contact && contact.course_id) || "",
       rate: (contact && contact.rate) || "",
       notes: (contact && contact.notes) || "",
     },
-    // validationSchema: validationSchema,
+    validationSchema: validationSchema,
     onSubmit: async values => {
       if (isEdit) {
         var edit = new FormData()
@@ -62,14 +65,6 @@ const Rates = props => {
         edit.append("notes", values?.notes)
         edit.append("_method", "put")
         edit.append("rate", values?.rate)
-        // contact.student_id !== values.student_id &&
-        //   edit.append("student_id", values?.student_id)
-        // contact.course_id !== values.course_id &&
-        //   edit.append("course_id", values?.course_id)
-        // contact.notes !== values.notes && edit.append("notes", values?.notes)
-        // edit.append("_method", "put")
-        // contact.rate !== values.rate && edit.append("rate", values?.rate)
-
         dispatch(
           updateRate(
             edit,
@@ -115,17 +110,6 @@ const Rates = props => {
 
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
-
-  const [selectedFiles, setselectedFiles] = useState([])
-  function handleAcceptedFiles(files) {
-    files.map(file =>
-      Object.assign(file, {
-        preview: URL.createObjectURL(file),
-        formattedSize: formatBytes(file.size),
-      })
-    )
-    setselectedFiles(files)
-  }
 
   const columns = useMemo(
     () => [
@@ -177,7 +161,6 @@ const Rates = props => {
                 className="text-success"
                 onClick={() => {
                   const userData = cellProps.row.original
-                  // console.log("userData :", userData)
                   handleUserClick(userData)
                 }}
               >
@@ -292,8 +275,6 @@ const Rates = props => {
     toggle()
   }
 
-  const keyField = "id"
-
   return (
     <React.Fragment>
       <DeleteModal
@@ -331,7 +312,7 @@ const Rates = props => {
                           return false
                         }}
                       >
-                        <Row form>
+                        <Row>
                           <Col xs={12}>
                             <div className="mb-3">
                               <Label className="form-label">Student</Label>
@@ -349,7 +330,7 @@ const Rates = props => {
                                     : false
                                 }
                               >
-                                <option selected disabled></option>
+                                <option defaultValue disabled></option>
                                 {students?.map(el => (
                                   <option key={el?.id} value={el.id}>
                                     {el.name}
@@ -379,7 +360,7 @@ const Rates = props => {
                                     : false
                                 }
                               >
-                                <option selected disabled></option>
+                                <option defaultValue disabled></option>
                                 {courses?.map(el => (
                                   <option key={el?.id} value={el.id}>
                                     {el.title}
@@ -420,8 +401,8 @@ const Rates = props => {
                               <Label className="form-label">Rate</Label>
                               <Input
                                 name="rate"
-                                label="Rate"
-                                type="number"
+                                type="select"
+                                className="form-select"
                                 onChange={validation.handleChange}
                                 onBlur={validation.handleBlur}
                                 value={validation.values.rate || ""}
@@ -431,7 +412,15 @@ const Rates = props => {
                                     ? true
                                     : false
                                 }
-                              />
+                              >
+                                <option defaultValue disabled></option>
+                                <option value={"Featured"}>Featured</option>
+                                <option value={"Average"}>Average</option>
+                                <option value={"Junior"}>Junior</option>
+                                <option value={"Unclassified"}>
+                                  Unclassified
+                                </option>
+                              </Input>
                               {validation.touched.rate &&
                               validation.errors.rate ? (
                                 <FormFeedback type="invalid">

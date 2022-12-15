@@ -30,7 +30,7 @@ const students = (state = INIT_STATE, action) => {
     case GET_STUDENTS_SUCCESS:
       return {
         ...state,
-        students: action.payload,
+        students: action.payload || [],
       }
     case GET_STUDENTS_FAIL:
       return {

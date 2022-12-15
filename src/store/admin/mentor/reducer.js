@@ -30,7 +30,7 @@ const mentors = (state = INIT_STATE, action) => {
     case GET_MENTORS_SUCCESS:
       return {
         ...state,
-        mentors: action.payload,
+        mentors: action.payload || [],
       }
     case GET_MENTORS_FAIL:
       return {
@@ -46,9 +46,9 @@ const mentors = (state = INIT_STATE, action) => {
     case ADD_MENTOR_SUCCESS:
       return {
         ...state,
-        mentors: [ ...state.mentors, action.payload],
+        mentors: [...state.mentors, action.payload],
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case ADD_MENTOR_FAIL:
       return {
@@ -73,7 +73,7 @@ const mentors = (state = INIT_STATE, action) => {
             : mentor
         ),
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case UPDATE_MENTOR_FAIL:
       return {
@@ -96,7 +96,7 @@ const mentors = (state = INIT_STATE, action) => {
           mentor => mentor.id.toString() !== action.payload.toString()
         ),
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case DELETE_MENTOR_FAIL:
       return {
@@ -104,7 +104,6 @@ const mentors = (state = INIT_STATE, action) => {
         error: action.payload,
         isLoading: false,
       }
-
 
     default:
       return state
