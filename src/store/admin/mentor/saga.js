@@ -1,7 +1,14 @@
 import { call, put, takeEvery } from "redux-saga/effects"
+import { getErrorMessage } from "helpers/http-error"
+import { notify } from "components/Common/notify"
 
 // Ecommerce Redux States
-import { GET_MENTORS, ADD_MENTOR, UPDATE_MENTOR, DELETE_MENTOR } from "./actionTypes"
+import {
+  GET_MENTORS,
+  ADD_MENTOR,
+  UPDATE_MENTOR,
+  DELETE_MENTOR,
+} from "./actionTypes"
 import {
   getMentorsFail,
   getMentorsSuccess,
@@ -25,7 +32,7 @@ function* fetchMentors() {
     const response = yield call(getMentorsAjyal)
     yield put(getMentorsSuccess(response?.data))
   } catch (error) {
-    yield put(getMentorsFail(error))
+    yield put(getMentorsFail(getErrorMessage(error)))
   }
 }
 
@@ -36,8 +43,9 @@ function* onAddMentor({ payload }) {
     yield put(addMentorSuccess(response?.data))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(addMentorFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(addMentorFail(message))
   }
 }
 
@@ -45,11 +53,12 @@ function* onUpdateMentor({ payload }) {
   const { mentor, id, cbDone, cbFail } = payload
   try {
     const response = yield call(updateMentorAjyal, id, mentor)
-    yield put(updateMentorSuccess(response?.data ,id))
+    yield put(updateMentorSuccess(response?.data, id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(updateMentorFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(updateMentorFail(message))
   }
 }
 function* onDeleteMentor({ payload }) {
@@ -59,8 +68,9 @@ function* onDeleteMentor({ payload }) {
     yield put(deleteMentorSuccess(mentor?.id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(deleteMentorFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(deleteMentorFail(message))
   }
 }
 

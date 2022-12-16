@@ -48,7 +48,7 @@ const Category = props => {
   const [contact, setContact] = useState()
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
-  
+
   // validation
   const validation = useFormik({
     enableReinitialize: true,
@@ -74,9 +74,7 @@ const Category = props => {
             () => {
               notify("success", "Success")
             },
-            () => {
-              notify("error", "Failed")
-            }
+            null
           )
         )
         setIsEdit(false)
@@ -94,9 +92,7 @@ const Category = props => {
             () => {
               notify("success", "Success")
             },
-            () => {
-              notify("error", "Failed")
-            }
+            null
           )
         )
         validation.resetForm()
@@ -261,9 +257,7 @@ const Category = props => {
         () => {
           notify("success", "Success")
         },
-        () => {
-          notify("error", "Failed")
-        }
+        null
       )
     )
     onPaginationPageChange(1)

@@ -80,9 +80,7 @@ const partners = props => {
             () => {
               notify("success", "Success")
             },
-            () => {
-              notify("error", "Failed")
-            }
+            null
           )
         )
         setIsEdit(false)
@@ -101,9 +99,7 @@ const partners = props => {
             () => {
               notify("success", "Success")
             },
-            () => {
-              notify("error", "Failed")
-            }
+            null
           )
         )
         validation.resetForm()
@@ -277,9 +273,7 @@ const partners = props => {
         () => {
           notify("success", "Success")
         },
-        () => {
-          notify("error", "Failed")
-        }
+        null
       )
     )
     onPaginationPageChange(1)

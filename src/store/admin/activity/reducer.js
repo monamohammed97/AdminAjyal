@@ -17,6 +17,7 @@ const INIT_STATE = {
   activities: [],
   isLoading: false,
   isSuccess: false,
+  error: null,
 }
 
 const activities = (state = INIT_STATE, action) => {

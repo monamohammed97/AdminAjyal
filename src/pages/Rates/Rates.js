@@ -72,9 +72,7 @@ const Rates = props => {
             () => {
               notify("success", "Success")
             },
-            () => {
-              notify("error", "Failed")
-            }
+            null
           )
         )
         setIsEdit(false)
@@ -93,9 +91,7 @@ const Rates = props => {
             () => {
               notify("success", "Success")
             },
-            () => {
-              notify("error", "Failed")
-            }
+            null
           )
         )
         validation.resetForm()
@@ -260,9 +256,7 @@ const Rates = props => {
         () => {
           notify("success", "Success")
         },
-        () => {
-          notify("error", "Failed")
-        }
+        null
       )
     )
     onPaginationPageChange(1)

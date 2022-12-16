@@ -17,6 +17,7 @@ const INIT_STATE = {
   users: [],
   isLoading: false,
   isSuccess: false,
+  error: null,
 }
 
 const users = (state = INIT_STATE, action) => {
@@ -48,7 +49,7 @@ const users = (state = INIT_STATE, action) => {
         ...state,
         users: [...state.users, action.payload],
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case ADD_USER_FAIL:
       return {
@@ -73,7 +74,7 @@ const users = (state = INIT_STATE, action) => {
             : user
         ),
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case UPDATE_USER_FAIL:
       return {
@@ -96,7 +97,7 @@ const users = (state = INIT_STATE, action) => {
           user => user.id.toString() !== action.payload.toString()
         ),
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case DELETE_USER_FAIL:
       return {
@@ -104,7 +105,6 @@ const users = (state = INIT_STATE, action) => {
         error: action.payload,
         isLoading: false,
       }
-
 
     default:
       return state

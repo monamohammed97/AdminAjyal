@@ -86,9 +86,7 @@ const Activites = props => {
             () => {
               notify("success", "Success")
             },
-            () => {
-              notify("error", "Failed")
-            }
+            null
           )
         )
         setIsEdit(false)
@@ -109,9 +107,7 @@ const Activites = props => {
             () => {
               notify("success", "Success")
             },
-            () => {
-              notify("error", "Failed")
-            }
+            null
           )
         )
         validation.resetForm()
@@ -308,9 +304,7 @@ const Activites = props => {
         () => {
           notify("success", "Success")
         },
-        () => {
-          notify("error", "Failed")
-        }
+        null
       )
     )
     onPaginationPageChange(1)

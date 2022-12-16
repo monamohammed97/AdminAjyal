@@ -178,9 +178,7 @@ const Contacts = props => {
         () => {
           notify("success", "Success")
         },
-        () => {
-          notify("error", "Failed")
-        }
+        null
       )
     )
     onPaginationPageChange(1)

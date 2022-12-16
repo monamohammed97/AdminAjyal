@@ -1,4 +1,6 @@
 import { call, put, takeEvery } from "redux-saga/effects"
+import { getErrorMessage } from "helpers/http-error"
+import { notify } from "components/Common/notify"
 
 // Ecommerce Redux States
 import { GET_RATES, ADD_RATE, UPDATE_RATE, DELETE_RATE } from "./actionTypes"
@@ -25,7 +27,7 @@ function* fetchRates() {
     const response = yield call(getRatesAjyal)
     yield put(getRatesSuccess(response?.data))
   } catch (error) {
-    yield put(getRatesFail(error))
+    yield put(getRatesFail(getErrorMessage(error)))
   }
 }
 
@@ -36,8 +38,9 @@ function* onAddRate({ payload }) {
     yield put(addRateSuccess(response?.data))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(addRateFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(addRateFail(message))
   }
 }
 
@@ -48,8 +51,9 @@ function* onUpdateRate({ payload }) {
     yield put(updateRateSuccess(response?.data, id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(updateRateFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(updateRateFail(message))
   }
 }
 function* onDeleteRate({ payload }) {
@@ -59,8 +63,9 @@ function* onDeleteRate({ payload }) {
     yield put(deleteRateSuccess(rate?.student_id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(deleteRateFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(deleteRateFail(message))
   }
 }
 

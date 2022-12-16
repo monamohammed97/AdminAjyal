@@ -1,4 +1,6 @@
 import { call, put, takeEvery } from "redux-saga/effects"
+import { getErrorMessage } from "helpers/http-error"
+import { notify } from "components/Common/notify"
 
 // Ecommerce Redux States
 import {
@@ -46,8 +48,9 @@ function* onAddGroup({ payload }) {
     yield put(addGroupSuccess(response?.data))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(addGroupFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(addGroupFail(message))
   }
 }
 
@@ -58,8 +61,9 @@ function* onUpdateGroup({ payload }) {
     yield put(updateGroupSuccess(response?.data, id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(updateGroupFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(updateGroupFail(message))
   }
 }
 function* onDeleteGroup({ payload }) {
@@ -69,8 +73,9 @@ function* onDeleteGroup({ payload }) {
     yield put(deleteGroupSuccess(group?.id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(deleteGroupFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(deleteGroupFail(message))
   }
 }
 
@@ -81,8 +86,9 @@ function* onImportExcel({ payload }) {
     yield put(importExcelSuccess(response?.data))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(importExcelFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(importExcelFail(message))
   }
 }
 

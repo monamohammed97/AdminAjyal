@@ -1,4 +1,6 @@
 import { call, put, takeEvery } from "redux-saga/effects"
+import { getErrorMessage } from "helpers/http-error"
+import { notify } from "components/Common/notify"
 
 // Ecommerce Redux States
 import {
@@ -30,7 +32,7 @@ function* fetchActivityType() {
     const response = yield call(getActivityTypesAjyal)
     yield put(getActivityTypeSuccess(response?.data))
   } catch (error) {
-    yield put(getActivityTypeFail(error))
+    yield put(getActivityTypeFail(getErrorMessage(error)))
   }
 }
 
@@ -41,8 +43,9 @@ function* onAddActivityType({ payload }) {
     yield put(addActivityTypeSuccess(response?.data))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(addActivityTypeFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(addActivityTypeFail(message))
   }
 }
 
@@ -53,8 +56,9 @@ function* onUpdateActivityType({ payload }) {
     yield put(updateActivityTypeSuccess(response?.data, id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(updateActivityTypeFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(updateActivityTypeFail(message))
   }
 }
 function* onDeleteActivityType({ payload }) {
@@ -64,8 +68,9 @@ function* onDeleteActivityType({ payload }) {
     yield put(deleteActivityTypeSuccess(activityType?.id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(deleteActivityTypeFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(deleteActivityTypeFail(message))
   }
 }
 

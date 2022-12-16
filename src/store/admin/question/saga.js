@@ -1,4 +1,6 @@
 import { call, put, takeEvery } from "redux-saga/effects"
+import { getErrorMessage } from "helpers/http-error"
+import { notify } from "components/Common/notify"
 
 // Ecommerce Redux States
 import {
@@ -30,7 +32,7 @@ function* fetchQuestions() {
     const response = yield call(getQuestionsAjyal)
     yield put(getQuestionsSuccess(response?.data))
   } catch (error) {
-    yield put(getQuestionsFail(error))
+    yield put(getQuestionsFail(getErrorMessage(error)))
   }
 }
 
@@ -41,8 +43,9 @@ function* onAddQuestion({ payload }) {
     yield put(addQuestionSuccess(response?.data))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(addQuestionFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(addQuestionFail(message))
   }
 }
 
@@ -53,8 +56,9 @@ function* onUpdateQuestion({ payload }) {
     yield put(updateQuestionSuccess(response?.data, id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(updateQuestionFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(updateQuestionFail(message))
   }
 }
 function* onDeleteQuestion({ payload }) {
@@ -64,8 +68,9 @@ function* onDeleteQuestion({ payload }) {
     yield put(deleteQuestionSuccess(question?.id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(deleteQuestionFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(deleteQuestionFail(message))
   }
 }
 

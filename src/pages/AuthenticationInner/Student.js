@@ -52,10 +52,7 @@ const Student = props => {
 
             notify("success", "Login  Success", "Wellcom  to App")
           },
-          text => {
-            //  should  be  chnage  the  text  info
-            notify("error", "Error")
-          }
+          null
         )
       )
     },

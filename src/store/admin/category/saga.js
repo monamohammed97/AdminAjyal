@@ -1,4 +1,6 @@
 import { call, put, takeEvery } from "redux-saga/effects"
+import { getErrorMessage } from "helpers/http-error"
+import { notify } from "components/Common/notify"
 
 // Ecommerce Redux States
 import {
@@ -30,7 +32,7 @@ function* fetchCategory() {
     const response = yield call(getCategoryAjyal)
     yield put(getCategorySuccess(response?.data))
   } catch (error) {
-    yield put(getCategoryFail(error))
+    yield put(getCategoryFail(getErrorMessage(error)))
   }
 }
 
@@ -41,8 +43,9 @@ function* onAddCategory({ payload }) {
     yield put(addCategorySuccess(response?.data))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(addCategoryFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(addCategoryFail(message))
   }
 }
 
@@ -53,8 +56,9 @@ function* onUpdateCategory({ payload }) {
     yield put(updateCategorySuccess(response?.data, id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(updateCategoryFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(updateCategoryFail(message))
   }
 }
 function* onDeleteCategory({ payload }) {
@@ -64,8 +68,9 @@ function* onDeleteCategory({ payload }) {
     yield put(deleteCategorySuccess(category?.id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(deleteCategoryFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(deleteCategoryFail(message))
   }
 }
 

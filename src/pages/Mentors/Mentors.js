@@ -83,9 +83,7 @@ const Mentors = props => {
             () => {
               notify("success", "Success")
             },
-            () => {
-              notify("error", "Failed")
-            }
+            null
           )
         )
         setIsEdit(false)
@@ -99,9 +97,9 @@ const Mentors = props => {
         data.append("email", values?.email)
         data.append("phone", values?.phone)
         data.append("gender", values?.gender)
-        if (values?.overview) edit.append("overview", values?.overview)
+        if (values?.overview) data.append("overview", values?.overview)
         if (values?.image instanceof File) {
-          edit.append("image", values?.image)
+          data.append("image", values?.image)
         }
         dispatch(
           addMentor(
@@ -109,9 +107,7 @@ const Mentors = props => {
             () => {
               notify("success", "Success")
             },
-            () => {
-              notify("error", "Failed")
-            }
+            null
           )
         )
         validation.resetForm()
@@ -305,9 +301,7 @@ const Mentors = props => {
         () => {
           notify("success", "Success")
         },
-        () => {
-          notify("error", "Failed")
-        }
+        null
       )
     )
     onPaginationPageChange(1)

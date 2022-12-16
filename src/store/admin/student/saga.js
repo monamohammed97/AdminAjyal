@@ -1,7 +1,14 @@
 import { call, put, takeEvery } from "redux-saga/effects"
+import { getErrorMessage } from "helpers/http-error"
+import { notify } from "components/Common/notify"
 
 // Ecommerce Redux States
-import { GET_STUDENTS, ADD_STUDENT, UPDATE_STUDENT, DELETE_STUDENT } from "./actionTypes"
+import {
+  GET_STUDENTS,
+  ADD_STUDENT,
+  UPDATE_STUDENT,
+  DELETE_STUDENT,
+} from "./actionTypes"
 import {
   getStudentsFail,
   getStudentsSuccess,
@@ -25,7 +32,7 @@ function* fetchStudents() {
     const response = yield call(getStudentsAjyal)
     yield put(getStudentsSuccess(response?.data))
   } catch (error) {
-    yield put(getStudentsFail(error))
+    yield put(getStudentsFail(getErrorMessage(error)))
   }
 }
 function* onAddStudent({ payload }) {
@@ -35,8 +42,10 @@ function* onAddStudent({ payload }) {
     yield put(addStudentSuccess(response?.data))
     cbDone?.()
   } catch (error) {
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(addStudentFail(message))
     cbFail?.()
-    yield put(addStudentFail(error))
   }
 }
 
@@ -47,8 +56,9 @@ function* onUpdateStudent({ payload }) {
     yield put(updateStudentSuccess(response?.data, id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(updateStudentFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(updateStudentFail(message))
   }
 }
 function* onDeleteStudent({ payload }) {
@@ -58,8 +68,9 @@ function* onDeleteStudent({ payload }) {
     yield put(deleteStudentSuccess(student?.id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(deleteStudentFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(deleteStudentFail(message))
   }
 }
 

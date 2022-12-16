@@ -1,4 +1,6 @@
 import { call, put, takeEvery } from "redux-saga/effects"
+import { getErrorMessage } from "helpers/http-error"
+import { notify } from "components/Common/notify"
 
 // Ecommerce Redux States
 import {
@@ -30,7 +32,7 @@ function* fetchAds() {
     const response = yield call(getAdsAjyal)
     yield put(getAdsSuccess(response?.data))
   } catch (error) {
-    yield put(getAdsFail(error))
+    yield put(getAdsFail(getErrorMessage(error)))
   }
 }
 
@@ -41,8 +43,9 @@ function* onAddAds({ payload }) {
     yield put(addAdsSuccess(response?.data))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(addAdsFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(addAdsFail(message))
   }
 }
 
@@ -53,8 +56,9 @@ function* onUpdateAds({ payload }) {
     yield put(updateAdsSuccess(response?.data, id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(updateAdsFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(updateAdsFail(message))
   }
 }
 function* onDeleteAds({ payload }) {
@@ -64,8 +68,9 @@ function* onDeleteAds({ payload }) {
     yield put(deleteAdsSuccess(ads?.id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(deleteAdsFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(deleteAdsFail(message))
   }
 }
 

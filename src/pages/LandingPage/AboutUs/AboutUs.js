@@ -54,9 +54,7 @@ const AboutUs = props => {
             () => {
               notify("success", "success")
             },
-            () => {
-              notify("error", "failed")
-            }
+            null
           )
         )
       } else {

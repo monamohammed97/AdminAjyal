@@ -59,13 +59,20 @@ const ProfileMenu = props => {
       var data = new FormData()
       data.append("old_password", values?.old_password)
       data.append("new_password", values?.new_password)
-      data.append("new_password_confirmation", values?.new_password_confirmation)
-   
-      dispatch(changePassword(data,(msgSuccess)=>{
-        notify("success", msgSuccess)
-      },(msgError)=>{
-        notify("error", msgError)
-      }))
+      data.append(
+        "new_password_confirmation",
+        values?.new_password_confirmation
+      )
+
+      dispatch(
+        changePassword(
+          data,
+          msgSuccess => {
+            notify("success", msgSuccess)
+          },
+          null
+        )
+      )
       validation.resetForm()
       toggle()
     },
@@ -215,7 +222,9 @@ const ProfileMenu = props => {
                         type="text"
                         onChange={validation.handleChange}
                         onBlur={validation.handleBlur}
-                        value={validation.values.new_password_confirmation || ""}
+                        value={
+                          validation.values.new_password_confirmation || ""
+                        }
                         invalid={
                           validation.touched.new_password_confirmation &&
                           validation.errors.new_password_confirmation

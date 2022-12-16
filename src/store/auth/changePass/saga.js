@@ -3,6 +3,8 @@ import { takeEvery, fork, put, all, call } from "redux-saga/effects"
 // Login Redux States
 import { CHANGE_PASS } from "./actionTypes"
 import { changePasswordSuccess, changePasswordError } from "./actions"
+import { getErrorMessage } from "helpers/http-error"
+import { notify } from "components/Common/notify"
 
 //Include Both Helper File with needed methods
 import { getFirebaseBackend } from "../../../helpers/firebase_helper"
@@ -14,13 +16,12 @@ function* changePassword({ payload }) {
   try {
     const response = yield call(changePass, data)
     yield put(changePasswordSuccess(response?.msg))
-    if(response?.msg == "Password changed successfully!")
-      cbDone(response?.msg)
-    else
-      cbFail(response?.msg)
+    if (response?.msg == "Password changed successfully!") cbDone(response?.msg)
+    else cbFail(response?.msg)
   } catch (error) {
-    cbFail(error)
-    yield put(changePasswordError(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(changePasswordError(message))
   }
 }
 

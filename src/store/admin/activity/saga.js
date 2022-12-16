@@ -1,7 +1,14 @@
-import { actionChannel, call, put, takeEvery } from "redux-saga/effects"
+import { call, put, takeEvery } from "redux-saga/effects"
+import { getErrorMessage } from "helpers/http-error"
+import { notify } from "components/Common/notify"
 
 // Ecommerce Redux States
-import { GET_ACTIVITES, ADD_ACTIVITY, UPDATE_ACTIVITY, DELETE_ACTIVITY } from "./actionTypes"
+import {
+  GET_ACTIVITES,
+  ADD_ACTIVITY,
+  UPDATE_ACTIVITY,
+  DELETE_ACTIVITY,
+} from "./actionTypes"
 import {
   getActivitiesFail,
   getActivitiesSuccess,
@@ -19,14 +26,13 @@ import {
   updateActivityAjyal,
 } from "helpers/fakebackend_helper"
 
-
 // GET_ACTIVITES
 function* fetchActivities() {
   try {
     const response = yield call(getActivitiesAjyal)
     yield put(getActivitiesSuccess(response?.data))
   } catch (error) {
-    yield put(getActivitiesFail(error))
+    yield put(getActivitiesFail(getErrorMessage(error)))
   }
 }
 
@@ -37,8 +43,9 @@ function* onAddActivity({ payload }) {
     yield put(addActivitySuccess(response?.data))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(addActivityFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(addActivityFail(message))
   }
 }
 
@@ -49,8 +56,9 @@ function* onUpdateActivity({ payload }) {
     yield put(updateActivitySuccess(response?.data, id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(updateActivityFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(updateActivityFail(message))
   }
 }
 function* onDeleteActivity({ payload }) {
@@ -60,8 +68,9 @@ function* onDeleteActivity({ payload }) {
     yield put(deleteActivitySuccess(activity?.id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(deleteActivityFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(deleteActivityFail(message))
   }
 }
 

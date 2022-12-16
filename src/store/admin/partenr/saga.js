@@ -1,4 +1,6 @@
 import { call, put, takeEvery } from "redux-saga/effects"
+import { getErrorMessage } from "helpers/http-error"
+import { notify } from "components/Common/notify"
 
 // Ecommerce Redux States
 import {
@@ -30,7 +32,7 @@ function* fetchPartenrs() {
     const response = yield call(getPartnersAjyal)
     yield put(getPartenrsSuccess(response?.data))
   } catch (error) {
-    yield put(getPartenrsFail(error))
+    yield put(getPartenrsFail(getErrorMessage(error)))
   }
 }
 
@@ -41,8 +43,9 @@ function* onAddPartner({ payload }) {
     yield put(addPartnerSuccess(response?.data))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(addPartnerFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(addPartnerFail(message))
   }
 }
 
@@ -53,8 +56,9 @@ function* onUpdatePartner({ payload }) {
     yield put(updatePartnerSuccess(response?.data, id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(updatePartnerFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(updatePartnerFail(message))
   }
 }
 function* onDeletePartner({ payload }) {
@@ -64,8 +68,9 @@ function* onDeletePartner({ payload }) {
     yield put(deletePartnerSuccess(partner?.id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(deletePartnerFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(deletePartnerFail(message))
   }
 }
 

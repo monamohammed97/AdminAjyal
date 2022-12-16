@@ -52,10 +52,7 @@ const Mentor = props => {
 
             notify("success", "Login  Success", "Wellcom  to App")
           },
-          () => {
-            //  should  be  chnage  the  text  info
-            notify("error", "Error")
-          }
+          null
         )
       )
     },
