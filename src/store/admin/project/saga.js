@@ -1,4 +1,6 @@
 import { call, put, takeEvery } from "redux-saga/effects"
+import { getErrorMessage } from "helpers/http-error"
+import { notify } from "components/Common/notify"
 
 // Ecommerce Redux States
 import {
@@ -30,7 +32,7 @@ function* fetchProjects() {
     const response = yield call(getProjectsAjyal)
     yield put(getProjectsSuccess(response?.data))
   } catch (error) {
-    yield put(getProjectsFail(error))
+    yield put(getProjectsFail(getErrorMessage(error)))
   }
 }
 
@@ -41,8 +43,9 @@ function* onAddProject({ payload }) {
     yield put(addProjectSuccess(response?.data))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(addProjectFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(addProjectFail(message))
   }
 }
 
@@ -53,8 +56,9 @@ function* onUpdateProject({ payload }) {
     yield put(updateProjectSuccess(response?.data, id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(updateProjectFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(updateProjectFail(message))
   }
 }
 function* onDeleteProject({ payload }) {
@@ -64,8 +68,9 @@ function* onDeleteProject({ payload }) {
     yield put(deleteProjectSuccess(project?.id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(deleteProjectFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(deleteProjectFail(message))
   }
 }
 

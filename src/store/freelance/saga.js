@@ -1,7 +1,14 @@
 import { call, put, takeEvery } from "redux-saga/effects"
+import { getErrorMessage } from "helpers/http-error"
+import { notify } from "components/Common/notify"
 
 // Ecommerce Redux States
-import { GET_FREELANCER, ADD_FREELANCE, UPDATE_FREELANCE, DELETE_FREELANCE } from "./actionTypes"
+import {
+  GET_FREELANCER,
+  ADD_FREELANCE,
+  UPDATE_FREELANCE,
+  DELETE_FREELANCE,
+} from "./actionTypes"
 import {
   getFreelancerSuccess,
   getFreelancerFail,
@@ -24,10 +31,12 @@ function* fetchFreelancer() {
   try {
     const STUDENT_ID = localStorage.getItem("ID")
     const response = yield call(getFreelanceAjyal)
-    const filterData = response?.data?.filter(el => el?.student_id == STUDENT_ID)
+    const filterData = response?.data?.filter(
+      el => el?.student_id == STUDENT_ID
+    )
     yield put(getFreelancerSuccess(filterData))
   } catch (error) {
-    yield put(getFreelancerFail(error))
+    yield put(getFreelancerFail(getErrorMessage(error)))
   }
 }
 
@@ -39,8 +48,9 @@ function* onAdddFreelance({ payload }) {
     cbDone?.()
     history?.push("/freelancer")
   } catch (error) {
-    cbFail?.()
-    yield put(addFreelanceFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(addFreelanceFail(message))
   }
 }
 
@@ -52,8 +62,9 @@ function* onUpdatedFreelance({ payload }) {
     cbDone?.()
     history?.push("/freelancer")
   } catch (error) {
-    cbFail?.()
-    yield put(updateFreelanceFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(updateFreelanceFail(message))
   }
 }
 function* onDeletedFreelance({ payload }) {
@@ -63,8 +74,9 @@ function* onDeletedFreelance({ payload }) {
     yield put(deleteFreelanceSuccess(freelance?.id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(deleteFreelanceFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(deleteFreelanceFail(message))
   }
 }
 

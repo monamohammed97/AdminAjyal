@@ -64,9 +64,7 @@ const ActivityType = props => {
             () => {
               notify("success", "Success")
             },
-            () => {
-              notify("error", "Failed")
-            }
+            null
           )
         )
         setIsEdit(false)
@@ -82,9 +80,7 @@ const ActivityType = props => {
             () => {
               notify("success", "Success")
             },
-            () => {
-              notify("error", "Failed")
-            }
+            null
           )
         )
         validation.resetForm()
@@ -97,7 +93,6 @@ const ActivityType = props => {
 
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
-
 
   const columns = useMemo(
     () => [
@@ -219,9 +214,7 @@ const ActivityType = props => {
         () => {
           notify("success", "Success")
         },
-        () => {
-          notify("error", "Failed")
-        }
+        null
       )
     )
     onPaginationPageChange(1)
@@ -244,7 +237,10 @@ const ActivityType = props => {
       <div className="page-content">
         <Container fluid>
           {/* Render Breadcrumbs */}
-          <Breadcrumbs title="Activity Type List" breadcrumbItem="All Activity Type" />
+          <Breadcrumbs
+            title="Activity Type List"
+            breadcrumbItem="All Activity Type"
+          />
           <Row>
             <Col lg="12">
               <Card>

@@ -1,5 +1,7 @@
 import { call, put, takeEvery } from "redux-saga/effects"
 import { getKeyByValue } from "helpers/find-key"
+import { getErrorMessage } from "helpers/http-error"
+import { notify } from "components/Common/notify"
 
 // Ecommerce Redux States
 import { GET_ABOUTUS, ADD_ABOUTUS } from "./actionTypes"
@@ -21,7 +23,7 @@ function* fetchAboutus() {
       )
     )
   } catch (error) {
-    yield put(getAboutusFail(error))
+    yield put(getAboutusFail(getErrorMessage(error)))
   }
 }
 
@@ -32,8 +34,9 @@ function* onAddAboutus({ payload }) {
     yield put(addAboutusSuccess(response?.data))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(addAboutusFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(addAboutusFail(message))
   }
 }
 

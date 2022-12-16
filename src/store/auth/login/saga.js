@@ -15,6 +15,8 @@
 // const fireBaseBackend = getFirebaseBackend();
 
 import { call, put, takeEvery } from "redux-saga/effects"
+import { getErrorMessage } from "helpers/http-error"
+import { notify } from "components/Common/notify"
 
 // Login Redux States
 import {
@@ -41,14 +43,19 @@ function* loginUser({ payload }) {
       email: user.email,
       password: user.password,
     })
-    localStorage.setItem("authUserLogin", response?.data?.token)
-    localStorage.setItem("Role", response?.data?.type)
-    yield put(loginSuccess(response?.data))
-    cb?.()
-    history.push("/")
+    if (response?.data?.token) {
+      localStorage.setItem("authUserLogin", response?.data?.token)
+      localStorage.setItem("Role", response?.data?.type)
+      yield put(loginSuccess(response?.data))
+      cb?.()
+      history.push("/")
+    } else if (response?.status == 401) {
+      notify("error", "Failed: " + response?.msg)
+    }
   } catch (error) {
-    cb2?.()
-    yield put(apiError(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(apiError(message))
   }
 }
 function* loginMentor({ payload }) {
@@ -59,14 +66,20 @@ function* loginMentor({ payload }) {
       email: mentor.email,
       password: mentor.password,
     })
-    localStorage.setItem("authUserLogin", response?.data?.token)
-    localStorage.setItem("Role", response?.data?.type)
-    yield put(loginMentorSuccess(response?.data))
-    cb?.()
-    history.push("/")
+
+    if (response?.data?.token) {
+      localStorage.setItem("authUserLogin", response?.data?.token)
+      localStorage.setItem("Role", response?.data?.type)
+      yield put(loginMentorSuccess(response?.data))
+      cb?.()
+      history.push("/")
+    } else if (response?.status == 401) {
+      notify("error", "Failed: " + response?.msg)
+    }
   } catch (error) {
-    cb2?.()
-    yield put(apiError(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(apiError(message))
   }
 }
 function* loginStudent({ payload }) {
@@ -77,16 +90,20 @@ function* loginStudent({ payload }) {
       email: student.email,
       password: student.password,
     })
-    localStorage.setItem("authUserLogin", response?.data?.token)
-    localStorage.setItem("Role", response?.data?.type)
-    localStorage.setItem("ID", response?.data?.user?.id)
-
-    yield put(loginStudentSuccess(response?.data))
-    cb?.()
-    history.push("/")
+    if (response?.data?.token) {
+      localStorage.setItem("authUserLogin", response?.data?.token)
+      localStorage.setItem("Role", response?.data?.type)
+      localStorage.setItem("ID", response?.data?.user?.id)
+      yield put(loginStudentSuccess(response?.data))
+      cb?.()
+      history.push("/")
+    } else if (response?.status == 401) {
+      notify("error", "Failed: " + response?.msg)
+    }
   } catch (error) {
-    cb2?.()
-    yield put(apiError(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(apiError(message))
   }
 }
 

@@ -1,4 +1,6 @@
 import { takeEvery, fork, put, all, call } from "redux-saga/effects"
+import { getErrorMessage } from "helpers/http-error"
+import { notify } from "components/Common/notify"
 
 // Login Redux States
 import { FORGET_PASSWORD } from "./actionTypes"
@@ -49,7 +51,9 @@ function* forgetUser({ payload: { user, history } }) {
       }
     }
   } catch (error) {
-    yield put(userForgetPasswordError(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(userForgetPasswordError(message))
   }
 }
 

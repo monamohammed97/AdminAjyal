@@ -17,6 +17,7 @@ const INIT_STATE = {
   students: [],
   isLoading: false,
   isSuccess: false,
+  error: null,
 }
 
 const students = (state = INIT_STATE, action) => {

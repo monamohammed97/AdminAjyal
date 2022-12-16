@@ -77,9 +77,7 @@ const Attendence = props => {
             () => {
               notify("success", "Success")
             },
-            () => {
-              notify("error", "Failed")
-            }
+            null
           )
         )
         setIsEdit(false)
@@ -96,9 +94,7 @@ const Attendence = props => {
             () => {
               notify("success", "Success")
             },
-            () => {
-              notify("error", "Failed")
-            }
+            null
           )
         )
         validation.resetForm()
@@ -185,13 +181,14 @@ const Attendence = props => {
         Cell: cellProps => {
           return (
             <Switch
-            type="checkbox"
+              type="checkbox"
               className="me-1"
               onColor="#800000"
-              onChange={() => useCB(cellProps, qu[cellProps?.row?.original?.id])
+              onChange={
+                () => useCB(cellProps, qu[cellProps?.row?.original?.id])
                 // return useCB(cellProps, e.target.checked)
               }
-              checked= {qu[cellProps?.row?.original?.id]}
+              checked={qu[cellProps?.row?.original?.id]}
             />
           )
         },
@@ -201,7 +198,6 @@ const Attendence = props => {
   )
 
   useEffect(() => {
-
     dispatch(getQuestions())
   }, [dispatch])
   // useEffect(() => {
@@ -255,9 +251,7 @@ const Attendence = props => {
         () => {
           notify("success", "Success")
         },
-        () => {
-          notify("error", "Failed")
-        }
+        null
       )
     )
     onPaginationPageChange(1)

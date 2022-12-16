@@ -50,14 +50,14 @@ import img from "assets/images/img.png"
 
 const Users = props => {
   //meta title
-  const [filename, setFilename] = useState("")
-
   document.title = "Users"
 
   const dispatch = useDispatch()
   const [contact, setContact] = useState()
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
+  const { users, error } = useSelector(store => store?.users)
+
   // validation
   const validation = useFormik({
     enableReinitialize: true,
@@ -95,9 +95,7 @@ const Users = props => {
             () => {
               notify("success", "Success")
             },
-            () => {
-              notify("error", "Failed")
-            }
+            null
           )
         )
         setIsEdit(false)
@@ -121,9 +119,7 @@ const Users = props => {
             () => {
               notify("success", "Success")
             },
-            () => {
-              notify("error", "Failed")
-            }
+            null
           )
         )
         validation.resetForm()
@@ -131,8 +127,6 @@ const Users = props => {
       }
     },
   })
-
-  const { users } = useSelector(store => store?.users)
 
   const columns = useMemo(
     () => [
@@ -326,9 +320,7 @@ const Users = props => {
         () => {
           notify("success", "Success")
         },
-        () => {
-          notify("error", "Failed")
-        }
+        null
       )
     )
     onPaginationPageChange(1)

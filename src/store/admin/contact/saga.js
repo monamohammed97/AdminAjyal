@@ -1,4 +1,6 @@
 import { call, put, takeEvery } from "redux-saga/effects"
+import { getErrorMessage } from "helpers/http-error"
+import { notify } from "components/Common/notify"
 
 // Ecommerce Redux States
 import { GET_CONTACTS, DELETE_CONTACT } from "./actionTypes"
@@ -19,7 +21,7 @@ function* fetchContacts() {
     const response = yield call(getContactsAjyal)
     yield put(getContactsSuccess(response?.data))
   } catch (error) {
-    yield put(getContactsFail(error))
+    yield put(getContactsFail(getErrorMessage(error)))
   }
 }
 
@@ -30,8 +32,9 @@ function* onDeleteContact({ payload }) {
     yield put(deleteContactSuccess(contact?.id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(deleteContactFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(deleteContactFail(message))
   }
 }
 

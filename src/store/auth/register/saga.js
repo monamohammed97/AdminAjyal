@@ -1,4 +1,6 @@
 import { takeEvery, fork, put, all, call } from "redux-saga/effects"
+import { getErrorMessage } from "helpers/http-error"
+import { notify } from "components/Common/notify"
 
 //Account Redux states
 import { REGISTER_USER } from "./actionTypes"
@@ -32,7 +34,7 @@ function* registerUser({ payload: { user } }) {
       yield put(registerUserSuccessful(response))
     }
   } catch (error) {
-    yield put(registerUserFailed(error))
+    yield put(registerUserFailed(getErrorMessage(error)))
   }
 }
 

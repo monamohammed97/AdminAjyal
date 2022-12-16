@@ -1,4 +1,6 @@
 import { call, put, takeEvery } from "redux-saga/effects"
+import { getErrorMessage } from "helpers/http-error"
+import { notify } from "components/Common/notify"
 
 // Ecommerce Redux States
 import { GET_USERS, ADD_USER, UPDATE_USER, DELETE_USER } from "./actionTypes"
@@ -24,7 +26,7 @@ function* fetchUsers() {
     const response = yield call(getUsersAjyal)
     yield put(getUsersSuccess(response?.data))
   } catch (error) {
-    yield put(getUsersFail(error))
+    yield put(getUsersFail(getErrorMessage(error)))
   }
 }
 
@@ -35,8 +37,9 @@ function* onAddUser({ payload }) {
     yield put(addUserSuccess(response?.data))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(addUserFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(addUserFail(message))
   }
 }
 
@@ -47,8 +50,9 @@ function* onUpdateUser({ payload }) {
     yield put(updateUserSuccess(response?.data, id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(updateUserFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(updateUserFail(message))
   }
 }
 function* onDeleteUser({ payload }) {
@@ -58,8 +62,9 @@ function* onDeleteUser({ payload }) {
     yield put(deleteUserSuccess(user?.id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(deleteUserFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(deleteUserFail(message))
   }
 }
 

@@ -97,9 +97,7 @@ const EditJob = props => {
           () => {
             notify("success", "Success")
           },
-          () => {
-            notify("error", "Failed")
-          }
+          null
         )
       )
       validation.resetForm()

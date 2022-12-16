@@ -61,6 +61,9 @@ const Students = props => {
   const [contact, setContact] = useState()
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
+  const { students, error } = useSelector(store => store?.students)
+  const { groups } = useSelector(store => store?.groups)
+
   // validation
   const validation = useFormik({
     enableReinitialize: true,
@@ -105,9 +108,7 @@ const Students = props => {
             () => {
               notify("success", "Success")
             },
-            () => {
-              notify("error", "Failed")
-            }
+            null
           )
         )
         setIsEdit(false)
@@ -138,9 +139,7 @@ const Students = props => {
             () => {
               notify("success", "Success")
             },
-            () => {
-              notify("error", "Failed")
-            }
+            null
           )
         )
         validation.resetForm()
@@ -148,9 +147,6 @@ const Students = props => {
       }
     },
   })
-
-  const { students } = useSelector(store => store?.students)
-  const { groups } = useSelector(store => store?.groups)
 
   let optionGroups = []
   groups?.forEach(el => optionGroups.push({ label: el?.title, value: el?.id }))
@@ -376,9 +372,7 @@ const Students = props => {
         () => {
           notify("success", "Success")
         },
-        () => {
-          notify("error", "Failed")
-        }
+        null
       )
     )
     onPaginationPageChange(1)

@@ -1,7 +1,14 @@
 import { call, put, takeEvery } from "redux-saga/effects"
+import { getErrorMessage } from "helpers/http-error"
+import { notify } from "components/Common/notify"
 
 // Ecommerce Redux States
-import { ADD_PLATFORM, UPDATE_PLATFORM, DELETE_PLATFORM, GET_PLATFORMS } from "./actionTypes"
+import {
+  ADD_PLATFORM,
+  UPDATE_PLATFORM,
+  DELETE_PLATFORM,
+  GET_PLATFORMS,
+} from "./actionTypes"
 import {
   getPlatformsFail,
   getPlatformsSuccess,
@@ -25,7 +32,7 @@ function* fetchPlatforms() {
     const response = yield call(getPlatformsAjyal)
     yield put(getPlatformsSuccess(response?.data))
   } catch (error) {
-    yield put(getPlatformsFail(error))
+    yield put(getPlatformsFail(getErrorMessage(error)))
   }
 }
 
@@ -36,8 +43,9 @@ function* onAddPlatform({ payload }) {
     yield put(addPlatformSuccess(response?.data))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(addPlatformFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(addPlatformFail(message))
   }
 }
 
@@ -48,8 +56,9 @@ function* onUpdatePlatform({ payload }) {
     yield put(updatePlatformSuccess(response?.data, id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(updatePlatformFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(updatePlatformFail(message))
   }
 }
 
@@ -60,8 +69,9 @@ function* onDeletePlatform({ payload }) {
     yield put(deletePlatformSuccess(platform?.id))
     cbDone?.()
   } catch (error) {
-    cbFail?.()
-    yield put(deletePlatformFail(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(deletePlatformFail(message))
   }
 }
 

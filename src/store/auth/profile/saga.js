@@ -1,4 +1,6 @@
 import { takeEvery, fork, put, all, call } from "redux-saga/effects"
+import { getErrorMessage } from "helpers/http-error"
+import { notify } from "components/Common/notify"
 
 // Login Redux States
 import { EDIT_PROFILE } from "./actionTypes"
@@ -36,7 +38,9 @@ function* editProfile({ payload: { user } }) {
       yield put(profileSuccess(response))
     }
   } catch (error) {
-    yield put(profileError(error))
+    const message = getErrorMessage(error)
+    notify("error", "Failed: " + message)
+    yield put(profileError(message))
   }
 }
 export function* watchProfile() {
