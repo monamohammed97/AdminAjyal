@@ -12,8 +12,6 @@ import {
   FormFeedback,
 } from "reactstrap"
 
-// Form Editor
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
 //Import Breadcrumb
 import Breadcrumbs from "../../../components/Common/Breadcrumb"
 import { useFormik } from "formik"
