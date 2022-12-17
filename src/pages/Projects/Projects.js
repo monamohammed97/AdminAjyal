@@ -144,7 +144,7 @@ const Projects = props => {
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
   const [dataSelect, setData] = useState([])
-
+  
   const columns = useMemo(
     () => [
       {
@@ -243,11 +243,11 @@ const Projects = props => {
                 className="text-success"
                 onClick={() => {
                   const userData = cellProps.row.original
-                  // let optionGroups = []
-                  // userData?.partners?.forEach(el =>
-                  //   optionGroups.push({ label: el?.title, value: el?.id })
-                  // )
-                  // setData(optionGroups)
+                  let optionGroups = []
+                  userData?.partners?.forEach(el =>
+                    optionGroups.push({ label: el?.name, value: el?.id })
+                  )
+                  setData(optionGroups)
                   handleUserClick(userData)
                 }}
               >
