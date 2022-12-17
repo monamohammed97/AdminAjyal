@@ -101,16 +101,23 @@ const Students = props => {
         if (values?.image instanceof File) {
           edit.append("image", values?.image)
         }
-        dispatch(
-          updateStudent(
-            edit,
-            contact.id,
-            () => {
-              notify("success", "Success")
-            },
-            null
+        if (dataSelect.length >= 1) {
+          dispatch(
+            updateStudent(
+              edit,
+              contact.id,
+              () => {
+                notify("success", "Success")
+              },
+              null
+            )
           )
-        )
+          setIsEdit(false)
+          validation.resetForm()
+          toggle()
+        } else {
+          notify("error", "Please Select Partner")
+        }
         setIsEdit(false)
         validation.resetForm()
         toggle()
@@ -133,17 +140,21 @@ const Students = props => {
           data.append(`group_id[${index}]`, el.value)
         })
 
-        dispatch(
-          addStudent(
-            data,
-            () => {
-              notify("success", "Success")
-            },
-            null
+        if (dataSelect.length >= 1) {
+          dispatch(
+            addStudent(
+              data,
+              () => {
+                notify("success", "Success")
+              },
+              null
+            )
           )
-        )
-        validation.resetForm()
-        toggle()
+          validation.resetForm()
+          toggle()
+        } else {
+          notify("error", "Please Select Partner")
+        }
       }
     },
   })
