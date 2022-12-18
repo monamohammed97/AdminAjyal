@@ -30,7 +30,7 @@ const rates = (state = INIT_STATE, action) => {
     case GET_RATES_SUCCESS:
       return {
         ...state,
-        rates: action.payload,
+        rates: action.payload || [],
       }
     case GET_RATES_FAIL:
       return {

@@ -22,7 +22,7 @@ const notifications = (state = INIT_STATE, action) => {
     case GET_NOTIFICATION_SUCCESS:
       return {
         ...state,
-        notification: action.payload,
+        notification: action.payload || [],
       }
     case GET_NOTIFICATION_FAIL:
       return {

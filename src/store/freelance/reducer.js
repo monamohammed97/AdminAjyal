@@ -30,7 +30,7 @@ const freelance = (state = INIT_STATE, action) => {
     case GET_FREELANCER_SUCCESS:
       return {
         ...state,
-        freelance: action.payload,
+        freelance: action.payload || [],
         isLoading: false,
       }
     case GET_FREELANCER_FAIL:
