@@ -30,7 +30,7 @@ const rates = (state = INIT_STATE, action) => {
     case GET_RATES_SUCCESS:
       return {
         ...state,
-        rates: action.payload,
+        rates: action.payload || [],
       }
     case GET_RATES_FAIL:
       return {
@@ -46,9 +46,9 @@ const rates = (state = INIT_STATE, action) => {
     case ADD_RATE_SUCCESS:
       return {
         ...state,
-        rates: [ ...state.rates, action.payload],
+        rates: [...state.rates, action.payload],
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case ADD_RATE_FAIL:
       return {
@@ -73,7 +73,7 @@ const rates = (state = INIT_STATE, action) => {
             : rate
         ),
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case UPDATE_RATE_FAIL:
       return {
@@ -96,7 +96,7 @@ const rates = (state = INIT_STATE, action) => {
           rate => rate.id.toString() !== action.payload.toString()
         ),
         isLoading: false,
-        isSuccess: true
+        isSuccess: true,
       }
     case DELETE_RATE_FAIL:
       return {
@@ -104,7 +104,6 @@ const rates = (state = INIT_STATE, action) => {
         error: action.payload,
         isLoading: false,
       }
-
 
     default:
       return state
