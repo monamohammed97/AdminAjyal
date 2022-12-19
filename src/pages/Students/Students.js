@@ -61,7 +61,7 @@ const Students = props => {
   const [contact, setContact] = useState()
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
-  const { students, error } = useSelector(store => store?.students)
+  const { students } = useSelector(store => store?.students)
   const { groups } = useSelector(store => store?.groups)
 
   // validation
@@ -75,7 +75,6 @@ const Students = props => {
       gender: (contact && contact.gender) || "",
       phone: (contact && contact.phone) || "",
       address: (contact && contact.address) || "",
-      rate: (contact && contact.rate) || "",
       transport: (contact && contact.transport) || "",
       status: (contact && contact.status) || "",
       group_id: (contact && contact.group_id) || "",
@@ -90,9 +89,8 @@ const Students = props => {
         edit.append("gender", values?.gender)
         edit.append("email", values?.email)
         edit.append("phone", values?.phone)
-        edit.append("rate", values?.rate)
         edit.append("address", values?.address)
-        edit.append("transport", values?.transport)
+        if (values?.transport) edit.append("transport", values?.transport)
         edit.append("status", values?.status)
         dataSelect?.map((el, index) => {
           edit.append(`group_id[${index}]`, el.value)
@@ -101,19 +99,23 @@ const Students = props => {
         if (values?.image instanceof File) {
           edit.append("image", values?.image)
         }
-        dispatch(
-          updateStudent(
-            edit,
-            contact.id,
-            () => {
-              notify("success", "Success")
-            },
-            null
+        if (dataSelect.length > 0) {
+          dispatch(
+            updateStudent(
+              edit,
+              contact.id,
+              () => {
+                notify("success", "Success")
+              },
+              null
+            )
           )
-        )
-        setIsEdit(false)
-        validation.resetForm()
-        toggle()
+          setIsEdit(false)
+          validation.resetForm()
+          toggle()
+        } else {
+          notify("error", "Please Select Group")
+        }
       } else {
         var data = new FormData()
         data.append("first_name", values?.first_name)
@@ -122,28 +124,30 @@ const Students = props => {
         data.append("password", values?.password)
         data.append("phone", values?.phone)
         data.append("gender", values?.gender)
-        data.append("rate", values?.rate)
         data.append("address", values?.address)
-        data.append("transport", values?.transport)
+        if (values?.transport) data.append("transport", values?.transport)
         data.append("status", values?.status)
         if (values?.image instanceof File) {
-          edit.append("image", values?.image)
+          data.append("image", values?.image)
         }
         dataSelect?.map((el, index) => {
           data.append(`group_id[${index}]`, el.value)
         })
-
-        dispatch(
-          addStudent(
-            data,
-            () => {
-              notify("success", "Success")
-            },
-            null
+        if (dataSelect.length > 0) {
+          dispatch(
+            addStudent(
+              data,
+              () => {
+                notify("success", "Success")
+              },
+              null
+            )
           )
-        )
-        validation.resetForm()
-        toggle()
+          validation.resetForm()
+          toggle()
+        } else {
+          notify("error", "Please Select Group")
+        }
       }
     },
   })
@@ -292,6 +296,7 @@ const Students = props => {
     ],
     []
   )
+
   useEffect(() => {
     dispatch(getGroups())
     dispatch(getStudents())
@@ -613,37 +618,6 @@ const Students = props => {
                               validation.errors.transport ? (
                                 <FormFeedback type="invalid">
                                   {validation.errors.transport}
-                                </FormFeedback>
-                              ) : null}
-                            </div>
-                            <div className="mb-3">
-                              <Label className="form-label">Rate</Label>
-                              <Input
-                                name="rate"
-                                type="select"
-                                className="form-select"
-                                onChange={validation.handleChange}
-                                onBlur={validation.handleBlur}
-                                value={validation.values.rate || ""}
-                                invalid={
-                                  validation.touched.rate &&
-                                  validation.errors.rate
-                                    ? true
-                                    : false
-                                }
-                              >
-                                <option defaultValue disabled></option>
-                                <option value={"Featured"}>Featured </option>
-                                <option value={"Junior"}>Junior</option>
-                                <option value={"Average"}>Average</option>
-                                <option value={"Unclassified"}>
-                                  Unclassified
-                                </option>
-                              </Input>
-                              {validation.touched.rate &&
-                              validation.errors.rate ? (
-                                <FormFeedback type="invalid">
-                                  {validation.errors.rate}
                                 </FormFeedback>
                               ) : null}
                             </div>

@@ -81,13 +81,13 @@ const Projects = props => {
     onSubmit: async values => {
       if (isEdit) {
         var edit = new FormData()
-        edit.append("end_date", values?.end_date)
+        if (values?.end_date) edit.append("end_date", values?.end_date)
         edit.append("description", values?.description)
         edit.append("title", values?.title)
-        edit.append("start_date", values?.start_date)
+        if (values?.start_date) edit.append("start_date", values?.start_date)
         edit.append("hour_count", values?.hour_count)
         edit.append("category_id", values?.category_id)
-        edit.append("project_id", values?.project_id)
+        if (values?.project_id) edit.append("project_id", values?.project_id)
         edit.append("status", values?.status)
         edit.append("participants_count", values?.participants_count)
         if (values?.image instanceof File) {
@@ -109,14 +109,14 @@ const Projects = props => {
         toggle()
       } else {
         var data = new FormData()
-        data.append("end_date", values?.end_date)
+        if (values?.end_date) data.append("end_date", values?.end_date)
         data.append("description", values?.description)
         data.append("title", values?.title)
-        data.append("start_date", values?.start_date)
+        if (values?.start_date) data.append("start_date", values?.start_date)
         data.append("hour_count", values?.hour_count)
         data.append("category_id", values?.category_id)
         data.append("status", values?.status)
-        data.append("project_id", values?.project_id)
+        if (values?.project_id) data.append("project_id", values?.project_id)
         data.append("participants_count", values?.participants_count)
         data.append("image", values?.image)
 
