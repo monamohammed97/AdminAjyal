@@ -134,6 +134,7 @@ const Students = props => {
           data.append(`group_id[${index}]`, el.value)
         })
         if (dataSelect.length > 0) {
+
           dispatch(
             addStudent(
               data,

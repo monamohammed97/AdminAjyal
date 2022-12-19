@@ -145,7 +145,7 @@ const Projects = props => {
 
   const [modal, setModal] = useState(false)
   const [dataSelect, setData] = useState([])
-
+  
   const columns = useMemo(
     () => [
       {
