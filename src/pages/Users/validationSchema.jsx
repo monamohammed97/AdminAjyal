@@ -21,7 +21,7 @@ export const getValidationSchema = isEdit => {
     password: Yup.string().required("Please Enter Email"),
     phone: Yup.number().required("Please Enter Phone"),
     gender: Yup.string().required("Please Select Gender"),
-    overview: Yup.string().required("Please Enter Overview"),
+    overview: Yup.string(),
     position_description: Yup.string().required(
       "Please Enter Your Position Description"
     ),

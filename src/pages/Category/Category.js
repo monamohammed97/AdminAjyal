@@ -62,7 +62,7 @@ const Category = props => {
       if (isEdit) {
         var edit = new FormData()
         edit.append("title", values?.title)
-        edit.append("description", values?.description)
+        if (values?.description) edit.append("description", values?.description)
         edit.append("_method", "put")
         if (values?.image instanceof File) {
           edit.append("image", values?.image)
@@ -83,7 +83,7 @@ const Category = props => {
       } else {
         var data = new FormData()
         data.append("title", values?.title)
-        data.append("description", values?.description)
+        if (values?.description) data.append("description", values?.description)
         data.append("image", values?.image)
 
         dispatch(
