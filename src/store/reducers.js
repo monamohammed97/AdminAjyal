@@ -43,7 +43,6 @@ const rootReducer = combineReducers({
   ForgetPassword,
   Profile,
   Dashboard,
-
   data,
   users,
   mentors,
