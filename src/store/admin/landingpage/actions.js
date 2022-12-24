@@ -1,39 +1,38 @@
 import {
-  GET_ABOUTUS,
-  GET_ABOUTUS_FAIL,
-  GET_ABOUTUS_SUCCESS,
-  ADD_ABOUTUS,
-  ADD_ABOUTUS_FAIL,
-  ADD_ABOUTUS_SUCCESS,
+  GET_LANDING_PAGE_CONTENT,
+  GET_LANDING_PAGE_CONTENT_FAIL,
+  GET_LANDING_PAGE_CONTENT_SUCCESS,
+  ADD_LANDING_PAGE_SECTION,
+  ADD_LANDING_PAGE_SECTION_SUCCESS,
+  ADD_LANDING_PAGE_SECTION_FAIL,
 } from "./actionTypes"
 
-// GET_ABOUTUS
-export const getAboutus = () => ({
-  type: GET_ABOUTUS,
+export const getLandingPageContent = () => ({
+  type: GET_LANDING_PAGE_CONTENT,
 })
 
-export const getAboutusSuccess = aboutUs => ({
-  type: GET_ABOUTUS_SUCCESS,
-  payload: aboutUs,
+export const getLandingPageContentSuccess = content => ({
+  type: GET_LANDING_PAGE_CONTENT_SUCCESS,
+  payload: content,
 })
 
-export const getAboutusFail = error => ({
-  type: GET_ABOUTUS_FAIL,
+export const getLandingPageContentFail = error => ({
+  type: GET_LANDING_PAGE_CONTENT_FAIL,
   payload: error,
 })
 
 // actions aboutUss
-export const addAboutus = (aboutUs, cbDone, cbFail) => ({
-  type: ADD_ABOUTUS,
-  payload: { aboutUs, cbDone, cbFail },
+export const addLandingPageContent = (key, content, cbDone, cbFail) => ({
+  type: ADD_LANDING_PAGE_SECTION,
+  payload: { key, content, cbDone, cbFail },
 })
 
-export const addAboutusSuccess = aboutUs => ({
-  type: ADD_ABOUTUS_SUCCESS,
-  payload: aboutUs,
+export const addLandingPageContentSuccess = (key, newContent) => ({
+  type: ADD_LANDING_PAGE_SECTION_SUCCESS,
+  payload: { key, newContent },
 })
 
-export const addAboutusFail = error => ({
-  type: ADD_ABOUTUS_FAIL,
+export const addLandingPageContentFail = error => ({
+  type: ADD_LANDING_PAGE_SECTION_FAIL,
   payload: error,
 })
