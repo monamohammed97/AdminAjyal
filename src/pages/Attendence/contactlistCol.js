@@ -14,7 +14,7 @@ const toLowerCase1 = str => {
     );
 };
 
-const Question = (cell) => {
+const Student = (cell) => {
     return cell.value ? cell.value : '';
 };
 const Answer = (cell) => {
@@ -24,6 +24,6 @@ const Answer = (cell) => {
 
 
 export {
-    Question,
+    Student,
     Answer,
 };

@@ -26,6 +26,7 @@ import groups from "./admin/group/reducer"
 import category from "./admin/category/reducer"
 import students from "./admin/student/reducer"
 import rates from "./mentor/rate/reducer"
+import attendence from "./mentor/attendence/reducer"
 import questions from "./admin/question/reducer"
 import courses from "./admin/course/reducer"
 import activityType from "./admin/activityType/reducer"
@@ -60,7 +61,8 @@ const rootReducer = combineReducers({
   freelance,
   contacts,
   landingPage,
-  changePassword
+  changePassword,
+  attendence
 })
 
 export default rootReducer

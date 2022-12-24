@@ -134,7 +134,7 @@ const Students = props => {
         data.append("transport", values?.transport)
         data.append("status", values?.status)
         if (values?.image instanceof File) {
-          edit.append("image", values?.image)
+          data.append("image", values?.image)
         }
         dataSelect?.map((el, index) => {
           data.append(`group_id[${index}]`, el.value)

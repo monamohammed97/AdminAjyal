@@ -651,3 +651,6 @@ export const changePass = data => {
   }
  return post(url.CHANGE_PASS, data, config)
 }
+
+
+export const addAttendAjyal = (data) => post(url.ADD_ATTENDENCE, data)

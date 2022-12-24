@@ -23,6 +23,7 @@ import groupsSaga from "./admin/group/saga"
 import categorySaga from "./admin/category/saga"
 import studentsSaga from "./admin/student/saga"
 import ratesSaga from "./mentor/rate/saga"
+import attendSaga from "./mentor/attendence/saga"
 import questionsSaga from "./admin/question/saga"
 import coursesSaga from "./admin/course/saga"
 import activityTypesSaga from "./admin/activityType/saga"
@@ -54,6 +55,7 @@ export default function* rootSaga() {
     fork(categorySaga),
     fork(studentsSaga),
     fork(ratesSaga),
+    fork(attendSaga),
     fork(questionsSaga),
     fork(coursesSaga),
     fork(activityTypesSaga),

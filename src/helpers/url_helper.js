@@ -271,3 +271,5 @@ export const STUDENT_LOGIN = "/auth/student/access-token";
 
 export const CHANGE_PASS = "/change-password";
 
+export const ADD_ATTENDENCE = "/dashboard/attendences";
+
