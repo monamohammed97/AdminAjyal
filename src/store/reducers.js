@@ -27,6 +27,7 @@ import category from "./admin/category/reducer"
 import students from "./admin/student/reducer"
 import rates from "./mentor/rate/reducer"
 import attendence from "./mentor/attendence/reducer"
+import notifications from "./mentor/notification/reducer"
 import questions from "./admin/question/reducer"
 import courses from "./admin/course/reducer"
 import activityType from "./admin/activityType/reducer"
@@ -42,7 +43,6 @@ const rootReducer = combineReducers({
   ForgetPassword,
   Profile,
   Dashboard,
-
   data,
   users,
   mentors,
@@ -55,6 +55,7 @@ const rootReducer = combineReducers({
   category,
   students,
   rates,
+  notifications,
   questions,
   courses,
   activityType,

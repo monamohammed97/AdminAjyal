@@ -24,12 +24,12 @@ import categorySaga from "./admin/category/saga"
 import studentsSaga from "./admin/student/saga"
 import ratesSaga from "./mentor/rate/saga"
 import attendSaga from "./mentor/attendence/saga"
+import notificationsSaga from "./mentor/notification/saga"
 import questionsSaga from "./admin/question/saga"
 import coursesSaga from "./admin/course/saga"
 import activityTypesSaga from "./admin/activityType/saga"
 import freelancesSaga from "./freelance/saga"
 import contactSaga from "./admin/contact/saga"
-import Contacts from "pages/Contacts/Contacts"
 import landingPageSaga from "./admin/landingpage/saga"
 
 export default function* rootSaga() {
@@ -56,6 +56,7 @@ export default function* rootSaga() {
     fork(studentsSaga),
     fork(ratesSaga),
     fork(attendSaga),
+    fork(notificationsSaga),
     fork(questionsSaga),
     fork(coursesSaga),
     fork(activityTypesSaga),

@@ -27,9 +27,6 @@ import {
   PositionDescription,
 } from "./contactlistCol"
 
-//Import Breadcrumb
-import user from "../../assets/images/users/mona.png"
-
 import { isEmpty } from "lodash"
 
 //redux
@@ -110,7 +107,8 @@ const Users = props => {
         data.append("phone", values?.phone)
         data.append("gender", values?.gender)
         if (values?.overview) data.append("overview", values?.overview)
-        data.append("position_description", values?.position_description)
+        if (values?.position_description)
+          data.append("position_description", values?.position_description)
         if (values?.image) data.append("image", values?.image)
 
         dispatch(
