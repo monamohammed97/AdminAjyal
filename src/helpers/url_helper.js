@@ -271,4 +271,6 @@ export const ADMIN_LOGIN = "/auth/admin/access-token"
 export const MENTOR_LOGIN = "/auth/mentor/access-token"
 export const STUDENT_LOGIN = "/auth/student/access-token"
 
+export const ADD_ATTENDENCE = "/dashboard/attendences";
+
 export const CHANGE_PASS = "/change-password"

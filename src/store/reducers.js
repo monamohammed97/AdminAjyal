@@ -26,6 +26,7 @@ import groups from "./admin/group/reducer"
 import category from "./admin/category/reducer"
 import students from "./admin/student/reducer"
 import rates from "./mentor/rate/reducer"
+import attendence from "./mentor/attendence/reducer"
 import notifications from "./mentor/notification/reducer"
 import questions from "./admin/question/reducer"
 import courses from "./admin/course/reducer"
@@ -42,7 +43,6 @@ const rootReducer = combineReducers({
   ForgetPassword,
   Profile,
   Dashboard,
-
   data,
   users,
   mentors,
@@ -63,6 +63,7 @@ const rootReducer = combineReducers({
   contacts,
   landingPage,
   changePassword,
+  attendence
 })
 
 export default rootReducer
