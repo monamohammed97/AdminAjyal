@@ -61,7 +61,7 @@ const authProtectedRoutes = [
   { path: "/addjob", component: AddJob },
   { path: "/edit/:id", component: EditJob },
   { path: "/contacts", component: Contacts },
-  { path: "/aboutus", component: AboutUs },
+  { path: "/content", component: AboutUs },
 ]
 
 const publicRoutes = [
@@ -117,7 +117,7 @@ const authAdminRoutes = [
   { path: "/activityType", component: ActivityType },
   { path: "/training", component: Training },
   { path: "/contacts", component: Contacts },
-  { path: "/aboutus", component: AboutUs },
+  { path: "/content", component: AboutUs },
 ]
 
 export {

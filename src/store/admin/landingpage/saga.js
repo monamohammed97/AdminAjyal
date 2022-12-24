@@ -1,48 +1,48 @@
 import { call, put, takeEvery } from "redux-saga/effects"
-import { getKeyByValue } from "helpers/find-key"
 import { getErrorMessage } from "helpers/http-error"
 import { notify } from "components/Common/notify"
 
 // Ecommerce Redux States
-import { GET_ABOUTUS, ADD_ABOUTUS } from "./actionTypes"
 import {
-  getAboutusSuccess,
-  getAboutusFail,
-  addAboutusSuccess,
-  addAboutusFail,
+  GET_LANDING_PAGE_CONTENT,
+  ADD_LANDING_PAGE_SECTION,
+} from "./actionTypes"
+import {
+  getLandingPageContentSuccess,
+  getLandingPageContentFail,
+  addLandingPageContentSuccess,
+  addLandingPageContentFail,
 } from "./actions"
-import { getAboutusAjyal, addAboutusAjyal } from "helpers/fakebackend_helper"
+import {
+  getLandingPageContentAjyal,
+  addLandingPageContentAjyal,
+} from "helpers/fakebackend_helper"
 
-// GET_ABOUTUS
-function* fetchAboutus() {
+function* fetchLandingPageContent() {
   try {
-    const response = yield call(getAboutusAjyal)
-    yield put(
-      getAboutusSuccess(
-        getKeyByValue(response?.data?.pageContent, "aboutUs")?.aboutUs
-      )
-    )
+    const response = yield call(getLandingPageContentAjyal)
+    yield put(getLandingPageContentSuccess(response?.data?.pageContent))
   } catch (error) {
-    yield put(getAboutusFail(getErrorMessage(error)))
+    yield put(getLandingPageContentFail(getErrorMessage(error)))
   }
 }
 
-function* onAddAboutus({ payload }) {
-  const { aboutUs, cbDone, cbFail } = payload
+function* onAddLandingPageContent({ payload }) {
+  const { key, content, cbDone, cbFail } = payload
   try {
-    const response = yield call(addAboutusAjyal, aboutUs)
-    yield put(addAboutusSuccess(response?.data))
+    const response = yield call(addLandingPageContentAjyal, key, content)
+    yield put(addLandingPageContentSuccess(key, response?.data))
     cbDone?.()
   } catch (error) {
     const message = getErrorMessage(error)
     notify("error", "Failed: " + message)
-    yield put(addAboutusFail(message))
+    yield put(addLandingPageContentFail(message))
   }
 }
 
 function* landingPageSaga() {
-  yield takeEvery(GET_ABOUTUS, fetchAboutus)
-  yield takeEvery(ADD_ABOUTUS, onAddAboutus)
+  yield takeEvery(GET_LANDING_PAGE_CONTENT, fetchLandingPageContent)
+  yield takeEvery(ADD_LANDING_PAGE_SECTION, onAddLandingPageContent)
 }
 
 export default landingPageSaga
