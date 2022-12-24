@@ -185,11 +185,11 @@ const Questions = props => {
   }
 
   const handleUserClick = arg => {
-    const doctor = arg
+    const question = arg
     setContact({
-      id: doctor.id,
-      question: doctor.question,
-      answer: doctor.answer,
+      id: question.id,
+      question: question.question,
+      answer: question.answer,
     })
     setIsEdit(true)
 
@@ -264,7 +264,7 @@ const Questions = props => {
 
                   <Modal isOpen={modal} toggle={toggle}>
                     <ModalHeader toggle={toggle} tag="h4">
-                      {!!isEdit ? "Edit Doctor" : "Add Doctor"}
+                      {!!isEdit ? "Edit Question" : "Add Question"}
                     </ModalHeader>
                     <ModalBody>
                       <Form

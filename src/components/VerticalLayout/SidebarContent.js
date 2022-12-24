@@ -258,6 +258,12 @@ const SidebarContent = props => {
                     <span>{props.t("Courses")}</span>
                   </Link>
                 </li>
+                <li>
+                  <Link to="/studentPage">
+                    <i className="fab fa-foursquare"></i>
+                    <span>{props.t("Student projects")}</span>
+                  </Link>
+                </li>
                 {/* <li>
                   <Link to="/training">
                     <i className="far fa-newspaper"></i>

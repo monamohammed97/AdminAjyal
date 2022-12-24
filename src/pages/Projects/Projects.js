@@ -38,7 +38,7 @@ import DeleteModal from "components/Common/DeleteModal"
 import TableContainer from "components/Common/TableContainer"
 import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
-import { validationSchema } from "./validationSchema"
+import { getValidationSchema } from "./validationSchema"
 import { notify } from "components/Common/notify"
 import {
   getProjects,
@@ -56,6 +56,8 @@ const Projects = props => {
 
   const dispatch = useDispatch()
   const [contact, setContact] = useState()
+  const [isEdit, setIsEdit] = useState(false)
+
   // validation
   const validation = useFormik({
     enableReinitialize: true,
@@ -69,7 +71,7 @@ const Projects = props => {
       status: (contact && contact.status) || "",
       image: (contact && contact.image) || null,
     },
-    validationSchema: validationSchema,
+    validationSchema: getValidationSchema(isEdit),
     onSubmit: async values => {
       if (isEdit) {
         var edit = new FormData()
@@ -87,7 +89,7 @@ const Projects = props => {
           edit.append("image", values?.image)
         }
 
-        if (dataSelect.length >= 1) {
+        if (dataSelect.length > 0) {
           dispatch(
             updateProject(
               edit,
@@ -117,7 +119,7 @@ const Projects = props => {
         data.append("status", values?.status)
         if (values?.image) data.append("image", values?.image)
 
-        if (dataSelect.length >= 1) {
+        if (dataSelect.length > 0) {
           dispatch(
             addProject(
               data,
@@ -142,7 +144,6 @@ const Projects = props => {
   partners?.forEach(el => optionGroups.push({ label: el?.name, value: el?.id }))
 
   const [modal, setModal] = useState(false)
-  const [isEdit, setIsEdit] = useState(false)
   const [dataSelect, setData] = useState([])
   
   const columns = useMemo(
@@ -314,6 +315,8 @@ const Projects = props => {
       title: project.title,
       start_date: project.start_date,
       status: project.status,
+      partner_id: project.partners,
+
       image: project.image,
     })
     setIsEdit(true)

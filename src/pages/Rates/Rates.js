@@ -296,7 +296,7 @@ const Rates = props => {
 
                   <Modal isOpen={modal} toggle={toggle}>
                     <ModalHeader toggle={toggle} tag="h4">
-                      {!!isEdit ? "Edit Doctor" : "Add Doctor"}
+                      {!!isEdit ? "Edit Rate" : "Add Rate"}
                     </ModalHeader>
                     <ModalBody>
                       <Form

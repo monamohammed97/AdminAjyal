@@ -607,6 +607,10 @@ export const updateActivityTypeAjyal = (id, activityType) => {
   }
   return post(`${url.UPDATE_ACTIVITY_TYPE_AJYAL}/${id}`, activityType, config)
 }
+
+//NOTIFICATION
+export const getNotificationsAjyal = () => get(url.GET_NOTIFICATION)
+
 // FREELANCER
 export const getFreelanceAjyal = () => get(url.GET_FREELANCER_AJYAL)
 export const addFreelanceAjyal = freelance =>
@@ -649,7 +653,7 @@ export const changePass = data => {
       Authorization: `Bearer ${token}`,
     },
   }
- return post(url.CHANGE_PASS, data, config)
+  return post(url.CHANGE_PASS, data, config)
 }
 
 

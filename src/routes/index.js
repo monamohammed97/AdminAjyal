@@ -31,6 +31,7 @@ import Mentor from "pages/AuthenticationInner/Mentor"
 import Student from "pages/AuthenticationInner/Student"
 import NotFound from "pages/NotFound/NotFound"
 import Attendence from "pages/Attendence/Attendence"
+import StudentsPage from "pages/StudentsPage/StudentsPage"
 // import ChangePass from "pages/Authentication/ChangePass"
 
 const EmptyDiv = () => {
@@ -62,6 +63,7 @@ const authProtectedRoutes = [
   { path: "/edit/:id", component: EditJob },
   { path: "/contacts", component: Contacts },
   { path: "/aboutus", component: AboutUs },
+  { path: "/studentPage", component: StudentsPage },
 ]
 
 const publicRoutes = [
@@ -118,6 +120,7 @@ const authAdminRoutes = [
   { path: "/training", component: Training },
   { path: "/contacts", component: Contacts },
   { path: "/aboutus", component: AboutUs },
+  { path: "/studentPage", component: StudentsPage },
 ]
 
 export {
