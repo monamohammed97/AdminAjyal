@@ -139,27 +139,6 @@ const StudentsPage = props => {
   }, [freelance])
 
 
-  const handleUserClick = arg => {
-    const student = arg
-    setContact({
-      id: student.id,
-      platform_id: student.platform_id,
-      student_id: student.student_id,
-      group_id: student.group_id,
-      job_title: student.job_title,
-      job_link: student.job_link,
-      job_description: student.job_description,
-      salary: student.salary,
-      status: student.status,
-      client_feedback: student.client_feedback,
-      notes: student.notes,
-      image: student.image,
-    })
-    // setIsEdit(true)
-
-    toggle()
-  }
-
   var node = useRef()
   const onPaginationPageChange = page => {
     if (
@@ -176,40 +155,9 @@ const StudentsPage = props => {
   //delete customer
   const [deleteModal, setDeleteModal] = useState(false)
 
-  const onClickDelete = freelancer => {
-    setContact(freelancer)
-    setDeleteModal(true)
-  }
-
-  const handleDeleteStudent = () => {
-    dispatch(
-      deleteFreelance(
-        contact,
-        () => {
-          notify("success", "Success")
-        },
-        null
-      )
-    )
-    onPaginationPageChange(1)
-    setDeleteModal(false)
-  }
-
-  const handleUserClicks = () => {
-    setContact("")
-    setIsEdit(false)
-    toggle()
-  }
-
-  const keyField = "id"
 
   return (
     <React.Fragment>
-      <DeleteModal
-        show={deleteModal}
-        onDeleteClick={handleDeleteStudent}
-        onCloseClick={() => setDeleteModal(false)}
-      />
       <div className="page-content">
         <Container fluid>
           {/* Render Breadcrumbs */}
@@ -225,8 +173,8 @@ const StudentsPage = props => {
                     columns={columns}
                     data={freelance}
                     isGlobalFilter={true}
-                    isAddFreelance={true}
-                    handleUserClick={handleUserClicks}
+                    // isAddFreelance={true}
+                    // handleUserClick={handleUserClicks}
                     customPageSize={10}
                     className="custom-header-css"
                   />
