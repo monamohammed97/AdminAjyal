@@ -656,5 +656,12 @@ export const changePass = data => {
   return post(url.CHANGE_PASS, data, config)
 }
 
+export const addAttendAjyal = data => post(url.ADD_ATTENDENCE, data)
 
-export const addAttendAjyal = (data) => post(url.ADD_ATTENDENCE, data)
+export const getStudentsGAjyal = (date, course_id) =>
+  get(url.GET_STUDENTSG_AJYAL, {
+    params: {
+      course_id,
+      date,
+    },
+  })

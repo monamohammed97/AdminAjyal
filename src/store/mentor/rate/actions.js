@@ -18,9 +18,9 @@ export const getRates = () => ({
   type: GET_RATES,
 })
 
-export const getRatesSuccess = mentors => ({
+export const getRatesSuccess = rate => ({
   type: GET_RATES_SUCCESS,
-  payload: mentors,
+  payload: rate,
 })
 
 export const getRatesFail = error => ({

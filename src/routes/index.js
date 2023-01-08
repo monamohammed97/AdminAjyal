@@ -121,6 +121,7 @@ const authAdminRoutes = [
   { path: "/contacts", component: Contacts },
   { path: "/aboutus", component: AboutUs },
   { path: "/studentPage", component: StudentsPage },
+  { path: "/attendence", component: Attendence },
 ]
 
 export {

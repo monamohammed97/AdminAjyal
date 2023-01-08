@@ -59,8 +59,8 @@ function* onUpdateRate({ payload }) {
 function* onDeleteRate({ payload }) {
   const { rate, cbDone, cbFail } = payload
   try {
-    yield call(deleteRateAjyal, rate?.student_id)
-    yield put(deleteRateSuccess(rate?.student_id))
+    yield call(deleteRateAjyal, rate?.id)
+    yield put(deleteRateSuccess(rate?.id))
     cbDone?.()
   } catch (error) {
     const message = getErrorMessage(error)

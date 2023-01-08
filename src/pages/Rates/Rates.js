@@ -47,6 +47,7 @@ const Rates = props => {
 
   const dispatch = useDispatch()
   const [contact, setContact] = useState()
+
   // validation
   const validation = useFormik({
     enableReinitialize: true,
@@ -68,7 +69,7 @@ const Rates = props => {
         dispatch(
           updateRate(
             edit,
-            contact.student_id,
+            contact.id,
             () => {
               notify("success", "Success")
             },
@@ -103,9 +104,26 @@ const Rates = props => {
   const { rates } = useSelector(store => store?.rates)
   const { students } = useSelector(store => store?.students)
   const { courses } = useSelector(store => store?.courses)
+  const MENTOR_ID = localStorage.getItem("ID")
 
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
+  const filterCourses = courses?.filter(el => el?.mentor_id == MENTOR_ID)
+
+  const studentsOfCourse = []
+  rates.filter(el => {
+      filterCourses.map(course => {
+        if (course.id == el.course_id) studentsOfCourse.push(el)
+      })
+  })
+  const studentsOfCurrentCourse = []
+  const currentCourse = filterCourses.filter(el => el?.id == validation.values.course_id)
+  students.filter(el => {
+    el.groups.map(group => {
+      if (group.id == currentCourse[0]?.group_id) studentsOfCurrentCourse.push(el)
+    })
+  })
+
 
   const columns = useMemo(
     () => [
@@ -286,7 +304,7 @@ const Rates = props => {
                 <CardBody>
                   <TableContainer
                     columns={columns}
-                    data={rates}
+                    data={studentsOfCourse}
                     isGlobalFilter={true}
                     isAddUserList={true}
                     handleUserClick={handleUserClicks}
@@ -309,36 +327,6 @@ const Rates = props => {
                         <Row>
                           <Col xs={12}>
                             <div className="mb-3">
-                              <Label className="form-label">Student</Label>
-                              <Input
-                                name="student_id"
-                                className="form-control"
-                                type="select"
-                                onChange={validation.handleChange}
-                                onBlur={validation.handleBlur}
-                                value={validation.values.student_id || ""}
-                                invalid={
-                                  validation.touched.student_id &&
-                                  validation.errors.student_id
-                                    ? true
-                                    : false
-                                }
-                              >
-                                <option defaultValue disabled></option>
-                                {students?.map(el => (
-                                  <option key={el?.id} value={el.id}>
-                                    {el.name}
-                                  </option>
-                                ))}
-                              </Input>
-                              {validation.touched.student_id &&
-                              validation.errors.student_id ? (
-                                <FormFeedback type="invalid">
-                                  {validation.errors.student_id}
-                                </FormFeedback>
-                              ) : null}
-                            </div>
-                            <div className="mb-3">
                               <Label className="form-label">Course</Label>
                               <Input
                                 name="course_id"
@@ -355,7 +343,7 @@ const Rates = props => {
                                 }
                               >
                                 <option defaultValue disabled></option>
-                                {courses?.map(el => (
+                                {filterCourses?.map(el => (
                                   <option key={el?.id} value={el.id}>
                                     {el.title}
                                   </option>
@@ -368,6 +356,37 @@ const Rates = props => {
                                 </FormFeedback>
                               ) : null}
                             </div>
+                            <div className="mb-3">
+                              <Label className="form-label">Student</Label>
+                              <Input
+                                name="student_id"
+                                className="form-control"
+                                type="select"
+                                onChange={validation.handleChange}
+                                onBlur={validation.handleBlur}
+                                value={validation.values.student_id || ""}
+                                invalid={
+                                  validation.touched.student_id &&
+                                  validation.errors.student_id
+                                    ? true
+                                    : false
+                                }
+                              >
+                                <option defaultValue disabled></option>
+                                {studentsOfCurrentCourse?.map(el => (
+                                  <option key={el?.id} value={el.id}>
+                                    {el.name}
+                                  </option>
+                                ))}
+                              </Input>
+                              {validation.touched.student_id &&
+                              validation.errors.student_id ? (
+                                <FormFeedback type="invalid">
+                                  {validation.errors.student_id}
+                                </FormFeedback>
+                              ) : null}
+                            </div>
+                            
                             <div className="mb-3">
                               <Label className="form-label">Note</Label>
                               <Input

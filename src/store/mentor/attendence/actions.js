@@ -1,4 +1,7 @@
 import {
+  GET_STUDENTS_G,
+  GET_STUDENTS_G_FAIL,
+  GET_STUDENTS_G_SUCCESS,
   GET_ATTENDENCE,
   GET_ATTENDENCE_FAIL,
   GET_ATTENDENCE_SUCCESS,
@@ -8,13 +11,29 @@ import {
 } from "./actionTypes"
 
 // GET_ATTENDENCE 
+export const getStudentsG = (course_id, date) => ({
+  type: GET_STUDENTS_G,
+  payload: {course_id, date}
+})
+
+export const getStudentsGSuccess = data => ({
+  type: GET_STUDENTS_G_SUCCESS,
+  payload: data,
+})
+
+export const getStudentsGFail = error => ({
+  type: GET_STUDENTS_G_FAIL,
+  payload: error,
+})
+
+// GET_ATTENDENCE 
 export const getAttend = () => ({
   type: GET_ATTENDENCE,
 })
 
-export const getAttendSuccess = mentors => ({
+export const getAttendSuccess = data => ({
   type: GET_ATTENDENCE_SUCCESS,
-  payload: mentors,
+  payload: data,
 })
 
 export const getAttendFail = error => ({
