@@ -257,7 +257,7 @@ const ActivityType = props => {
 
                   <Modal isOpen={modal} toggle={toggle}>
                     <ModalHeader toggle={toggle} tag="h4">
-                      {!!isEdit ? "Edit Doctor" : "Add Doctor"}
+                      {!!isEdit ? "Edit Activity Type" : "Add Activity Type"}
                     </ModalHeader>
                     <ModalBody>
                       <Form

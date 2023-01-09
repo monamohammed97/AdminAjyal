@@ -12,48 +12,47 @@ import {
   FormFeedback,
   Input,
   Label,
-  Modal,
-  ModalBody,
-  ModalHeader,
   Row,
-  UncontrolledTooltip,
 } from "reactstrap"
 
 import { Student } from "./contactlistCol"
 
 //Import Breadcrumb
 
-import { isEmpty } from "lodash"
-
 //redux
 import { useDispatch, useSelector } from "react-redux"
-import DeleteModal from "components/Common/DeleteModal"
 import TableContainer from "components/Common/TableContainer"
-import { FileInput } from "components/Form/FileInput"
 import Breadcrumbs from "components/Common/Breadcrumb"
 import { validationSchema } from "./validationSchema"
 
 import { notify } from "components/Common/notify"
 import { getStudents } from "store/admin/student/actions"
-import { getGroups } from "store/admin/group/actions"
-import { addAttend } from "store/mentor/attendence/actions"
+import { getCourses } from "store/admin/course/actions"
+import { addAttend, getStudentsG } from "store/mentor/attendence/actions"
 
 const Attendence = props => {
   //meta course_id
 
   document.title = "Attendence"
-
-  const dispatch = useDispatch()
-  const [contact, setContact] = useState()
-  const [checkStd, setCheck] = useState(false)
-
+  const MENTOR_ID = localStorage.getItem("ID")
+  const { students } = useSelector(store => store?.students)
+  const { students_attendence } = useSelector(store => store?.attendence)
+  // const { students_g } = useSelector(store => store?.attendence)
+  const { courses } = useSelector(store => store?.courses)
+  const filterCourses = courses?.filter(el => el?.mentor_id == MENTOR_ID)
+  const [qu, setQu] = useState({})
+  var curr = new Date()
+  curr.setDate(curr.getDate())
+  var date = curr.toISOString().substring(0, 10)
+  const [id, setId] = useState(0)
+  const [newDate, setNewDate] = useState(date)
   // validation
   const validation = useFormik({
     enableReinitialize: true,
 
     initialValues: {
-      course_id: "",
-      date: "",
+      course_id: id,
+      date: newDate,
       students: {},
     },
     validationSchema: validationSchema,
@@ -75,28 +74,44 @@ const Attendence = props => {
       dispatch(addAttend(data, notify("success", "Done"), null))
 
       validation.resetForm()
-      toggle()
     },
   })
 
-  const { students } = useSelector(store => store?.students)
-  // const { students } = useSelector(store => store?.students)
-  const { groups } = useSelector(store => store?.groups)
+  const dispatch = useDispatch()
+  const [contact, setContact] = useState()
+  const handleChangeID = id => {
+    setId(id)
+    setQu({})
+  }
+  const handleChangeDate = date => {
+    setNewDate(date)
+  }
+  const currentCourse = filterCourses.filter(el => el?.id == id)
 
-  const [qu, setQu] = useState({})
+  const studentsOfCourse = []
+  students.filter(el => {
+    el.groups.map(group => {
+      if (group.id == currentCourse[0]?.group_id) studentsOfCourse.push(el)
+    })
+  })
 
   useMemo(() => {
-    if (students?.length != 0) {
-      students?.forEach(element => {
-        if (element.id % 2 == 0) {
-          qu[element.id] = false
+    if (studentsOfCourse?.length != 0) {
+      studentsOfCourse?.forEach(element => {
+        if (students_attendence?.length == 0) {
+          qu[element?.id] = false
         } else {
-          qu[element.id] = true
+          students_attendence?.map(el => {
+            if (el.student_id == element?.id) {
+              qu[element.id] = el?.status == "attend" ? true : false
+            }
+          })
         }
       })
     }
-  }, [students])
+  }, [id, newDate, students_attendence?.length])
 
+  console.log("students_attendence", qu)
   const useCB = useCallback(
     (cellProps, value) => {
       let obj = {}
@@ -116,10 +131,6 @@ const Attendence = props => {
     },
     [qu]
   )
-  const [modal, setModal] = useState(false)
-  const [isEdit, setIsEdit] = useState(false)
-  const [isActive, setIsActive] = useState(false)
-
   // let newStatus = {}
   // const handleChangeCheck = id => {
   //   let newStatus = {}
@@ -131,7 +142,6 @@ const Attendence = props => {
   //     }
   //   })
   // }
-
   const columns = useMemo(
     () => [
       {
@@ -178,18 +188,19 @@ const Attendence = props => {
 
   useEffect(() => {
     dispatch(getStudents())
-    dispatch(getGroups())
-  }, [dispatch])
+    dispatch(getCourses())
+    setId(filterCourses[0]?.id)
+  }, [dispatch, filterCourses[0]?.id])
+
+  useEffect(() => {
+    dispatch(getStudentsG(id, newDate))
+  }, [id, newDate])
   // useEffect(() => {
   //   if (students && !students.length) {
   //     dispatch(getQuestions())
   //     setIsEdit(false)
   //   }
   // }, [dispatch, students])
-
-  const toggle = () => {
-    setModal(!modal)
-  }
 
   // const handleUserClick = arg => {
   //   const student = arg
@@ -227,7 +238,6 @@ const Attendence = props => {
 
   const handleUserClicks = () => {
     setContact("")
-    setIsEdit(false)
     toggle()
   }
 
@@ -253,9 +263,11 @@ const Attendence = props => {
                   name="course_id"
                   className="form-control"
                   type="select"
-                  onChange={validation.handleChange}
+                  onChange={e => {
+                    handleChangeID(e.target.value)
+                  }}
                   onBlur={validation.handleBlur}
-                  value={validation.values.course_id || ""}
+                  value={id || ""}
                   invalid={
                     validation.touched.course_id && validation.errors.course_id
                       ? true
@@ -263,7 +275,7 @@ const Attendence = props => {
                   }
                 >
                   <option defaultValue disabled></option>
-                  {groups?.map(el => (
+                  {filterCourses?.map(el => (
                     <option key={el?.id} value={el.id}>
                       {el.title}
                     </option>
@@ -281,9 +293,11 @@ const Attendence = props => {
                   name="date"
                   label="Answer"
                   type="date"
-                  onChange={validation.handleChange}
+                  onChange={e => {
+                    handleChangeDate(e.target.value)
+                  }}
                   onBlur={validation.handleBlur}
-                  value={validation.values.date || ""}
+                  value={newDate || ""}
                   invalid={
                     validation.touched.date && validation.errors.date
                       ? true
@@ -297,34 +311,37 @@ const Attendence = props => {
                 ) : null}
               </div>
               <div className="col-2 d-flex justify-content-center align-items-center">
-                  <button type="submit" className="btn btn-success save-user w-100">
-                    Save
-                  </button>
-                </div>
+                <button
+                  type="submit"
+                  className="btn btn-success save-user w-100"
+                >
+                  Save
+                </button>
+              </div>
             </Row>
             <Row>
               <Col lg="12">
                 <Card>
                   <CardBody>
-                    <TableContainer
-                      columns={columns}
-                      data={students}
-                      isGlobalFilter={true}
-                      // isAddUserList={true}
-                      handleUserClick={handleUserClicks}
-                      customPageSize={10}
-                      className="custom-header-css"
-                    />
+                    {studentsOfCourse ? (
+                      <TableContainer
+                        columns={columns}
+                        data={studentsOfCourse}
+                        isGlobalFilter={true}
+                        // isAddUserList={true}
+                        handleUserClick={handleUserClicks}
+                        customPageSize={10}
+                        className="custom-header-css"
+                      />
+                    ) : null}
                   </CardBody>
                 </Card>
               </Col>
             </Row>
 
-            <Row>
-              <Col>
-                
-              </Col>
-            </Row>
+            {/* <Row>
+              <Col></Col>
+            </Row> */}
           </Form>
         </Container>
       </div>

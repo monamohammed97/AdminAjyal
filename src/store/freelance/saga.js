@@ -34,7 +34,11 @@ function* fetchFreelancer() {
     const filterData = response?.data?.filter(
       el => el?.student_id == STUDENT_ID
     )
-    yield put(getFreelancerSuccess(filterData))
+    if (STUDENT_ID) {
+      yield put(getFreelancerSuccess(filterData))
+    } else {
+      yield put(getFreelancerSuccess(response?.data))
+    }
   } catch (error) {
     yield put(getFreelancerFail(getErrorMessage(error)))
   }

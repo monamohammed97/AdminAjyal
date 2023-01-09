@@ -44,6 +44,7 @@ function* loginUser({ payload }) {
       password: user.password,
     })
     if (response?.data?.token) {
+      localStorage.setItem("name", response?.data?.user?.first_name)
       localStorage.setItem("authUserLogin", response?.data?.token)
       localStorage.setItem("Role", response?.data?.type)
       yield put(loginSuccess(response?.data))
@@ -68,6 +69,8 @@ function* loginMentor({ payload }) {
     })
 
     if (response?.data?.token) {
+      localStorage.setItem("ID", response?.data?.user?.id)
+      localStorage.setItem("name", response?.data?.user?.first_name)
       localStorage.setItem("authUserLogin", response?.data?.token)
       localStorage.setItem("Role", response?.data?.type)
       yield put(loginMentorSuccess(response?.data))
@@ -91,6 +94,7 @@ function* loginStudent({ payload }) {
       password: student.password,
     })
     if (response?.data?.token) {
+      localStorage.setItem("name", response?.data?.user?.first_name)
       localStorage.setItem("authUserLogin", response?.data?.token)
       localStorage.setItem("Role", response?.data?.type)
       localStorage.setItem("ID", response?.data?.user?.id)

@@ -657,3 +657,11 @@ export const changePass = data => {
 }
 
 export const addAttendAjyal = data => post(url.ADD_ATTENDENCE, data)
+
+export const getStudentsGAjyal = (date, course_id) =>
+  get(url.GET_STUDENTSG_AJYAL, {
+    params: {
+      course_id,
+      date,
+    },
+  })
