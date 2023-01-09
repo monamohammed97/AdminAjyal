@@ -261,7 +261,7 @@ export const DELETE_CONTACTS_AJYAL = "/dashboard/contacts"
 
 // GET_ABOUTUS
 export const GET_ABOUTUS_AJYAL = "/landing-page"
-export const ADD_ABOUTUS_AJYAL = "/dashboard/landing-page/aboutUs"
+export const ADD_LANDING_PAGE_CONTENT_AJYAL = "/dashboard/landing-page/"
 
 export const GET_NOTIFICATION = "/notification"
 

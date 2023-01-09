@@ -221,9 +221,9 @@ const SidebarContent = props => {
                   </Link>
                   <ul className="sub-menu">
                     <li>
-                      <Link to="/aboutus">
+                      <Link to="/content">
                         <i className="fas fa-id-card"></i>
-                        <span>{props.t("About Us")}</span>
+                        <span>{props.t("PageContent")}</span>
                       </Link>
                     </li>
                     <li>

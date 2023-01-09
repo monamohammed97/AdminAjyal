@@ -634,15 +634,15 @@ export const deleteContactAjyal = id =>
   del(`${url.DELETE_CONTACTS_AJYAL}/${id}`)
 
 // GET_CONTACTS
-export const getAboutusAjyal = () => get(url.GET_ABOUTUS_AJYAL)
-export const addAboutusAjyal = aboutus => {
+export const getLandingPageContentAjyal = () => get(url.GET_ABOUTUS_AJYAL)
+export const addLandingPageContentAjyal = (key, content) => {
   var config = {
     headers: {
       Accept: "application/json",
       "Content-Type": "multipart/form-data",
     },
   }
-  return post(url.ADD_ABOUTUS_AJYAL, aboutus, config)
+  return post(url.ADD_LANDING_PAGE_CONTENT_AJYAL + key, content, config)
 }
 // change Pass
 export const changePass = data => {
