@@ -71,7 +71,7 @@ const students = (state = INIT_STATE, action) => {
         ...state,
         students: state.students.map(student =>
           student.id.toString() === action.payload.id.toString()
-            ? { student, ...action.payload }
+            ? { student, ...action.payload.student }
             : student
         ),
         isLoading: false,

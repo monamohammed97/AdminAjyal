@@ -239,7 +239,7 @@ const Students = props => {
             {!cellProps.image ? (
               <div className="avatar-xs">
                 <span className="avatar-title rounded-circle">
-                  {cellProps.name.charAt(0)}
+                  {/* {cellProps.name.charAt(0)} */}
                 </span>
               </div>
             ) : (
