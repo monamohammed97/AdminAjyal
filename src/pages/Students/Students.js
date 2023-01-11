@@ -197,14 +197,14 @@ const Students = props => {
           return <Transport {...cellProps} />
         },
       },
-      {
-        Header: "Rate",
-        accessor: "rate",
-        filterable: true,
-        Cell: cellProps => {
-          return <Rate {...cellProps} />
-        },
-      },
+      // {
+      //   Header: "Rate",
+      //   accessor: "rate",
+      //   filterable: true,
+      //   Cell: cellProps => {
+      //     return <Rate {...cellProps} />
+      //   },
+      // },
       {
         Header: "Address",
         accessor: "address",
