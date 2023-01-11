@@ -35,6 +35,7 @@ const Attendence = props => {
 
   document.title = "Attendence"
   const MENTOR_ID = localStorage.getItem("ID")
+  const ROLE = localStorage.getItem("Role")
   const { students } = useSelector(store => store?.students)
   const { students_attendence } = useSelector(store => store?.attendence)
   // const { students_g } = useSelector(store => store?.attendence)
@@ -86,7 +87,10 @@ const Attendence = props => {
   const handleChangeDate = date => {
     setNewDate(date)
   }
-  const currentCourse = filterCourses.filter(el => el?.id == id)
+  const currentCourse =
+    ROLE === "mentor"
+      ? filterCourses.filter(el => el?.id == id)
+      : courses.filter(el => el?.id == id)
 
   const studentsOfCourse = []
   students.filter(el => {
@@ -157,14 +161,6 @@ const Attendence = props => {
           return <Student {...cellProps} />
         },
       },
-      // {
-      //   Header: "Answer",
-      //   accessor: "date",
-      //   filterable: true,
-      //   Cell: cellProps => {
-      //     return <Answer {...cellProps} />
-      //   },
-      // },
       {
         Header: "Action",
         Cell: cellProps => {
@@ -186,11 +182,18 @@ const Attendence = props => {
     []
   )
 
-  useEffect(() => {
-    dispatch(getStudents())
-    dispatch(getCourses())
-    setId(filterCourses[0]?.id)
-  }, [dispatch, filterCourses[0]?.id])
+  useEffect(
+    () => {
+      dispatch(getStudents())
+      dispatch(getCourses())
+      setId(filterCourses[0]?.id)
+      if (ROLE === "admin") {
+        setId(courses[0]?.id)
+      }
+    },
+    [dispatch, filterCourses[0]?.id],
+    courses[0]?.id
+  )
 
   useEffect(() => {
     dispatch(getStudentsG(id, newDate))
@@ -275,11 +278,23 @@ const Attendence = props => {
                   }
                 >
                   <option defaultValue disabled></option>
-                  {filterCourses?.map(el => (
-                    <option key={el?.id} value={el.id}>
-                      {el.title}
-                    </option>
-                  ))}
+                  {ROLE === "admin" ? (
+                    <>
+                      {courses?.map(el => (
+                        <option key={el?.id} value={el.id}>
+                          {el.title}
+                        </option>
+                      ))}
+                    </>
+                  ) : (
+                    <>
+                      {filterCourses?.map(el => (
+                        <option key={el?.id} value={el.id}>
+                          {el.title}
+                        </option>
+                      ))}
+                    </>
+                  )}
                 </Input>
                 {validation.touched.course_id && validation.errors.course_id ? (
                   <FormFeedback type="invalid">
