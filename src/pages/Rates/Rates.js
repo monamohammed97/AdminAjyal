@@ -44,6 +44,7 @@ import {
 const Rates = props => {
   //meta student_id
   document.title = "Rates"
+  const ROLE = localStorage.getItem("Role")
 
   const dispatch = useDispatch()
   const [contact, setContact] = useState()
@@ -108,7 +109,7 @@ const Rates = props => {
 
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
-  const filterCourses = courses?.filter(el => el?.mentor_id == MENTOR_ID)
+  const filterCourses = ROLE  === "mentor"?courses?.filter(el => el?.mentor_id == MENTOR_ID):courses
 
   const studentsOfCourse = []
   rates.filter(el => {
@@ -304,7 +305,7 @@ const Rates = props => {
                 <CardBody>
                   <TableContainer
                     columns={columns}
-                    data={studentsOfCourse}
+                    data={ROLE==="mentor"? studentsOfCourse: rates}
                     isGlobalFilter={true}
                     isAddUserList={true}
                     handleUserClick={handleUserClicks}
